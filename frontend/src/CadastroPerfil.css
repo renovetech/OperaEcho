@@ -1,0 +1,274 @@
+/* ARQUIVO: src/CadastroPerfil.css */
+
+:root {
+  --primary-green: var(--pine);
+  --dark-green: var(--pine-800);
+  --light-green-bg: var(--tint);
+  --danger-red: #c62828;
+  --text-dark: #333;
+  --text-light: #666;
+  --border-color: #e0e0e0;
+  --bg-page: #f4f6f8;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-page);
+}
+
+.container-perfil {
+  /* --- ALTERAÇÕES PARA TELA CHEIA --- */
+  width: 100%;              /* Ocupa 100% da largura disponível */
+  max-width: none;          /* Remove o limite de 1100px */
+  margin: 0;                /* Remove as margens de centralização */
+  min-height: 100vh;        /* Garante que ocupe a altura total da tela */
+  border-radius: 0;         /* Remove bordas arredondadas da caixa principal */
+  box-shadow: none;         /* Remove sombra para parecer integrado à página */
+  /* ---------------------------------- */
+
+  padding: 30px;
+  background: white;
+  font-family: var(--font-sans);
+  box-sizing: border-box;   /* Garante que o padding não estoure a largura */
+}
+
+/* --- HEADER --- */
+.header-page {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--pine);
+}
+
+
+.btn-voltar {
+  background: white;
+  color: var(--danger-red);
+  border: 1px solid var(--danger-red);
+  padding: 8px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.btn-voltar:hover {
+  background: var(--danger-red);
+  color: white;
+  box-shadow: 0 4px 10px rgba(198, 40, 40, 0.2);
+}
+
+/* --- SELEÇÃO DE PERFIL --- */
+.card-selecao {
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* Sombra leve apenas na área de seleção */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+.card-selecao label {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+  color: var(--text-light);
+}
+
+.select-perfil {
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  max-width: 400px; /* Limita apenas a largura do combo box para não ficar gigante */
+  background: white;
+  color: var(--text-dark);
+  transition: border-color 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.select-perfil:focus {
+  outline: none;
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 3px rgba(20,32,27, 0.15);
+}
+
+/* --- TABELA --- */
+.tabela-container { 
+  margin-top: 20px;
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.tabela-permissoes {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.tabela-permissoes th {
+  background: var(--primary-green);
+  color: white;
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+.tabela-permissoes td {
+  padding: 14px 15px;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+  color: var(--text-dark);
+}
+
+/* Linha de Categoria */
+.linha-categoria td {
+  background-color: var(--light-green-bg);
+  color: var(--primary-green);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  padding: 10px 15px;
+  letter-spacing: 1px;
+  border-bottom: 2px solid rgba(20,32,27, 0.1);
+}
+
+.tabela-permissoes tr:last-child td {
+  border-bottom: none;
+}
+
+.tabela-permissoes tr:hover:not(.linha-categoria) {
+  background-color: #fafafa;
+}
+
+.nome-modulo {
+  font-weight: 500;
+  color: #333;
+}
+
+.center { text-align: center; }
+
+/* --- CHECKBOX GRANDE --- */
+.check-box-grande {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--primary-green);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.check-box-grande:hover {
+  transform: scale(1.1);
+}
+
+.check-box-grande:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+}
+
+.dash-disabled {
+  color: #ccc;
+  font-weight: bold;
+  font-size: 1.2rem;
+  user-select: none;
+}
+
+/* --- SWITCH TOGGLE --- */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #cfd8dc;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input:checked + .slider {
+  background-color: var(--primary-green);
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* --- RODAPÉ --- */
+.rodape-salvar {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: flex-end;
+  /* Opcional: Se quiser o botão fixo no final da tela sempre, descomente abaixo */
+  /* margin-bottom: 20px; */
+}
+
+.btn-salvar-perfil {
+  background: var(--primary-green);
+  color: white;
+  border: none;
+  padding: 12px 40px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 6px rgba(20,32,27, 0.2);
+  transition: all 0.3s ease;
+}
+
+.btn-salvar-perfil:hover {
+  background: var(--dark-green);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(20,32,27, 0.3);
+}
+
+.btn-salvar-perfil:active {
+  transform: translateY(0);
+}

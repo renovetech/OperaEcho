@@ -1,0 +1,106 @@
+/* ARQUIVO: src/Parametros.css - Parâmetros do Sistema e Cadastro de Regiões */
+
+.par-sub { font-family: var(--font-sans); font-weight: 500; font-size: .8rem; color: var(--muted); margin-left: 8px; }
+
+.par-item {
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    padding: 16px 18px; border: 1px solid var(--line); border-left: 4px solid var(--line);
+    border-radius: 10px; background: #fff; margin-bottom: 12px; transition: border-color .15s ease;
+}
+.par-item.on { border-left-color: var(--pine); }
+.par-texto strong { display: block; color: var(--ink); font-size: 1rem; margin-bottom: 4px; }
+.par-texto p { margin: 0 0 6px; color: var(--text-2); font-size: .88rem; line-height: 1.45; }
+.par-texto small { color: var(--muted); font-size: .75rem; }
+
+.par-switch { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; flex: 0 0 auto; }
+.par-switch.bloqueado { cursor: not-allowed; opacity: .7; }
+.par-switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+.par-trilho { width: 46px; height: 26px; border-radius: 13px; background: #cfd4cf; position: relative; transition: background .15s ease; }
+.par-bola { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: transform .15s ease; }
+.par-switch input:checked + .par-trilho { background: var(--pine); }
+.par-switch input:checked + .par-trilho .par-bola { transform: translateX(20px); }
+.par-switch input:focus-visible + .par-trilho { box-shadow: 0 0 0 3px rgba(46,125,50,.25); }
+.par-estado { font-weight: 700; font-size: .85rem; min-width: 84px; color: var(--text-2); }
+.par-item.on .par-estado { color: var(--pine); }
+
+.btn-salvar:disabled { opacity: .55; cursor: default; }
+
+/* ----------------------- CADASTRO DE MACRO / MICRO ----------------------- */
+.rg-topo { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 18px; }
+.rg-topo .form-group { min-width: 280px; flex: 1; }
+.rg-resumo { display: flex; gap: 10px; flex-wrap: wrap; }
+.rg-resumo span { background: var(--tint); color: var(--pine-800); border-radius: 20px; padding: 6px 12px; font-size: .8rem; font-weight: 600; }
+
+.rg-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+.rg-col { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 16px; min-width: 0; }
+.rg-col h4 { margin: 0 0 12px; color: var(--pine); display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.rg-col h4 small { color: var(--muted); font-weight: 500; font-family: var(--font-sans); }
+
+.rg-form { display: grid; grid-template-columns: 1fr 90px 54px auto; gap: 8px; align-items: end; margin-bottom: 14px; }
+.rg-form label { font-size: .72rem; font-weight: 600; color: var(--text-2); display: flex; flex-direction: column; gap: 4px; }
+.rg-form input[type="color"] { height: 38px; width: 100%; padding: 2px; border: 1px solid #ccc; border-radius: 6px; background: #fff; cursor: pointer; }
+.rg-form .btn-salvar { padding: 10px 14px; font-size: .88rem; }
+.rg-form .rg-cancelar { background: none; border: none; color: var(--muted); cursor: pointer; font-size: .8rem; grid-column: 1 / -1; justify-self: start; padding: 0; }
+
+.rg-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; max-height: 460px; overflow: auto; }
+.rg-lista li {
+    display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--line-2);
+    border-radius: 8px; cursor: pointer; background: #fff; transition: background .12s ease, border-color .12s ease;
+}
+.rg-lista li:hover { background: var(--tint); }
+.rg-lista li.sel { border-color: var(--pine); background: var(--tint); }
+.rg-lista li.inativo { opacity: .55; }
+.rg-cor { width: 14px; height: 14px; border-radius: 4px; flex: 0 0 auto; border: 1px solid rgba(0,0,0,.12); }
+.rg-nome { flex: 1; min-width: 0; font-weight: 600; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rg-nome small { display: block; font-weight: 500; color: var(--muted); font-size: .74rem; }
+.rg-acoes { display: flex; gap: 4px; }
+.rg-acoes button { border: none; background: transparent; cursor: pointer; color: var(--text-2); padding: 4px 6px; border-radius: 6px; }
+.rg-acoes button:hover { background: #fff; color: var(--pine); }
+.rg-acoes button.del:hover { color: var(--danger); }
+.rg-vazio { color: var(--muted); font-style: italic; padding: 14px 4px; font-size: .88rem; }
+
+/* Vínculo de unidades */
+.rg-vinc-filtros { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.rg-vinc-filtros .form-control { min-width: 200px; }
+.rg-vinc-massa { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: var(--brass-tint); border: 1px solid var(--brass-soft); border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; font-size: .85rem; }
+.rg-vinc-massa .form-control { padding: 6px 8px; font-size: .85rem; }
+.rg-vinc-massa button { background: var(--brass); color: #fff; border: none; border-radius: 6px; padding: 7px 12px; font-weight: 600; cursor: pointer; }
+.rg-tabela-wrap { max-height: 520px; overflow: auto; border: 1px solid var(--line); border-radius: 8px; }
+.rg-tabela-wrap .tabela-unidades { margin-top: 0; }
+.rg-tabela-wrap .tabela-unidades th { position: sticky; top: 0; z-index: 1; }
+.rg-tabela-wrap select { padding: 6px 8px; font-size: .85rem; min-width: 170px; }
+.rg-alterada td { background: #FFFBEA; }
+
+/* ----------------------- PARÂMETROS > WHATSAPP ----------------------- */
+/* Vários cartões na mesma tela: a tela rola, cada cartão tem a altura do conteúdo */
+.wpp-tela { flex: 1; min-height: 0; overflow-y: auto; padding-bottom: 20px; }
+.wpp-tela .form-card { height: auto; overflow: visible; flex: none; margin-bottom: 16px; gap: 12px; }
+.wpp-tela .form-card h3 { margin-bottom: 4px; }
+.wpp-conexao { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 6px; }
+.wpp-badge { display: inline-block; color: #fff; border-radius: 20px; padding: 4px 12px; font-size: .78rem; font-weight: 700; letter-spacing: .02em; }
+.wpp-qr { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin-top: 16px; padding: 16px; border: 1px dashed var(--pine); border-radius: 12px; background: var(--tint); }
+.wpp-qr img { width: 240px; height: 240px; background: #fff; border-radius: 8px; padding: 8px; }
+.wpp-qr p { margin: 6px 0; font-size: .88rem; color: var(--text-2); }
+.wpp-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.wpp-cards div { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.wpp-cards b { display: block; font-size: 1.35rem; color: var(--pine); }
+.wpp-cards span { font-size: .78rem; color: var(--muted); }
+.wpp-inline { display: flex; gap: 8px; align-items: center; margin-top: 4px; }
+.wpp-inline .form-control { width: auto; min-width: 0; }
+.wpp-inline input[type="time"] { min-width: 118px; }
+.wpp-inline input[type="date"] { min-width: 150px; }
+.wpp-inline span { font-size: .85rem; color: var(--text-2); }
+.wpp-textos { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.wpp-textos textarea { font-family: var(--font-sans); font-size: .9rem; line-height: 1.45; width: 100%; resize: vertical; }
+.wpp-vars { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
+.wpp-vars code { background: var(--tint); color: var(--pine-800); border-radius: 6px; padding: 3px 8px; font-size: .78rem; cursor: pointer; }
+.wpp-previa { background: #e7f6e9; border-radius: 12px; padding: 12px 14px; min-width: 0; }
+.wpp-previa small { color: var(--muted); }
+.wpp-previa pre { white-space: pre-wrap; word-break: break-word; font-family: var(--font-sans); font-size: .88rem; margin: 6px 0 0; background: #fff; border-radius: 10px; padding: 12px; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+
+@media (max-width: 900px) {
+    .rg-grid { grid-template-columns: 1fr; }
+    .par-item { flex-direction: column; align-items: flex-start; }
+    .wpp-textos { grid-template-columns: 1fr; }
+    .wpp-inline { flex-wrap: wrap; }
+}

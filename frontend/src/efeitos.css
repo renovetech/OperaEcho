@@ -1,0 +1,235 @@
+/* ARQUIVO: src/efeitos.css
+   Movimento e acabamento da área logada (body.oe-app): entradas em cascata,
+   brilhos, realces de foco/hover e barras animadas. Só transform/opacity nas
+   animações (sem refluxo de layout) e tudo desligado com movimento reduzido. */
+
+body.oe-app {
+  --oe-ease: cubic-bezier(.22, 1, .36, 1);
+  --oe-brilho: linear-gradient(105deg, transparent 20%, rgba(255, 255, 255, .45) 50%, transparent 80%);
+}
+
+/* ---------- Barra superior ---------- */
+body.oe-app .topbar::after {
+  background: linear-gradient(90deg, transparent 0%, var(--brass-soft) 18%, #F2DFAE 50%, var(--brass-soft) 82%, transparent 100%);
+  background-size: 200% 100%;
+  animation: oe-fio 7s linear infinite;
+}
+@keyframes oe-fio { from { background-position: 200% 0; } to { background-position: 0 0; } }
+
+body.oe-app .brand-logo-full { transition: transform .25s var(--oe-ease), box-shadow .25s var(--oe-ease); }
+body.oe-app .topbar-brand:hover .brand-logo-full { transform: translateY(-1px) scale(1.03); box-shadow: 0 6px 18px rgba(0, 0, 0, .18), 0 0 0 3px rgba(242, 223, 174, .35); }
+
+body.oe-app .topnav-item { position: relative; transition: background .2s, color .2s, box-shadow .2s; }
+body.oe-app .topnav-item::before {
+  content: ""; position: absolute; left: 12px; right: 12px; bottom: 4px; height: 2px; border-radius: 2px;
+  background: var(--brass-soft); transform: scaleX(0); transform-origin: left; transition: transform .3s var(--oe-ease);
+}
+body.oe-app .topnav-item:hover::before, body.oe-app .topnav-dropdown:hover > .topnav-item::before { transform: scaleX(1); }
+body.oe-app .topnav-dropdown.active > .topnav-item::before { display: none; }
+body.oe-app .topnav .caret { display: inline-block; transition: transform .25s var(--oe-ease); }
+body.oe-app .topnav-dropdown:hover .caret { transform: rotate(180deg); }
+
+/* Painéis suspensos com vidro fosco e itens em cascata */
+body.oe-app .dropdown-panel, body.oe-app .dd-flyout, body.oe-app .oe-menu-flutuante {
+  background: rgba(255, 255, 255, .92);
+  backdrop-filter: blur(14px) saturate(1.4); -webkit-backdrop-filter: blur(14px) saturate(1.4);
+}
+body.oe-app .topnav-dropdown:hover .dropdown-panel { animation: oe-cai .22s var(--oe-ease); }
+body.oe-app .dd-parent:hover > .dd-flyout { animation: oe-lado .2s var(--oe-ease); }
+body.oe-app .oe-menu-flutuante { animation: oe-cai .2s var(--oe-ease); transform-origin: top right; }
+body.oe-app .topnav-dropdown:hover .dropdown-panel > * { animation: oe-sobe .3s var(--oe-ease) both; }
+body.oe-app .topnav-dropdown:hover .dropdown-panel > *:nth-child(2) { animation-delay: .03s; }
+body.oe-app .topnav-dropdown:hover .dropdown-panel > *:nth-child(3) { animation-delay: .06s; }
+body.oe-app .topnav-dropdown:hover .dropdown-panel > *:nth-child(4) { animation-delay: .09s; }
+body.oe-app .topnav-dropdown:hover .dropdown-panel > *:nth-child(5) { animation-delay: .12s; }
+body.oe-app .topnav-dropdown:hover .dropdown-panel > *:nth-child(n+6) { animation-delay: .15s; }
+body.oe-app .dd-link, body.oe-app .oe-menu-item { transition: background .18s, color .18s, transform .18s var(--oe-ease); }
+body.oe-app .dd-link:hover, body.oe-app .oe-menu-item:hover { transform: translateX(3px); }
+body.oe-app .dd-link-parent:hover { transform: none; }
+@keyframes oe-cai { from { opacity: 0; transform: translateY(-8px) scale(.98); } to { opacity: 1; transform: none; } }
+@keyframes oe-lado { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: none; } }
+
+/* Avatar com anel em degradê e sino com pulso quando há pendências */
+body.oe-app .oe-avatar { position: relative; background: linear-gradient(135deg, #F2DFAE, var(--brass-soft)); transition: transform .25s var(--oe-ease); }
+body.oe-app .oe-avatar::after {
+  content: ""; position: absolute; inset: -4px; border-radius: 50%; padding: 2px;
+  background: conic-gradient(from 0deg, rgba(242, 223, 174, .9), rgba(255, 255, 255, .15), rgba(242, 223, 174, .9));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: oe-gira 6s linear infinite;
+}
+body.oe-app .oe-usuario:hover .oe-avatar { transform: scale(1.06); }
+@keyframes oe-gira { to { transform: rotate(360deg); } }
+body.oe-app .oe-sino-qtd { animation: oe-pulso-qtd 2.4s ease-out infinite; }
+@keyframes oe-pulso-qtd { 0% { box-shadow: 0 0 0 0 rgba(198, 40, 40, .55); } 70%, 100% { box-shadow: 0 0 0 8px rgba(198, 40, 40, 0); } }
+body.oe-app .oe-sino:has(.oe-sino-qtd) .oe-icon { animation: oe-sino 4s ease-in-out infinite; transform-origin: 50% 10%; }
+@keyframes oe-sino { 0%, 88%, 100% { transform: rotate(0); } 91% { transform: rotate(14deg); } 94% { transform: rotate(-12deg); } 97% { transform: rotate(6deg); } }
+
+/* ---------- Entrada das telas em cascata ---------- */
+body.oe-app .app-content > * { animation: none; }
+body.oe-app :is(.oe-home, .cadastro-container, .he-container, .pa-page, .pp-page, .relatorios-page, .escala-container, .projetos-wrap, .wpp-tela, .oe-tela-form) > * {
+  animation: oe-sobe .5s var(--oe-ease) both;
+}
+body.oe-app :is(.oe-home, .cadastro-container, .he-container, .pa-page, .pp-page, .relatorios-page, .escala-container, .projetos-wrap, .wpp-tela, .oe-tela-form) > *:nth-child(2) { animation-delay: .05s; }
+body.oe-app :is(.oe-home, .cadastro-container, .he-container, .pa-page, .pp-page, .relatorios-page, .escala-container, .projetos-wrap, .wpp-tela, .oe-tela-form) > *:nth-child(3) { animation-delay: .1s; }
+body.oe-app :is(.oe-home, .cadastro-container, .he-container, .pa-page, .pp-page, .relatorios-page, .escala-container, .projetos-wrap, .wpp-tela, .oe-tela-form) > *:nth-child(4) { animation-delay: .15s; }
+body.oe-app :is(.oe-home, .cadastro-container, .he-container, .pa-page, .pp-page, .relatorios-page, .escala-container, .projetos-wrap, .wpp-tela, .oe-tela-form) > *:nth-child(n+5) { animation-delay: .2s; }
+@keyframes oe-sobe { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+/* Filete do título cresce ao abrir a tela */
+body.oe-app :is(.header-title h2, .he-title h2, .pa-page h2, .pp-page h1, .relatorios-page h2, .sg-topo h1, .sg-topo h2, .projetos-wrap h2, .escala-container h2, .wpp-tela h2, .cadastro-container > h2, .oe-tela-form h2)::before {
+  background: linear-gradient(180deg, #F2DFAE, var(--brass-soft) 45%, var(--brass));
+  animation: oe-filete .6s var(--oe-ease) both .1s; transform-origin: top;
+}
+@keyframes oe-filete { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+/* Linha sob o cabeçalho da tela com brilho que percorre uma vez */
+body.oe-app :is(.page-header, .he-header, .pa-header, .pp-head, .sg-topo, .greeting-bar) { position: relative; }
+body.oe-app :is(.page-header, .he-header, .pa-header, .pp-head, .sg-topo, .greeting-bar)::after {
+  content: ""; position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; pointer-events: none;
+  background: linear-gradient(90deg, var(--pine), var(--sage) 35%, var(--brass-soft) 60%, transparent 85%);
+  transform: scaleX(0); transform-origin: left; animation: oe-traco 1s var(--oe-ease) .15s forwards;
+}
+@keyframes oe-traco { to { transform: scaleX(1); } }
+
+/* ---------- Página inicial ---------- */
+body.oe-app .oe-hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding-bottom: 20px !important; }
+body.oe-app .oe-hero-texto { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+body.oe-app .oe-hero-data { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--brass); }
+body.oe-app .oe-hero-titulo { margin: 0; font-size: 28px; line-height: 1.2; font-weight: 400; color: #14201B; }
+body.oe-app .oe-hero-titulo::first-letter { text-transform: uppercase; }
+body.oe-app .oe-hero-titulo strong {
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--pine-800), var(--pine) 40%, #5E9E46 70%, var(--brass) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: oe-tinta 6s ease-in-out infinite alternate;
+}
+@keyframes oe-tinta { from { background-position: 0 0; } to { background-position: 100% 0; } }
+body.oe-app .greeting-status {
+  display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+  padding: 5px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;
+  color: var(--pine-800); background: var(--tint); border: 1px solid rgba(46, 125, 50, .18);
+}
+body.oe-app .status-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: #2E9D47; }
+body.oe-app .status-dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: inherit; animation: oe-onda 2s ease-out infinite; }
+@keyframes oe-onda { from { transform: scale(1); opacity: .7; } to { transform: scale(3); opacity: 0; } }
+
+/* Indicadores: filete cresce, entram em cascata e reagem ao mouse */
+body.oe-app .big-cards-grid > * { animation: oe-sobe .55s var(--oe-ease) both; }
+body.oe-app .big-cards-grid > *:nth-child(2) { animation-delay: .07s; }
+body.oe-app .big-cards-grid > *:nth-child(3) { animation-delay: .14s; }
+body.oe-app .big-cards-grid > *:nth-child(4) { animation-delay: .21s; }
+body.oe-app :is(.big-card, .kpi-card, .pp-kpi, .tm-kpi, .pa-ind-kpi) {
+  position: relative; transition: transform .3s var(--oe-ease), border-left-width .3s var(--oe-ease), padding-left .3s var(--oe-ease) !important;
+}
+body.oe-app :is(.big-card, .kpi-card, .pp-kpi, .tm-kpi, .pa-ind-kpi)::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, rgba(46, 125, 50, .35), transparent 70%);
+  transform: scaleX(0); transform-origin: left; transition: transform .45s var(--oe-ease);
+}
+body.oe-app :is(.big-card, .kpi-card, .pp-kpi, .tm-kpi, .pa-ind-kpi):hover { transform: translateX(4px) !important; }
+body.oe-app :is(.big-card, .kpi-card, .pp-kpi, .tm-kpi, .pa-ind-kpi):hover::after { transform: scaleX(1); }
+body.oe-app .big-number { font-variant-numeric: tabular-nums; letter-spacing: -.5px; }
+body.oe-app .rd-total { font-variant-numeric: tabular-nums; }
+
+/* Chips de equipe com elevação suave */
+body.oe-app .rd-equipe { transition: transform .2s var(--oe-ease), background .2s, box-shadow .2s; animation: oe-sobe .4s var(--oe-ease) both; }
+body.oe-app .rd-equipe:hover { transform: translateY(-2px); background: #D7EED9 !important; box-shadow: 0 6px 14px rgba(46, 125, 50, .15) !important; }
+
+/* Barras de progresso preenchem ao aparecer, com brilho correndo */
+body.oe-app .progress-track { position: relative; overflow: hidden; }
+body.oe-app .progress-fill { animation: oe-enche 1.1s var(--oe-ease) both; transform-origin: left; }
+body.oe-app .progress-track::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: var(--oe-brilho); transform: translateX(-100%); animation: oe-varre 3.2s ease-in-out 1.2s infinite;
+}
+@keyframes oe-enche { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes oe-varre { 0% { transform: translateX(-100%); } 55%, 100% { transform: translateX(100%); } }
+body.oe-app .plano-card-item { transition: transform .25s var(--oe-ease); }
+body.oe-app .plano-card-item:hover { transform: translateX(4px); }
+body.oe-app .ferias-avatar { box-shadow: 0 0 0 3px #fff, 0 0 0 5px rgba(46, 125, 50, .25); transition: transform .3s var(--oe-ease); }
+body.oe-app .ferias-card-destaque:hover .ferias-avatar { transform: scale(1.06) rotate(-4deg); }
+body.oe-app .btn-nav-ferias { transition: transform .2s var(--oe-ease), background .2s; }
+body.oe-app .btn-nav-ferias:hover { transform: scale(1.12); }
+
+/* ---------- Botões ---------- */
+body.oe-app :is(.btn-salvar, .btn-gerar, .pa-btn--green, .btn-salvar-perfil, .btn-salvar-modal, .btn-tab.ativo) { position: relative; overflow: hidden; isolation: isolate; }
+body.oe-app :is(.btn-salvar, .btn-gerar, .pa-btn--green, .btn-salvar-perfil, .btn-salvar-modal, .btn-tab.ativo)::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: var(--oe-brilho); transform: translateX(-120%); transition: transform .7s var(--oe-ease);
+}
+body.oe-app :is(.btn-salvar, .btn-gerar, .pa-btn--green, .btn-salvar-perfil, .btn-salvar-modal, .btn-tab.ativo):hover:not(:disabled)::after { transform: translateX(120%); }
+body.oe-app :is(.btn-salvar, .btn-gerar, .pa-btn--green, .btn-salvar-perfil, .btn-salvar-modal):hover:not(:disabled) {
+  transform: translateY(-1px); box-shadow: 0 10px 22px rgba(46, 125, 50, .32) !important;
+}
+body.oe-app :is(.btn-voltar, .btn-tab, .pa-btn, .pp-btn, .sg-btn, .btn-imprimir, .btn-jpg, .pdf-btn, .btn-editar-icon) {
+  transition: background .2s, color .2s, border-color .2s, transform .2s var(--oe-ease), box-shadow .2s !important;
+}
+body.oe-app :is(.btn-voltar, .btn-tab, .pa-btn, .pp-btn, .btn-imprimir, .btn-jpg, .pdf-btn, .btn-editar-icon):hover:not(:disabled) { transform: translateY(-1px); }
+body.oe-app :is(button, .btn-voltar):active:not(:disabled) { transform: translateY(0) scale(.98); }
+body.oe-app .btn-voltar:hover .oe-icon { transform: translateX(-2px); transition: transform .2s var(--oe-ease); }
+
+/* ---------- Campos ---------- */
+body.oe-app .app-content :where(input:not([type="checkbox"], [type="radio"], [type="file"], [type="range"]), select, textarea) {
+  transition: border-color .2s, box-shadow .25s var(--oe-ease), background .2s;
+}
+body.oe-app .app-content :where(input:not([type="checkbox"], [type="radio"], [type="file"], [type="range"]), select, textarea):hover:not(:focus):not(:disabled) { border-color: var(--sage); }
+body.oe-app .app-content :where(input, select, textarea):focus { box-shadow: 0 0 0 4px rgba(46, 125, 50, .12), 0 4px 12px rgba(46, 125, 50, .08); }
+
+/* ---------- Tabelas ---------- */
+body.oe-app .app-content tbody tr { transition: background .18s, box-shadow .18s; }
+body.oe-app .app-content tbody tr:hover { box-shadow: inset 3px 0 0 var(--pine); }
+body.oe-app .app-content tbody tr:nth-child(-n+14) { animation: oe-linha .4s var(--oe-ease) both; }
+body.oe-app .app-content tbody tr:nth-child(2) { animation-delay: .02s; }
+body.oe-app .app-content tbody tr:nth-child(3) { animation-delay: .04s; }
+body.oe-app .app-content tbody tr:nth-child(4) { animation-delay: .06s; }
+body.oe-app .app-content tbody tr:nth-child(5) { animation-delay: .08s; }
+body.oe-app .app-content tbody tr:nth-child(6) { animation-delay: .1s; }
+body.oe-app .app-content tbody tr:nth-child(7) { animation-delay: .12s; }
+body.oe-app .app-content tbody tr:nth-child(8) { animation-delay: .14s; }
+body.oe-app .app-content tbody tr:nth-child(9) { animation-delay: .16s; }
+body.oe-app .app-content tbody tr:nth-child(n+10) { animation-delay: .18s; }
+@keyframes oe-linha { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* Selos de status */
+body.oe-app .badge { transition: transform .2s var(--oe-ease); letter-spacing: .03em; }
+body.oe-app tr:hover .badge { transform: scale(1.05); }
+
+/* ---------- Alertas e modais ---------- */
+body.oe-app .swal2-popup.swal2-show { animation: oe-pop .32s var(--oe-ease); }
+body.oe-app .swal2-container.swal2-backdrop-show { backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+body.oe-app :is(.modal-overlay, .pa-modal-fundo, .pdf-modal-overlay) { backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); animation: oe-surge .2s ease-out; }
+body.oe-app :is(.modal-overlay, .pa-modal-fundo) > * { animation: oe-pop .3s var(--oe-ease); }
+@keyframes oe-pop { from { opacity: 0; transform: translateY(10px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes oe-surge { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---------- Rodapé e rolagem ---------- */
+body.oe-app .rodape-sistema::before { background-size: 200% 100%; animation: oe-fio 9s linear infinite; }
+body.oe-app * { scrollbar-color: rgba(46, 125, 50, .35) transparent; }
+body.oe-app ::-webkit-scrollbar-thumb { background: rgba(46, 125, 50, .28); border-color: #fff; }
+body.oe-app ::-webkit-scrollbar-thumb:hover { background: rgba(46, 125, 50, .5); }
+body.oe-app ::selection { background: rgba(199, 169, 106, .35); color: #14201B; }
+
+@media (max-width: 760px) {
+  body.oe-app .oe-hero { flex-direction: column; align-items: flex-start; }
+  body.oe-app .oe-hero-titulo { font-size: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.oe-app *, body.oe-app *::before, body.oe-app *::after {
+    animation-duration: .01ms !important; animation-iteration-count: 1 !important; animation-delay: 0s !important;
+    transition-duration: .01ms !important;
+  }
+}
+@media print {
+  body.oe-app *, body.oe-app *::before, body.oe-app *::after { animation: none !important; transition: none !important; }
+}
+
+/* Ícones decorativos dos títulos de seção da página inicial */
+body.oe-app .stat-header h3 .oe-icon { display: none !important; }
+
+/* Selos de status sempre em uma linha */
+body.oe-app .badge { display: inline-block; white-space: nowrap; line-height: 1.2; }
+
+/* Captura de imagem/PDF (html2canvas): tudo parado e visível */
+html.oe-captura *, html.oe-captura *::before, html.oe-captura *::after { animation: none !important; transition: none !important; }

@@ -1,0 +1,34 @@
+{
+  "name": "opera-echo-front",
+  "version": "2026.12.01",
+  "private": true,
+  "dependencies": {
+    "axios": "^1.13.2",
+    "chart.js": "^4.5.1",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.4",
+    "leaflet": "^1.9.4",
+    "leaflet.markercluster": "^1.5.3",
+    "react": "^19.2.0",
+    "react-chartjs-2": "^5.3.1",
+    "react-dom": "^19.2.0",
+    "react-icons": "^5.7.0",
+    "react-input-mask": "^2.0.4",
+    "react-leaflet": "^5.0.0",
+    "react-router-dom": "^7.9.6",
+    "recharts": "^3.6.0",
+    "sweetalert2": "^11.26.10",
+    "xlsx": "^0.18.5"
+  },
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.2",
+    "vite": "^8.3.4"
+  }
+}

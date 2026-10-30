@@ -1,0 +1,455 @@
+/* ARQUIVO: src/GeradorEscalas.css */
+
+/* --- ESTILO DE TELA (NORMAL) --- */
+.escala-container { 
+    padding: 20px; 
+    font-family: var(--font-sans); 
+    background-color: white; 
+    height: 100%; 
+    display: flex; 
+    flex-direction: column;
+    width: 100%; 
+    box-sizing: border-box;
+    overflow-x: hidden;
+    position: relative; 
+}
+
+/* --- ESTILOS ESPECÍFICOS PARA EXPORTAÇÃO JPG --- */
+.escala-container.exporting-jpg {
+    padding: 20px !important;
+    margin: 0 !important;
+    border: none !important;
+    width: fit-content !important;
+    height: auto !important;
+    overflow: visible !important;
+    background-color: white !important;
+    position: relative !important; 
+}
+
+.escala-container.exporting-jpg .header-escala {
+    margin-bottom: 10px !important;
+    padding-bottom: 10px !important;
+    border-bottom: 2px solid var(--pine) !important;
+    width: 100% !important;
+}
+
+.escala-container.exporting-jpg .aviso-fixo {
+    display: block !important;
+    margin-bottom: 15px !important;
+    font-size: 0.8rem !important;
+}
+
+.escala-container.exporting-jpg .tabela-wrapper {
+    border: 2px solid #000 !important;
+    border-radius: 0 !important;
+    overflow: visible !important;
+    box-shadow: none !important;
+}
+
+.escala-container.exporting-jpg .tabela-escala {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    table-layout: fixed !important; 
+}
+
+.escala-container.exporting-jpg .tabela-escala th,
+.escala-container.exporting-jpg .tabela-escala td {
+    border: 1px solid #000000 !important;
+}
+
+.escala-container.exporting-jpg .col-colaborador {
+    background-color: var(--pine-800) !important;
+    color: white !important;
+}
+.escala-container.exporting-jpg .tabela-escala th {
+    background-color: var(--pine) !important;
+    color: white !important;
+}
+
+/* --- CABEÇALHO --- */
+.header-escala { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 10px; 
+    padding-bottom: 10px; 
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.titulo-area h2 { margin: 0; color: var(--pine); }
+.controles-data { display: flex; align-items: center; gap: 15px; margin-top: 5px; font-weight: bold; color: var(--pine-800); }
+.controles-data button { background: white; border: 1px solid var(--pine); color: var(--pine); padding: 5px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+.controles-data button:hover { background: var(--tint); }
+
+/* BOTÕES DE AÇÃO E LOGO */
+.acoes-topo { display: flex; align-items: center; gap: 8px; margin-right: 5px; }
+
+.logo-sistema {
+    height: 40px; 
+    width: auto;
+    margin-right: 10px; 
+}
+
+.btn-exportar { background: var(--pine-700); color: white; border: none; padding: 8px 15px; border-radius: 4px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; font-size: 0.9rem; }
+.btn-exportar:hover { background: var(--pine-800); }
+.btn-jpg { background: var(--brass) !important; }
+.btn-jpg:hover { background: var(--brass) !important; }
+.btn-voltar { background: #c62828; color: white; border: none; padding: 8px 15px; border-radius: 4px; font-weight: bold; cursor: pointer; margin-right: 5px; font-size: 0.9rem; }
+
+
+/* --- AVISO FIXO --- */
+.aviso-fixo {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+    padding: 0 5px;
+    color: #333;
+    font-size: 1.1rem;
+    font-family: var(--font-sans);
+    font-style: italic;
+}
+
+.aviso-fixo strong {
+    color: #c62828; 
+    font-style: normal;
+    font-weight: bold;
+}
+
+/* --- ESTRUTURA DA TABELA --- */
+.tabela-wrapper { 
+    overflow-x: auto; 
+    border: 1px solid var(--sage-100); 
+    border-radius: 8px; 
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.tabela-escala { 
+    width: 100%; 
+    border-collapse: collapse; 
+    min-width: 1000px;
+    table-layout: fixed; 
+}
+
+.tabela-escala th, .tabela-escala td { 
+    border: 1px solid var(--sage-300); 
+    text-align: center; 
+    vertical-align: middle; 
+}
+
+.tabela-escala th { 
+    background-color: var(--pine); 
+    color: white; 
+    height: 50px; 
+    font-size: 0.85rem; 
+    border-color: var(--pine-800); 
+}
+
+.th-dia { font-size: 0.75rem; text-transform: uppercase; margin-bottom: 2px; color: var(--sage-300); }
+.th-data { font-size: 1rem; font-weight: bold; color: white; }
+
+.col-colaborador { 
+    width: 220px; 
+    background-color: var(--pine-800) !important; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    border-right: 2px solid white; 
+}
+
+.tabela-escala td:not(.td-nome) {
+    padding: 0;
+    height: 85px; 
+    overflow: hidden; 
+}
+
+.td-nome { 
+    background-color: var(--tint); 
+    font-weight: bold; 
+    font-size: 0.8rem; 
+    padding: 0 10px; 
+    text-align: left; 
+    color: var(--pine-800); 
+    border-right: 2px solid var(--sage-300);
+    word-wrap: break-word; 
+    white-space: normal;
+}
+
+/* --- CONTEÚDO DOS QUADROS --- */
+.celula-vazia { 
+    color: #ccc; 
+    font-size: 1.5rem; 
+    cursor: pointer; 
+    height: 100%; 
+    width: 100%;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+.celula-vazia:hover { background-color: var(--tint); color: var(--pine); }
+
+.celula-trabalho { 
+    background-color: #fff; 
+    height: 100%; 
+    width: 100%;
+    padding: 2px; 
+    box-sizing: border-box;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center;
+    cursor: pointer; 
+    line-height: 1.1; 
+}
+
+.celula-trabalho .proj { 
+    font-weight: bold; 
+    color: var(--pine-800); 
+    display: block; 
+    margin-bottom: 2px; 
+    text-transform: uppercase; 
+    font-size: 0.7rem; 
+    white-space: normal;
+    width: 100%;
+}
+
+.celula-trabalho .uni { 
+    color: #333; 
+    font-weight: 500; 
+    font-size: 0.65rem; 
+    white-space: normal;
+    width: 100%;
+}
+
+/* PRODUTOS EM ROSA */
+.prods-lista {
+    font-size: 0.6rem; 
+    color: #e91e63; /* ROSA */
+    text-align: center;
+    margin-top: 1px;
+    font-style: italic;
+    line-height: 1;
+    max-height: 25px; 
+    overflow: hidden;
+    white-space: normal;
+    width: 100%;
+}
+
+.celula-folga { 
+    background-color: #ffebee; 
+    color: #c62828; 
+    font-weight: bold; 
+    height: 100%; 
+    width: 100%;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 0.8rem; 
+}
+
+.celula-feriado { 
+    background-color: #eeeeee; 
+    color: #555; 
+    font-weight: bold; 
+    height: 100%; 
+    width: 100%;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    letter-spacing: 1px; 
+    font-size: 0.8rem; 
+    text-transform: uppercase; 
+}
+
+.celula-atestado { 
+    background-color: #ffcdd2; 
+    color: #b71c1c; 
+    font-weight: bold; 
+    height: 100%; 
+    width: 100%;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 0.8rem; 
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.1;
+}
+
+.celula-ferias {
+    background-color: #fff9c4;
+    color: #f57f17;
+    font-weight: bold;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.tabela-escala td:not(.td-nome):hover {
+    background-color: #f1f1f1;
+    border: 2px solid #1e5631;
+}
+
+.titulo-impresso { display: none; }
+
+
+/* --- MODAL --- */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+.modal-content { background: white; padding: 25px; border-radius: 8px; width: 450px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border-top: 5px solid var(--pine); }
+.modal-content h3 { margin-top: 0; color: var(--pine); margin-bottom: 5px; }
+.subtitulo-modal { color: #666; margin-bottom: 20px; font-weight: bold; }
+
+.form-modal { display: flex; flex-direction: column; gap: 10px; }
+.form-modal label { font-weight: bold; font-size: 0.9rem; color: #333; }
+.form-modal select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+.area-produtos-modal { margin-top: 10px; padding: 10px; background: var(--tint); border: 1px solid var(--sage-100); border-radius: 4px; }
+.lista-checks-modal { display: flex; flex-direction: column; gap: 5px; max-height: 120px; overflow-y: auto; }
+.check-item-modal { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer; color: #333; }
+.check-item-modal input { accent-color: var(--pine); }
+
+/* --- BOTÕES DO MODAL (PADRONIZADO) --- */
+.modal-botoes { 
+    display: flex; 
+    justify-content: flex-end; 
+    gap: 10px; 
+    margin-top: 20px; 
+    padding-top: 15px; 
+    border-top: 1px solid #eee; 
+}
+
+/* 1. Salvar (Verde) */
+.btn-salvar-modal { 
+    background-color: var(--pine); 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 4px; 
+    font-weight: bold; /* Negrito */
+    font-size: 0.9rem;
+    cursor: pointer; 
+    transition: background 0.2s;
+}
+.btn-salvar-modal:hover { background-color: var(--pine-800); }
+
+/* 2. Limpar Dia (LARANJA - CORRIGIDO) */
+.btn-limpar { 
+    background-color: #ff9800; /* Laranja Padrão */
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-weight: bold; /* Negrito */
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+.btn-limpar:hover { background-color: var(--brass); }
+
+/* 3. Cancelar (Vermelho) */
+.btn-cancelar { 
+    background-color: #d32f2f; /* Vermelho Padrão */
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-weight: bold; /* Negrito */
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+.btn-cancelar:hover { background-color: #b71c1c; }
+
+
+/* --- DEMAIS BOTÕES DO MODAL --- */
+.acoes-modal-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.btn-acao-sm { padding: 5px 10px; border-radius: 4px; border: none; font-size: 0.8rem; font-weight: bold; cursor: pointer; transition: 0.2s; }
+.btn-copiar { background-color: #0288d1; color: white; }
+.btn-copiar:hover { background-color: #01579b; }
+.btn-colar { background-color: #fbc02d; color: #333; }
+.btn-colar:hover { background-color: #f9a825; }
+.btn-replicar { background-color: var(--slate); color: white; }
+.btn-replicar:hover { background-color: #512da8; }
+.btn-replicar.ativo { background-color: #d32f2f; }
+.divider-modal { border: 0; border-top: 1px solid #eee; margin-bottom: 15px; }
+.aviso-sm { font-size: 0.8rem; color: #999; font-style: italic; margin-top: 5px; }
+.area-replicacao { display: flex; flex-direction: column; gap: 10px; }
+.info-replicacao { font-size: 0.9rem; color: #555; background-color: #e3f2fd; padding: 8px; border-radius: 4px; border: 1px solid #bbdefb; margin: 0; }
+.cols-replicacao { display: flex; gap: 15px; margin-top: 5px; }
+.col-rep { flex: 1; display: flex; flex-direction: column; }
+.col-rep label { font-size: 0.85rem; font-weight: bold; margin-bottom: 5px; color: var(--pine); border-bottom: 1px solid #eee; padding-bottom: 3px; }
+.lista-rep { max-height: 250px; overflow-y: auto; border: 1px solid #ddd; border-radius: 4px; padding: 5px; background-color: #fafafa; }
+.item-rep { display: flex; align-items: center; gap: 8px; padding: 4px; border-bottom: 1px solid #f0f0f0; font-size: 0.85rem; cursor: pointer; font-weight: normal !important; color: #333 !important; }
+.item-rep:hover { background-color: var(--tint); }
+.item-rep input { accent-color: var(--slate); width: 16px; height: 16px; }
+.btn-confirmar-rep { background-color: var(--slate) !important; }
+.btn-confirmar-rep:hover { background-color: #512da8 !important; }
+
+/* --- RODAPÉ E IMPRESSÃO --- */
+.footer-info {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 2px solid var(--pine);
+    display: flex;
+    justify-content: space-between;
+    color: #555;
+    font-size: 0.8rem;
+    font-family: var(--font-sans);
+    background-color: #fff;
+    padding-bottom: 10px;
+}
+.footer-info p { margin: 0; }
+.exporting-mode { background-color: white !important; padding: 20px !important; box-shadow: none !important; }
+.no-export { }
+
+/* IMPRESSÃO PADRÃO (CTRL+P) */
+@media print {
+    body * { visibility: hidden; }
+    #area-impressao, #area-impressao * { visibility: visible; }
+    #area-impressao { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0; }
+    @page { size: A4 landscape; margin: 5mm; }
+    
+    .header-escala { position: relative !important; border-bottom: 2px solid var(--pine); }
+
+    .logo-sistema {
+        position: absolute;
+        top: 20px; 
+        right: 20px; 
+        height: 80px; 
+        width: auto;
+        display: block !important; 
+    }
+    
+    .no-print, .btn-exportar, .btn-voltar, .controles-data { display: none !important; }
+    .tabela-wrapper { border: none; overflow: visible; }
+    .tabela-escala { width: 100%; font-size: 10px; border-collapse: collapse; table-layout: fixed; }
+    .tabela-escala th, .tabela-escala td { border: 1px solid #000 !important; height: auto; padding: 4px 2px; }
+    .col-colaborador { background-color: var(--pine-800) !important; color: white !important; -webkit-print-color-adjust: exact; width: 180px; }
+    .tabela-escala th { background-color: var(--pine) !important; color: white !important; -webkit-print-color-adjust: exact; }
+    .td-nome { background-color: var(--tint) !important; color: black !important; -webkit-print-color-adjust: exact; font-weight: bold; }
+    .celula-trabalho { color: black !important; }
+    .celula-trabalho .proj { color: var(--pine-800) !important; font-weight: bold; }
+    .celula-feriado { background-color: #e0e0e0 !important; -webkit-print-color-adjust: exact; border: 1px solid #999; }
+    .celula-folga { background-color: #ffcdd2 !important; -webkit-print-color-adjust: exact; }
+    
+    .celula-atestado { 
+        background-color: #ffcdd2 !important; 
+        -webkit-print-color-adjust: exact;
+        color: #b71c1c !important; 
+    }
+
+    .celula-ferias {
+        background-color: #fff9c4 !important;
+        -webkit-print-color-adjust: exact;
+        color: #f57f17 !important;
+    }
+
+    .titulo-impresso { display: block; text-align: center; margin-bottom: 10px; border-bottom: 2px solid var(--pine); padding-bottom: 5px; }
+    .titulo-impresso h1 { margin: 0; font-size: 18px; color: var(--pine); }
+    .titulo-impresso p { margin: 0; font-size: 12px; color: #555; }
+}

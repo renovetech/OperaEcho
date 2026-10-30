@@ -1,0 +1,40 @@
+# ==========================================================
+# OPERA ECHO - arquivos que NUNCA vão para o GitHub
+# ==========================================================
+
+# --- Segredos (senhas, chaves, tokens) ---
+.env
+.env.*
+!.env.example
+api evolution.txt
+
+# --- Backups e dados do banco ---
+*.bak
+*.mdf
+*.ldf
+
+# --- Arquivos enviados pelos usuários (dados reais) ---
+backend/uploads/
+
+# --- Dependências (reinstaladas com "npm install") ---
+node_modules/
+
+# --- Builds gerados (recriados com "npm run build") ---
+build/
+dist/
+.expo/
+web-build/
+download/
+*.apk
+*.aab
+
+# --- Backup antigo da migração para Vite ---
+_backup_pre_vite/
+
+# --- Logs e sistema ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+.DS_Store
+Thumbs.db

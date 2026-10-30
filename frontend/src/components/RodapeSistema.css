@@ -1,0 +1,19 @@
+/* Barra fixa de rodapé (nome do sistema · IP · versão) */
+body.com-rodape { --rodape-h: 30px; padding-bottom: var(--rodape-h); box-sizing: border-box; }
+
+.rodape-sistema {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 900;
+    height: var(--rodape-h, 30px); box-sizing: border-box;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 0 24px; background: rgba(255, 255, 255, .96); color: #5F6B63;
+    border-top: 1px solid #E3E6E1; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    font-family: Arial, Helvetica, sans-serif; font-size: 12px; white-space: nowrap; overflow: hidden;
+}
+.rodape-sistema::before {
+    content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(46, 125, 50, .55), rgba(199, 169, 106, .75), transparent);
+}
+.rodape-nome { font-weight: 600; overflow: hidden; text-overflow: ellipsis; }
+.rodape-dados { display: flex; gap: 18px; }
+.rodape-dados b { color: #1F2A24; font-weight: 600; font-family: Consolas, 'Courier New', monospace; }
+@media print { .rodape-sistema { display: none; } body.com-rodape { padding-bottom: 0; } }

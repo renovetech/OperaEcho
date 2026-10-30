@@ -1,0 +1,208 @@
+/* ARQUIVO: src/PainelProjetoPublico.css - Painel público do projeto (/<slug>)
+   Complementa PainelPlanoAcao.css (pp-*): mesmo cabeçalho, cards e KPIs. */
+
+.ppj { max-width: 1600px; }
+.ppj:fullscreen { max-width: none; overflow: auto; background: var(--paper); }
+
+/* ------------------------------- Filtros -------------------------------- */
+.ppj-filtros {
+    display: flex; flex-wrap: wrap; gap: 12px 14px; align-items: flex-end;
+    background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px;
+}
+.ppj-filtros label { display: flex; flex-direction: column; gap: 5px; font-size: .74rem; font-weight: 600; color: var(--text-2); min-width: 160px; flex: 1 1 160px; }
+.ppj-filtros label { margin-bottom: 0; } /* neutraliza "label { margin-bottom }" global de CadastroUnidades.css */
+.ppj-filtros select, .ppj-filtros input {
+    padding: 8px 10px; border: 1px solid #d0d5dd; border-radius: 8px; font-size: .88rem; background: #fff; font-family: inherit; color: var(--ink);
+}
+.ppj-filtros select:disabled { background: #f3f3ef; color: var(--muted); }
+.ppj-filtros select:focus, .ppj-filtros input:focus { outline: none; border-color: var(--pine); box-shadow: 0 0 0 3px rgba(46,125,50,.12); }
+
+/* Visão do mapa: rótulo + controle com a mesma altura dos selects (alinhados pela base) */
+.ppj-filtro-visao { display: flex; flex-direction: column; gap: 5px; flex: 0 0 auto; }
+.ppj-filtro-visao > span { font-size: .74rem; font-weight: 600; color: var(--text-2); }
+.ppj-visao { display: inline-flex; align-items: stretch; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 2px; flex: 0 0 auto; height: 37px; box-sizing: border-box; }
+.ppj-visao button {
+    border: none; background: transparent; padding: 0 14px; border-radius: 6px; font-weight: 700; font-size: .85rem; line-height: 1;
+    color: var(--text-2); cursor: pointer; font-family: inherit; transition: background .15s ease, color .15s ease;
+}
+.ppj-visao button.on { background: var(--pine); color: #fff; box-shadow: var(--shadow-sm); }
+.ppj-visao button:disabled { opacity: .45; cursor: not-allowed; }
+.ppj-limpar {
+    display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--line); background: #fff; color: var(--text-2);
+    border-radius: 8px; padding: 8px 12px; font-weight: 600; font-size: .82rem; cursor: pointer; font-family: inherit;
+}
+.ppj-limpar:hover { background: var(--tint); color: var(--pine); }
+
+.ppj-kpi-data { font-size: 1.45rem !important; }
+
+/* --------------------------- Mapa + produto ----------------------------- */
+.ppj-mapa-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; align-items: stretch; }
+.ppj-mapa-grid > .pp-card { margin-bottom: 16px; }
+.ppj-mapa { position: relative; height: 560px; border-radius: 10px; overflow: hidden; border: 1px solid var(--line-2); background: #f6f7f3; }
+.ppj:fullscreen .ppj-mapa { height: 68vh; }
+.ppj-mapa .leaflet-container { background: #f6f7f3; font-family: var(--font-sans); }
+
+.ppj-mapa-selo {
+    position: absolute; top: 12px; right: 12px; z-index: 500; background: rgba(255,255,255,.94); border: 1px solid var(--line);
+    border-left: 4px solid var(--pine); border-radius: 10px; padding: 10px 14px; box-shadow: var(--shadow); max-width: 60%;
+    display: flex; flex-direction: column; gap: 2px; pointer-events: none;
+}
+.ppj-mapa-selo small { font-size: .68rem; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); font-weight: 700; }
+.ppj-mapa-selo b { font-family: var(--font-display); font-size: 1.25rem; color: var(--ink); line-height: 1.15; }
+.ppj-mapa-selo span { font-size: .78rem; color: var(--text-2); }
+.ppj-mapa-aviso {
+    position: absolute; bottom: 10px; left: 10px; z-index: 500; background: var(--brass-tint); color: var(--brass);
+    border: 1px solid var(--brass-soft); border-radius: 8px; padding: 6px 10px; font-size: .76rem; font-weight: 600;
+}
+
+/* Rótulos do mapa */
+.leaflet-tooltip.ppj-mun-rotulo {
+    background: transparent; border: none; box-shadow: none; padding: 0; color: #22302a;
+    font-size: 10.5px; font-weight: 600; text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 2px #fff; white-space: nowrap;
+}
+.leaflet-tooltip.ppj-mun-rotulo::before { display: none; }
+.leaflet-tooltip.ppj-mun-hover { font-size: 11px; font-weight: 600; }
+.ppj .pp-logo { height: 84px; }
+@media (max-width: 640px) { .ppj .pp-logo { height: 60px; } }
+.ppj-rotulo-regiao { background: transparent; border: none; }
+.ppj-rotulo-regiao span {
+    display: inline-block; transform: translate(-50%, -50%); white-space: nowrap; pointer-events: none;
+    font-family: var(--font-display); font-weight: 800; font-size: 22px; letter-spacing: .5px; text-transform: uppercase;
+    text-shadow: 0 0 4px #fff, 0 0 4px #fff, 0 0 8px #fff; opacity: .92;
+}
+/* Sigla da micro na visão Geral: menor e deslocada para não sobrepor o nome da macro */
+.ppj-rotulo-regiao.mini span { font-size: 13px; transform: translate(-50%, 60%); }
+
+/* Marcador "H" das unidades */
+.ppj-pin { background: transparent; border: none; }
+.ppj-pin-h {
+    width: 22px; height: 22px; box-sizing: border-box; border-radius: 5px; border: 2.5px solid; background: #fff; letter-spacing: -.2px; white-space: nowrap;
+    display: flex; align-items: center; justify-content: center; font: 800 13px/1 var(--font-display);
+    box-shadow: 0 1px 4px rgba(0,0,0,.35); transition: transform .15s ease;
+}
+.ppj-pin-h.destaque { transform: scale(1.35); box-shadow: 0 0 0 4px rgba(46,125,50,.35), 0 2px 6px rgba(0,0,0,.4); }
+.ppj-pin-qtd {
+    position: absolute; top: -9px; right: -11px; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 999px;
+    background: #1f2933; color: #fff; font-size: 10px; font-weight: 800; line-height: 18px; text-align: center;
+}
+.ppj-popup h4 { margin: 0 0 4px; color: var(--pine); font-size: .92rem; }
+.ppj-popup div { font-size: .8rem; margin: 2px 0; }
+.ppj-popup hr { border: none; border-top: 1px solid #eee; margin: 8px 0; }
+.ppj-popup-prod { margin: 4px 0 !important; }
+
+/* Legenda das regiões (clicável) */
+.ppj-legenda { display: flex; flex-wrap: wrap; gap: 6px 8px; margin-top: 12px; align-items: center; }
+.ppj-legenda button {
+    display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: #fff; border-radius: 999px;
+    padding: 5px 11px; font-size: .78rem; font-weight: 600; color: var(--text); cursor: pointer; font-family: inherit;
+}
+.ppj-legenda button:hover, .ppj-legenda button.on { border-color: var(--pine); background: var(--tint); }
+.ppj-legenda i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+
+/* Painel lateral: produto selecionado */
+.ppj-produto { display: flex; flex-direction: column; }
+.ppj-produto-sel { border: 1px solid; border-left-width: 5px; border-radius: 10px; padding: 12px; margin-bottom: 12px; background: #fff; }
+.ppj-produto-nome { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; color: var(--ink); }
+.ppj-produto-nome i, .ppj-produtos-nome i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: 0 0 auto; }
+.ppj-produto-nums { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+.ppj-produto-nums div { display: flex; flex-direction: column; background: var(--paper); border-radius: 8px; padding: 8px 10px; }
+.ppj-produto-nums b { font-family: var(--font-display); font-size: 1.25rem; color: var(--ink); }
+.ppj-produto-nums small { font-size: .7rem; color: var(--muted); }
+.ppj-produtos { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; overflow: auto; max-height: 520px; }
+.ppj-produtos li {
+    display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) 30px; gap: 8px; align-items: center;
+    padding: 7px 8px; border-radius: 8px; cursor: pointer; font-size: .8rem; border: 1px solid transparent;
+}
+.ppj-produtos li:hover { background: var(--paper); }
+.ppj-produtos li.on { background: var(--tint); border-color: var(--sage-300); }
+.ppj-produtos li b { text-align: right; font-family: var(--font-mono); font-size: .8rem; }
+.ppj-produtos-nome { display: flex; align-items: center; gap: 6px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-weight: 600; }
+
+/* Barras horizontais */
+.ppj-barras { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.ppj-barras li { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) 44px; gap: 10px; align-items: center; font-size: .8rem; }
+.ppj-barras li.clicavel { cursor: pointer; border-radius: 6px; }
+.ppj-barras li.clicavel:hover { background: var(--paper); }
+.ppj-barras-nome { display: flex; align-items: center; gap: 6px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: var(--text); font-weight: 600; }
+.ppj-barras-nome i { width: 9px; height: 9px; border-radius: 3px; flex: 0 0 auto; }
+.ppj-barras-trilho { height: 10px; background: #EDECE5; border-radius: 6px; overflow: hidden; display: block; }
+.ppj-barras-trilho span { display: block; height: 100%; border-radius: 6px; transition: width .3s ease; }
+.ppj-barras li b { text-align: right; font-family: var(--font-mono); }
+
+.ppj-svg { width: 100%; height: auto; display: block; }
+.ppj-eixo { font-size: 10px; fill: var(--muted); font-family: var(--font-sans); }
+.ppj-valor { font-size: 10.5px; fill: var(--ink); font-weight: 700; font-family: var(--font-mono); }
+
+/* Tabela de unidades */
+.ppj-tabela-wrap { max-height: 480px; overflow: auto; border: 1px solid var(--line-2); border-radius: 10px; }
+.ppj-tabela { width: 100%; border-collapse: collapse; font-size: .84rem; }
+.ppj-tabela th {
+    position: sticky; top: 0; z-index: 1; background: var(--pine); color: #fff; text-align: left; padding: 10px 12px;
+    font-size: .72rem; text-transform: uppercase; letter-spacing: .4px; white-space: nowrap;
+}
+.ppj-tabela td { padding: 9px 12px; border-bottom: 1px solid var(--line-2); vertical-align: middle; color: var(--text); }
+.ppj-tabela tbody tr { cursor: pointer; }
+.ppj-tabela tbody tr:hover td { background: var(--tint); }
+.ppj-tabela tr.foco td { background: #FFF8E1; }
+.ppj-tabela .num { text-align: right; white-space: nowrap; font-family: var(--font-mono); }
+.ppj-tabela tbody tr:not(.ppj-grupo) td:first-child { position: relative; padding-left: 22px; }
+.ppj-cor-linha { position: absolute; left: 10px; top: 9px; bottom: 9px; width: 4px; border-radius: 2px; }
+.ppj-chip-sel { background: #fff; border-width: 2px; }
+
+.ppj-rodape { text-align: center; color: var(--muted); font-size: .75rem; padding: 10px 0 4px; }
+
+/* Relação de unidades agrupada por macro / micro */
+.ppj-unid-topo { display: flex; justify-content: space-between; align-items: center; gap: 10px 16px; flex-wrap: wrap; margin-bottom: 12px; }
+.ppj-unid-topo h3 { margin: 0; }
+.ppj-unid-acoes { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ppj-visao--mini { height: 34px; }
+.ppj-visao--mini button { padding: 0 11px; font-size: .78rem; }
+.ppj-unid-acoes .ppj-limpar { height: 34px; box-sizing: border-box; }
+.ppj-tabela-wrap--grupos { max-height: 640px; }
+.ppj-tabela tr.ppj-grupo td {
+    background: color-mix(in srgb, var(--cor-grupo) 10%, #fff); border-top: 2px solid var(--cor-grupo);
+    border-bottom: 1px solid color-mix(in srgb, var(--cor-grupo) 30%, #fff); padding: 10px 12px; position: sticky; top: 36px; z-index: 1;
+}
+.ppj-tabela tr.ppj-grupo:hover td { background: color-mix(in srgb, var(--cor-grupo) 18%, #fff); }
+/* td permanece table-cell (display:flex quebrava o colSpan e desalinhava os totais) */
+.ppj-grupo-cab { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-height: 30px; }
+.ppj-tabela tr.ppj-grupo td.ppj-grupo-total { vertical-align: middle; }
+.ppj-grupo-total b { display: block; font-family: var(--font-mono); font-size: .9rem; color: var(--ink); line-height: 1.2; }
+.ppj-grupo-total small { display: block; font-family: var(--font-sans); font-size: .64rem; text-transform: uppercase; letter-spacing: .4px; color: var(--text-2); }
+.ppj-grupo-seta { width: 14px; color: var(--text-2); font-size: .9rem; }
+.ppj-grupo-cor { width: 12px; height: 12px; border-radius: 3px; background: var(--cor-grupo); display: inline-block; }
+.ppj-tabela tr.ppj-grupo b { font-family: var(--font-display); font-size: .98rem; color: var(--ink); }
+.ppj-grupo-sub { font-size: .74rem; color: var(--text-2); background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 1px 8px; }
+.ppj-grupo-info { font-size: .76rem; color: var(--text-2); }
+.ppj-grupo-mapa {
+    margin-left: auto; display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--line); background: #fff;
+    border-radius: 6px; padding: 3px 9px; font-size: .74rem; font-weight: 600; color: var(--pine); cursor: pointer; font-family: inherit;
+}
+.ppj-grupo-mapa:hover { border-color: var(--pine); }
+/* Tipo de unidade: sigla (H, R, UBS, ESF, AE, UPA, G) - mesma do marcador do mapa */
+.ppj-tipo-badge {
+    display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 18px; padding: 0 4px; margin-right: 6px;
+    border: 2px solid var(--pine); border-radius: 4px; background: #fff; color: var(--pine);
+    font: 800 10px/1 var(--font-display); vertical-align: middle; box-sizing: border-box; flex: 0 0 auto;
+}
+.ppj-popup h4 { display: flex; align-items: flex-start; gap: 2px; }
+.ppj-popup-tipo { font-size: .72rem !important; text-transform: uppercase; letter-spacing: .4px; color: var(--text-2); font-weight: 700; }
+.ppj-legenda-tipos { margin-top: 8px; }
+.ppj-legenda-tipos button small { color: var(--muted); font-weight: 500; }
+.ppj-legenda-tipos button:disabled { cursor: default; opacity: .7; }
+.ppj-mapa-selo { transition: opacity .15s ease; }
+.ppj-mapa-selo.oculto { opacity: 0; visibility: hidden; }
+@media (max-width: 1100px) {
+    .ppj-mapa-grid { grid-template-columns: 1fr; }
+    .ppj-produtos { max-height: none; }
+}
+@media (max-width: 760px) {
+    .pp-page.ppj { padding: 14px 16px 24px; }
+    .ppj .pp-grid--3, .ppj .pp-grid--2 { grid-template-columns: 1fr; }
+    .ppj .pp-span-2 { grid-column: auto; }
+    .ppj-mapa { height: 420px; }
+    .ppj-visao { width: 100%; }
+    .ppj-visao button { flex: 1; }
+    .ppj-mapa-selo { max-width: calc(100% - 24px); }
+    .ppj-rotulo-regiao span { font-size: 16px; }
+}

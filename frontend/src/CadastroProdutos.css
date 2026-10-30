@@ -1,0 +1,205 @@
+/* ARQUIVO: src/CadastroProdutos.css */
+
+.container-padrao {
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    font-family: var(--font-sans);
+    height: 90vh; /* Define altura total para a tela não estourar */
+    display: flex;
+    flex-direction: column;
+}
+
+/* HEADER */
+.header-page {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--pine);
+    flex-shrink: 0; /* Impede que o header encolha */
+}
+
+
+.btn-voltar {
+    background: #c62828;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* BOTÕES DE ABA */
+.btn-tab {
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 8px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #555;
+    margin-right: 5px;
+    border-radius: 4px;
+}
+.btn-tab.ativo {
+    background: var(--pine);
+    color: white;
+    border-color: var(--pine);
+}
+
+/* FORMULÁRIO */
+.form-padrao {
+    background: #fafafa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-titulo {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+    margin-bottom: 5px;
+}
+
+.linha {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+}
+
+.campo { display: flex; flex-direction: column; }
+.flex-1 { flex: 1; }
+
+.campo label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #444;
+}
+
+.campo input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* CHECKBOXES */
+.campo-check label {
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+}
+
+/* BOTÕES FORM */
+.btns-form {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.btn-salvar {
+    background: var(--pine);
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.btn-salvar:hover { background: var(--pine-800); }
+
+/* --- TABELA COM ROLAGEM (SCROLL) --- */
+.tabela-container { 
+    margin-top: 10px; 
+    flex-grow: 1; /* Ocupa o resto do espaço disponível */
+    overflow-y: auto; /* Habilita rolagem vertical */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    max-height: 600px; /* Limite de segurança se flex não pegar */
+}
+
+.tabela-padrao {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+/* Cabeçalho Fixo (Sticky Header) */
+.tabela-padrao th {
+    background: var(--pine);
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    position: sticky; /* Cola no topo */
+    top: 0;
+    z-index: 10; /* Fica acima das linhas */
+}
+
+.tabela-padrao td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+
+.tabela-padrao tbody tr:hover {
+    background-color: var(--tint); /* Efeito hover nas linhas */
+}
+
+.center { text-align: center; }
+
+/* BADGES */
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge.ativo {
+    background-color: var(--tint);
+    color: var(--pine);
+    border: 1px solid var(--sage-100);
+}
+
+.badge.inativo {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+}
+
+.row-inativo td {
+    color: #999; /* Texto cinza para inativos */
+}
+
+.btn-editar-icon {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-editar-icon:hover {
+    background: #e3f2fd;
+    border-color: var(--pine-700);
+    transform: scale(1.1);
+}
