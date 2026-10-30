@@ -21,6 +21,8 @@ node_modules/
 
 # --- Builds gerados (recriados com "npm run build") ---
 build/
+build.novo/
+build.antigo/
 dist/
 .expo/
 web-build/
