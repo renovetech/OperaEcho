@@ -377,9 +377,9 @@ router.post('/usuarios/salvar', limiteAutocadastro, asyncHandler(async (req, res
 
             if (at === 1) {
                 q += ", data_inativacao=NULL";
-                if (!jaTinhaAtivacao) q += ", data_ativacao=CAST(GETDATE() AS DATE)";
+                if (!jaTinhaAtivacao) q += ", data_ativacao=CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS DATE)";
             } else if (eraAtivo) {
-                q += ", data_inativacao=CAST(GETDATE() AS DATE)";
+                q += ", data_inativacao=CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS DATE)";
             }
             
             if (d.senha_hash) {
@@ -509,7 +509,7 @@ router.post('/usuarios/ativar', autenticar, asyncHandler(async (req, res) => {
     await pool.request()
         .input('id', sql.Int, idFinal)
         .input('p', sql.VarChar, perfil)
-        .query("UPDATE tab_usuarios SET ativo = 1, perfil_acesso = @p, data_ativacao = CAST(GETDATE() AS DATE), data_inativacao = NULL WHERE id_usuario = @id");
+        .query("UPDATE tab_usuarios SET ativo = 1, perfil_acesso = @p, data_ativacao = CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS DATE), data_inativacao = NULL WHERE id_usuario = @id");
 
     res.json({ mensagem: 'Ativado' });
 }));

@@ -1,5 +1,10 @@
 /* index.js - Opera Echo API v2.1 (Modular) */
 require('dotenv').config();
+// Hora local do sistema = Brasília, qualquer que seja o fuso do servidor (a VPS fica
+// em UTC). Vale para "agora" no Node: janela de envio do WhatsApp, escala semanal,
+// "hoje". O banco continua gravando GETDATE() em UTC; a conversão para exibir é feita
+// nas consultas. Colunas DATE chegam do driver em UTC: leia com getUTC*().
+process.env.TZ = process.env.TZ || 'America/Sao_Paulo';
 const express = require('express');
 const cors = require('cors');
 const path = require('path');

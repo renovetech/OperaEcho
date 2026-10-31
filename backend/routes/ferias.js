@@ -62,8 +62,8 @@ async function validarLimitePeriodoAquisitivo(id_usuario, periodo_aquisitivo, da
     }
 
     // Início do período aquisitivo: dia/mês da admissão no ano informado
-    const adm = new Date(dataAdmissao);
-    const inicioPA = new Date(parseInt(periodo_aquisitivo), adm.getMonth(), adm.getDate());
+    const adm = new Date(dataAdmissao);   // coluna DATE: meia-noite UTC
+    const inicioPA = new Date(parseInt(periodo_aquisitivo), adm.getUTCMonth(), adm.getUTCDate());
 
     // Limite final: início do período aquisitivo + 1 ano e 11 meses
     const limite = new Date(inicioPA);
@@ -479,10 +479,10 @@ router.get('/ferias/relatorio-prazos', autenticar, asyncHandler(async (req, res)
     const linhas = [];
 
     for (const u of usuarios) {
-        const adm = new Date(u.data_admissao);
-        const mesAdm = adm.getMonth();
-        const diaAdm = adm.getDate();
-        const anoAdm = adm.getFullYear();
+        const adm = new Date(u.data_admissao);   // coluna DATE: meia-noite UTC
+        const mesAdm = adm.getUTCMonth();
+        const diaAdm = adm.getUTCDate();
+        const anoAdm = adm.getUTCFullYear();
 
         // PA "N" inicia em N/mês/dia da admissão e termina em (N+1)/mês/(dia-1)
         // Só consideramos PAs cujo direito JÁ foi adquirido (fim do aquisitivo já passou)

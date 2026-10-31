@@ -74,7 +74,8 @@ router.post('/integracoes/whatsapp', ...editar, asyncHandler(async (req, res) =>
     for (const [h, nome] of [[f.horaInicio, 'Início da janela'], [f.horaFim, 'Fim da janela'], [ev.escala_semanal_hora, 'Hora da escala semanal']]) {
         if (h && !HORA.test(h)) throw httpErro(400, `${nome}: use HH:MM.`);
     }
-    const hoje = new Date().toISOString().slice(0, 10);
+    const d = new Date();   // hoje em Brasília (TZ do processo)
+    const hoje = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     if (f.inicioAquecimento && (!/^\d{4}-\d{2}-\d{2}$/.test(f.inicioAquecimento) || f.inicioAquecimento > hoje)) throw httpErro(400, 'O início do aquecimento não pode ser futuro.');
     const referencia = ev.escala_semanal_referencia === 'ATUAL' ? 'ATUAL' : 'PROXIMA';
 
@@ -111,7 +112,7 @@ router.post('/integracoes/whatsapp', ...editar, asyncHandler(async (req, res) =>
         IF NOT EXISTS (SELECT 1 FROM tab_whatsapp_config WHERE id = 1) INSERT INTO tab_whatsapp_config (id) VALUES (1);
         UPDATE tab_whatsapp_config SET
             ativo = @atv, url_api = @url, instancia = @inst, token_acesso = COALESCE(@tok, token_acesso),
-            inicio_aquecimento = CASE WHEN @atv = 1 AND @ini IS NULL AND inicio_aquecimento IS NULL THEN CAST(GETDATE() AS date) ELSE COALESCE(@ini, inicio_aquecimento) END,
+            inicio_aquecimento = CASE WHEN @atv = 1 AND @ini IS NULL AND inicio_aquecimento IS NULL THEN CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS DATE) ELSE COALESCE(@ini, inicio_aquecimento) END,
             limite_inicial = @lini, crescimento_semanal = @cre, limite_maximo = @lmax, max_por_minuto = @pmin,
             pausa_min_seg = @p1, pausa_max_seg = @p2,
             hora_envio_inicio = CAST(@h1 AS time(0)), hora_envio_fim = CAST(@h2 AS time(0)),
@@ -165,8 +166,10 @@ router.get('/integracoes/whatsapp/envios', ...ver, asyncHandler(async (req, res)
         SELECT TOP (${limite}) e.id_envio, e.id_usuario, u.nome_completo, e.numero, e.tipo_evento, e.modulo, e.status, e.motivo, e.erro,
                e.prioridade, e.usuario_origem,
                CASE WHEN e.tipo_evento = 'CODIGO_SENHA' THEN N'(código de senha oculto)' ELSE e.mensagem END AS mensagem,
-               FORMAT(e.data_criacao, 'dd/MM/yyyy HH:mm') AS data_criacao, FORMAT(e.data_envio, 'dd/MM/yyyy HH:mm') AS data_envio,
-               FORMAT(e.liberar_em, 'dd/MM/yyyy HH:mm') AS liberar_em
+               -- gravadas com GETDATE() (UTC): exibidas em Brasília
+               FORMAT(e.data_criacao AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time', 'dd/MM/yyyy HH:mm') AS data_criacao,
+               FORMAT(e.data_envio AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time', 'dd/MM/yyyy HH:mm') AS data_envio,
+               FORMAT(e.liberar_em AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time', 'dd/MM/yyyy HH:mm') AS liberar_em
         FROM tab_whatsapp_envios e LEFT JOIN tab_usuarios u ON u.id_usuario = e.id_usuario
         ${where} ORDER BY e.id_envio DESC`);
     res.json(q.recordset.map(x => ({ ...x, numero: x.numero ? evo.mascararCelular(x.numero) : null })));

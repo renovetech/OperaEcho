@@ -84,7 +84,9 @@ function dentroDoHorario(p, agora) {
 }
 
 const contar = (pool, where) => pool.request().query(`SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE ${where}`).then(r => r.recordset[0].n);
-const enviadosHoje = (pool) => contar(pool, `data_envio >= CAST(GETDATE() AS date) AND ${CONTADOS}`);
+// data_envio é GETDATE() (UTC); "hoje" começa à meia-noite de Brasília.
+const MEIA_NOITE_BR_EM_UTC = `CONVERT(datetime, (CAST(CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS date) AS datetime) AT TIME ZONE 'E. South America Standard Time') AT TIME ZONE 'UTC')`;
+const enviadosHoje = (pool) => contar(pool, `data_envio >= ${MEIA_NOITE_BR_EM_UTC} AND ${CONTADOS}`);
 const ultimoMinuto = (pool) => contar(pool, `data_envio >= DATEADD(SECOND, -60, GETDATE()) AND ${CONTADOS}`);
 const pendentes = (pool) => contar(pool, "status = 'PENDENTE'");
 

@@ -115,7 +115,7 @@ router.get('/dashboard/proximas-ferias', autenticar, asyncHandler(async (req, re
         SELECT u.nome_completo, f.data_inicio, f.data_fim
         FROM tab_ferias f
         INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario
-        WHERE f.status = 'APROVADO' AND f.data_fim >= CAST(GETDATE() AS DATE)
+        WHERE f.status = 'APROVADO' AND f.data_fim >= CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS DATE)
         ${filterUsuarios}
         ORDER BY f.data_inicio ASC
     `);
