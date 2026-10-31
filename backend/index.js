@@ -149,6 +149,7 @@ app.use(require('./routes/linksExternos'));
 app.use(require('./routes/parametros'));
 app.use(require('./routes/regioes'));
 app.use(require('./routes/sigtap'));
+app.use(require('./routes/faturamento'));
 app.use(require('./routes/whatsapp'));
 
 // Fallback do SPA (rotas do React) para usuários autenticados / rotas livres

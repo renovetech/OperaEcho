@@ -8,7 +8,7 @@ const RESERVADOS = new Set([
     'app-version', 'rastreio-background', 'recuperar-senha', 'indicadores', 'gerador',
     'projetos', 'produtos', 'unidades', 'usuarios', 'cidades', 'setores', 'funcoes', 'motivos',
     'regras', 'perfis', 'atividades', 'escalas', 'ferias', 'hora-extra', 'relatorios', 'plano-acao',
-    'parametros', 'regioes', 'sigtap','tipos-unidade', 'links-externos', 'favicon.ico', 'manifest.json', 'robots.txt', 'logo192.png', 'logo512.png', 'logo.png'
+    'parametros', 'regioes', 'sigtap', 'faturamento','tipos-unidade', 'links-externos', 'favicon.ico', 'manifest.json', 'robots.txt', 'logo192.png', 'logo512.png', 'logo.png'
 ]);
 
 const FORMATO = /^[a-z0-9](?:[a-z0-9-]{0,58}[a-z0-9])?$/;

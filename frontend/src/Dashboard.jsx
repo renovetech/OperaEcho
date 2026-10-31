@@ -27,6 +27,8 @@ import LancamentoHoraExtra from './LancamentoHoraExtra';
 import Projetos from './Projetos'; 
 import Parametros from './Parametros';
 import SigtapConsulta from './SigtapConsulta';
+import FaturamentoLancamento from './FaturamentoLancamento';
+import FaturamentoConsolidado from './FaturamentoConsolidado';
 import CadastroRegioes from './CadastroRegioes';
 
 // Imagens servidas a partir da pasta /public
@@ -238,12 +240,19 @@ function Dashboard({ telaInicial = 'home' }) {
       return regra ? regra.pode_acessar : false;
   };
 
+  // Ação específica do módulo (pode_novo / pode_editar); o servidor valida de novo.
+  const podeAcao = (moduloKey, campo) => {
+      if (usuario.perfil_acesso === 'Administrador') return true;
+      const regra = permissoes.find(r => r.nome_modulo === moduloKey);
+      return !!(regra && regra.pode_acessar && regra[campo]);
+  };
+
   const temAcessoMenuCadastro = () => podeAcessar('usuarios') || podeAcessar('produtos') || podeAcessar('projetos') || podeAcessar('unidades') || podeAcessar('regioes') || podeAcessar('perfis');
-  const temAcessoMenuPaineis = () => podeAcessar('painel_consolidado') || podeAcessar('painel_prod_ind') || podeAcessar('painel_prod_uni') || podeAcessar('painel_metricas') || podeAcessar('painel_plano_acao');
+  const temAcessoMenuPaineis = () => podeAcessar('painel_consolidado') || podeAcessar('painel_prod_ind') || podeAcessar('painel_prod_uni') || podeAcessar('painel_metricas') || podeAcessar('painel_plano_acao') || podeAcessar('painel_faturamento');
   const temAcessoMenuImplantacao = () => podeAcessar('registro_atividades') || podeAcessar('hora_extra') || podeAcessar('escala') || podeAcessar('ferias_solicitacao');
   const temAcessoMenuProjetos = () => podeAcessar('proj_registro_atividades') || podeAcessar('proj_hora_extra') || podeAcessar('proj_escala') || podeAcessar('proj_ferias_solicitacao');
   const temAcessoMenuGestao = () => podeAcessar('ferias_gestao');
-  const temAcessoMenuOperacoes = () => temAcessoMenuImplantacao() || temAcessoMenuProjetos() || temAcessoMenuPaineis() || temAcessoMenuGestao() || podeAcessar('links_externos') || podeAcessar('sigtap');
+  const temAcessoMenuOperacoes = () => temAcessoMenuImplantacao() || temAcessoMenuProjetos() || temAcessoMenuPaineis() || temAcessoMenuGestao() || podeAcessar('links_externos') || podeAcessar('sigtap') || podeAcessar('faturamento_lancar');
   const temAcessoMenuFerias = () => podeAcessar('ferias_solicitacao') || podeAcessar('proj_ferias_solicitacao') || podeAcessar('ferias_gestao');
   const temAcessoMenuRelatorios = () => podeAcessar('rel_estatisticas') || podeAcessar('rel_estatisticas_projetos') || podeAcessar('rel_tempo_medio') || podeAcessar('rel_auditoria_loc') || podeAcessar('rel_presenca_implantador') || podeAcessar('rel_presenca_equipe') || podeAcessar('rel_plano_acao') || podeAcessar('rel_projetos_ativos') || podeAcessar('rel_mapa_unidades');
 
@@ -688,7 +697,7 @@ function Dashboard({ telaInicial = 'home' }) {
   const isImplantacaoActive = ['registro_atividades', 'hora_extra', 'escala', 'visualizar_painel', 'ferias_solic_impl'].includes(telaAtual); 
   const isProjetosActive = ['proj_registro', 'proj_hora', 'proj_escala', 'ferias_solic_proj'].includes(telaAtual);
   const isGestaoActive = ['ferias_aprovacao'].includes(telaAtual);
-  const isOperacoesActive = isImplantacaoActive || isProjetosActive || isGestaoActive || telaAtual === 'links_externos' || telaAtual === 'sigtap' || telaAtual === 'plano_acao' || telaAtual === 'plano_acao_detalhes' || telaAtual === 'painel_plano_acao';
+  const isOperacoesActive = isImplantacaoActive || isProjetosActive || isGestaoActive || telaAtual === 'links_externos' || telaAtual === 'sigtap' || telaAtual === 'plano_acao' || telaAtual === 'plano_acao_detalhes' || telaAtual === 'painel_plano_acao' || telaAtual === 'faturamento_lancar' || telaAtual === 'faturamento_consolidado';
 
   const podeAprovarAcesso = ['LÍDER DE PROJETO', 'COORDENADOR DE IMPLANTAÇÃO', 'GERENTE', 'ADMINISTRADOR', 'Líder de Projeto', 'Coordenador de Implantação', 'Gerente', 'Administrador'].some(p => usuario.perfil_acesso?.includes(p) || usuario.funcao?.includes(p));
 
@@ -745,6 +754,7 @@ function Dashboard({ telaInicial = 'home' }) {
                       {podeAcessar('painel_prod_uni') && <div className="dd-link" onClick={() => abrirPainelEspecifico('produtos_detalhado')}><Icon n="box"/> Produtividade Por Unidade</div>}
                       {podeAcessar('painel_metricas') && <div className="dd-link" onClick={() => abrirPainelEspecifico('metricas_implantacao')}><Icon n="target"/> Métricas da Implantação</div>}
                       {podeAcessar('painel_plano_acao') && <div className="dd-link" onClick={() => setTelaAtual('painel_plano_acao')}><Icon n="bar-chart"/> Plano de Ação</div>}
+                      {podeAcessar('painel_faturamento') && <div className="dd-link" onClick={() => setTelaAtual('faturamento_consolidado')}><Icon n="trend"/> Faturamento Consolidado</div>}
                     </div>
                   </div>
                 )}
@@ -779,6 +789,12 @@ function Dashboard({ telaInicial = 'home' }) {
                 {podeAcessar('links_externos') && (
                   <div className="dd-parent">
                     <div className="dd-link" onClick={() => setTelaAtual('links_externos')}><span><Icon n="link"/> Links Externos</span></div>
+                  </div>
+                )}
+
+                {podeAcessar('faturamento_lancar') && (
+                  <div className="dd-parent">
+                    <div className="dd-link" onClick={() => setTelaAtual('faturamento_lancar')}><span><Icon n="upload"/> Lançar Faturamento</span></div>
                   </div>
                 )}
 
@@ -904,6 +920,18 @@ function Dashboard({ telaInicial = 'home' }) {
         )}
         {telaAtual === 'sigtap' && permissoesCarregadas && !podeAcessar('sigtap') && (
           <div style={formContainerStyle}><div className="form-card" style={{ textAlign: 'center', color: '#777' }}>Seu perfil não tem acesso à Consulta SIGTAP. Solicite a liberação em Perfil de Acesso.</div></div>
+        )}
+
+        {telaAtual === 'faturamento_lancar' && podeAcessar('faturamento_lancar') && (
+          <div style={formContainerStyle} className="sg-container">
+            <FaturamentoLancamento aoVoltar={voltar} podeNovo={podeAcao('faturamento_lancar', 'pode_novo')} podeEditar={podeAcao('faturamento_lancar', 'pode_editar')}
+              aoAbrirPainel={podeAcessar('painel_faturamento') ? () => setTelaAtual('faturamento_consolidado') : null} />
+          </div>
+        )}
+        {telaAtual === 'faturamento_consolidado' && podeAcessar('painel_faturamento') && (
+          <div style={formContainerStyle} className="sg-container">
+            <FaturamentoConsolidado aoVoltar={voltar} aoAbrirLancamento={podeAcessar('faturamento_lancar') ? () => setTelaAtual('faturamento_lancar') : null} />
+          </div>
         )}
 
         {telaAtual === 'relatorios' && temAcessoMenuRelatorios() && <div style={formContainerStyle}><Relatorios key={relatorioInicial} inicial={relatorioInicial} aoVoltar={voltar} /></div>}

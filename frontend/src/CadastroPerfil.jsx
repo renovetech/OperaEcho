@@ -35,6 +35,8 @@ function CadastroPerfil({ aoVoltar }) {
     { key: 'plano_acao', label: 'Plano de Ação', categoria: 'Operacional', temNovo: true, temEditar: true },
     { key: 'links_externos', label: 'Links Externos', categoria: 'Operacional', temNovo: true, temEditar: true },
     { key: 'sigtap', label: 'Consulta SIGTAP', categoria: 'Operacional', temNovo: false, temEditar: false },
+    { key: 'faturamento_lancar', label: 'Lançar Faturamento', categoria: 'Operacional', temNovo: true, temEditar: true },
+    { key: 'painel_faturamento', label: 'Painel: Faturamento Consolidado', categoria: 'Operacional', temNovo: false, temEditar: false },
 
     // --- GRUPO FÉRIAS ---
     { key: 'ferias_solicitacao', label: 'Solicitação de Férias (Implantação)', categoria: 'Férias', temNovo: true, temEditar: false },

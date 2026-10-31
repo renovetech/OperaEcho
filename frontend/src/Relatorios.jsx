@@ -7,6 +7,7 @@ import { periodoBloqueado } from './periodo';
 import logo from './logo.png';
 import html2canvas from 'html2canvas'; 
 import jsPDF from 'jspdf';
+import { criarRelatorioPDF as criarRelatorioPdfPadrao } from './pdfRelatorio';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -65,90 +66,9 @@ const Relatorios = ({ aoVoltar, inicial }) => {
     const somarProfCapLista = (lista) =>
         (lista || []).reduce((acc, item) => acc + (parseInt(item.profissionais_env, 10) || 0), 0);
 
-    // ===================== MOTOR DE PDF VETORIAL (padrão único) =====================
-    const carregarLogoImg = () => new Promise((ok) => {
-        const im = new Image();
-        im.onload = () => ok(im);
-        im.onerror = () => ok(null);
-        im.src = logo;
-    });
-
-    const criarRelatorioPDF = async (titulo, periodoTxt) => {
-        const doc = new jsPDF('l', 'mm', 'a4');
-        const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight();
-        const M = 12, CW = W - 2 * M;
-        const green = [46, 125, 50], blue = [21, 101, 192], ink = [31, 41, 51], muted = [110, 116, 124], grid = [222, 226, 230];
-        const cursor = { y: M };
-
-        const img = await carregarLogoImg();
-        const logoH = 18, logoW = img ? logoH * ((img.naturalWidth / img.naturalHeight) || 1) : 0;
-        if (img) { try { doc.addImage(img, 'PNG', M, M, logoW, logoH); } catch (e) {} }
-        doc.setFont(undefined, 'bold'); doc.setFontSize(18); doc.setTextColor(...green);
-        doc.text(titulo, W - M, M + 6, { align: 'right' });
-        doc.setFont(undefined, 'normal'); doc.setFontSize(9); doc.setTextColor(...muted);
-        if (periodoTxt) doc.text(periodoTxt, W - M, M + 12, { align: 'right' });
-        doc.text(`Gerado em: ${new Date().toLocaleString('pt-BR')}   ·   Usuário: ${usuarioLogado.nome_completo || usuarioLogado.nome || '-'}`, W - M, M + 17, { align: 'right' });
-        cursor.y = M + logoH + 6;
-        doc.setDrawColor(...green); doc.setLineWidth(0.6); doc.line(M, cursor.y, W - M, cursor.y); doc.setLineWidth(0.2);
-        cursor.y += 7;
-
-        const garantir = (need) => { if (cursor.y + need > H - 12) { doc.addPage(); cursor.y = M; } };
-
-        const bloco = (txt, c = blue) => {
-            garantir(9);
-            doc.setFont(undefined, 'bold'); doc.setFontSize(11); doc.setTextColor(...c);
-            const lines = doc.splitTextToSize(txt, CW);
-            lines.forEach((ln, i) => doc.text(ln, M, cursor.y + i * 5));
-            cursor.y += lines.length * 5 + 1.5; doc.setFont(undefined, 'normal');
-        };
-
-        const tabela = (cols, linhas) => {
-            const headerH = 7.5, lineH = 4, padX = 2;
-            const cabec = () => {
-                doc.setFillColor(241, 243, 245); doc.setDrawColor(...grid); doc.rect(M, cursor.y, CW, headerH, 'FD');
-                doc.setFont(undefined, 'bold'); doc.setFontSize(8); doc.setTextColor(...ink);
-                let x = M;
-                cols.forEach(c => { const cx = c.a === 'c' ? x + c.w / 2 : x + padX; doc.text(c.h, cx, cursor.y + headerH - 2.3, { align: c.a === 'c' ? 'center' : 'left' }); x += c.w; });
-                cursor.y += headerH; doc.setFont(undefined, 'normal');
-            };
-            cabec(); doc.setFontSize(8);
-            linhas.forEach((linha, idx) => {
-                const cellLines = cols.map((c, ci) => { const cell = linha[ci]; const tx = (cell && typeof cell === 'object') ? (cell.t ?? '') : String(cell ?? ''); return doc.splitTextToSize(tx, c.w - padX * 2); });
-                const maxL = Math.max(1, ...cellLines.map(a => a.length));
-                const rowH = maxL * lineH + 2.4;
-                if (cursor.y + rowH > H - 12) { doc.addPage(); cursor.y = M; cabec(); doc.setFontSize(8); }
-                if (idx % 2 === 1) { doc.setFillColor(249, 250, 251); doc.rect(M, cursor.y, CW, rowH, 'F'); }
-                let x = M;
-                cols.forEach((c, ci) => {
-                    const cell = linha[ci]; const o = (cell && typeof cell === 'object') ? cell : { t: String(cell ?? '') };
-                    doc.setTextColor(...(o.color || ink)); doc.setFont(undefined, o.bold ? 'bold' : 'normal');
-                    const cx = c.a === 'c' ? x + c.w / 2 : x + padX;
-                    cellLines[ci].forEach((ln, li) => doc.text(ln, cx, cursor.y + 3.8 + li * lineH, { align: c.a === 'c' ? 'center' : 'left' }));
-                    x += c.w;
-                });
-                doc.setFont(undefined, 'normal'); doc.setDrawColor(...grid); doc.line(M, cursor.y + rowH, M + CW, cursor.y + rowH);
-                cursor.y += rowH;
-            });
-            cursor.y += 6;
-        };
-
-        const texto = (txt, opts = {}) => {
-            garantir(8); doc.setFont(undefined, opts.italic ? 'italic' : 'normal'); doc.setFontSize(opts.size || 8); doc.setTextColor(...(opts.color || muted));
-            const lines = doc.splitTextToSize(txt, CW); lines.forEach((ln, i) => doc.text(ln, M, cursor.y + i * 4)); cursor.y += lines.length * 4 + 2; doc.setFont(undefined, 'normal');
-        };
-
-        const finalizar = (nomeArquivo) => {
-            const total = doc.internal.getNumberOfPages();
-            for (let i = 1; i <= total; i++) {
-                doc.setPage(i); doc.setFont(undefined, 'normal'); doc.setFontSize(8); doc.setTextColor(...muted);
-                doc.text('Opera Echo Management System · ' + titulo, M, H - 6);
-                doc.text(`Página ${i} de ${total}`, W - M, H - 6, { align: 'right' });
-            }
-            doc.save(`${nomeArquivo}.pdf`);
-        };
-
-        return { doc, W, H, M, CW, cursor, colors: { green, blue, ink, muted, grid }, bloco, tabela, texto, garantir, finalizar };
-    };
+    // ===================== MOTOR DE PDF VETORIAL (padrão único: src/pdfRelatorio.js) =====================
+    const criarRelatorioPDF = (titulo, periodoTxt) =>
+        criarRelatorioPdfPadrao(titulo, periodoTxt, usuarioLogado.nome_completo || usuarioLogado.nome);
 
     // ---- Relatório 1: Estatísticas da Implantação ----
     const gerarPdfEstatisticas = async () => {
