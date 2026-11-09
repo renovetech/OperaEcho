@@ -1,0 +1,2312 @@
+{
+  "config: ler": {
+    "status": 200,
+    "corpo": {
+      "ativo": true,
+      "url_api": "https://evolution.exemplo.com",
+      "instancia": "instancia-aberta",
+      "tem_token": true,
+      "fila": {
+        "inicioAquecimento": "2026-09-01",
+        "limiteInicial": 80,
+        "crescimentoSemanal": 30,
+        "limiteMaximo": 1000,
+        "maxPorMinuto": 12,
+        "pausaMinima": 2,
+        "pausaMaxima": 5,
+        "horaInicio": "08:00",
+        "horaFim": "08:00"
+      },
+      "eventos": {
+        "escala_semanal_ativa": true,
+        "escala_semanal_dia": 1,
+        "escala_semanal_hora": "18:00",
+        "escala_semanal_referencia": "ATUAL",
+        "escala_semanal_ultima": "2026-10-12",
+        "escala_alteracao_ativa": true,
+        "escala_alteracao_espera": 15,
+        "ferias_ativa": true,
+        "codigo_senha_ativa": false
+      },
+      "textos": {
+        "ESCALA_SEMANAL": {
+          "personalizado": "Olá {primeiroNome}, sua escala:\n{escala}",
+          "padrao": "Olá, *{primeiroNome}*!\n\nSegue a sua *escala da semana*\n*Módulo:* {modulo}\n*Período:* {periodo}\n\n{escala}\n\nA escala pode sofrer ajustes durante a semana. Se houver mudança, você será avisado por aqui.\n\n_Mensagem automática - Opera Echo._",
+          "variaveis": [
+            "nome",
+            "primeiroNome",
+            "modulo",
+            "periodo",
+            "escala"
+          ]
+        },
+        "ESCALA_ALTERACAO": {
+          "personalizado": "",
+          "padrao": "Olá, *{primeiroNome}*!\n\nA sua *escala foi alterada*. Vale o que está abaixo:\n*Módulo:* {modulo}\n\n{alteracoes}\n\n*Alterado por:* {responsavel}\n\n_Mensagem automática - Opera Echo._",
+          "variaveis": [
+            "nome",
+            "primeiroNome",
+            "modulo",
+            "alteracoes",
+            "responsavel"
+          ]
+        },
+        "FERIAS_APROVADA": {
+          "personalizado": "",
+          "padrao": "Olá, *{primeiroNome}*!\n\nSuas *férias foram aprovadas*\n\n*Início:* {inicio}\n*Retorno previsto:* {retorno}\n*Dias:* {dias}\n*Tipo:* {tipo}\n*Período aquisitivo:* {periodoAquisitivo}\n*Aprovado por:* {responsavel}\n\nBom descanso!\n\n_Mensagem automática - Opera Echo._",
+          "variaveis": [
+            "nome",
+            "primeiroNome",
+            "inicio",
+            "fim",
+            "retorno",
+            "dias",
+            "tipo",
+            "periodoAquisitivo",
+            "responsavel"
+          ]
+        },
+        "FERIAS_RECUSADA": {
+          "personalizado": "",
+          "padrao": "Olá, *{primeiroNome}*.\n\nSua solicitação de *férias não foi aprovada*\n\n*Período solicitado:* {inicio} a {fim}\n*Tipo:* {tipo}\n*Analisado por:* {responsavel}\n\nProcure sua liderança para combinar um novo período.\n\n_Mensagem automática - Opera Echo._",
+          "variaveis": [
+            "nome",
+            "primeiroNome",
+            "inicio",
+            "fim",
+            "dias",
+            "tipo",
+            "periodoAquisitivo",
+            "responsavel"
+          ]
+        },
+        "CODIGO_SENHA": {
+          "personalizado": "",
+          "padrao": "*Opera Echo* - redefinição de senha\n\nSeu código é: *{codigo}*\n\nEle vale por {validade} minutos. Não compartilhe este código com ninguém - a equipe do Opera Echo nunca pede seu código.\nSe você não pediu a redefinição, ignore esta mensagem.",
+          "variaveis": [
+            "primeiroNome",
+            "codigo",
+            "validade"
+          ]
+        }
+      },
+      "data_atualizacao": "2026-10-01T10:00:00",
+      "usuario_alteracao": "Ana Admin"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "config: ler sem registro": {
+    "status": 200,
+    "corpo": {
+      "ativo": false,
+      "url_api": "",
+      "instancia": "",
+      "tem_token": false,
+      "fila": {
+        "inicioAquecimento": null,
+        "limiteInicial": 80,
+        "crescimentoSemanal": 30,
+        "limiteMaximo": 1000,
+        "maxPorMinuto": 12,
+        "pausaMinima": 2,
+        "pausaMaxima": 5,
+        "horaInicio": "08:00",
+        "horaFim": "20:00"
+      },
+      "eventos": {
+        "escala_semanal_ativa": false,
+        "escala_semanal_dia": 0,
+        "escala_semanal_hora": "18:00",
+        "escala_semanal_referencia": "PROXIMA",
+        "escala_semanal_ultima": null,
+        "escala_alteracao_ativa": false,
+        "escala_alteracao_espera": 10,
+        "ferias_ativa": false,
+        "codigo_senha_ativa": true
+      },
+      "textos": {
+        "ESCALA_SEMANAL": {
+          "personalizado": "",
+          "padrao": "Olá, *{primeiroNome}*!\n\nSegue a sua *escala da semana*\n*Módulo:* {modulo}\n*Período:* {periodo}\n\n{escala}\n\nA escala pode sofrer ajustes durante a semana. Se houver mudança, você será avisado por aqui.\n\n_Mensagem automática - Opera Echo._",
+          "variaveis": [
+            "nome",
+            "primeiroNome",
+            "modulo",
+            "periodo",
+            "escala"
+          ]
+        },
+        "ESCALA_ALTERACAO": {
+          "personalizado": "",
+          "padrao": "Olá, *{primeiroNome}*!\n\nA sua *escala foi alterada*. Vale o que está abaixo:\n*Módulo:* {modulo}\n\n{alteracoes}\n\n*Alterado por:* {responsavel}\n\n_Mensagem automática - Opera Echo._",
+          "variaveis": [
+            "nome",
+            "primeiroNome",
+            "modulo",
+            "alteracoes",
+            "responsavel"
+          ]
+        },
+        "FERIAS_APROVADA": {
+          "personalizado": "",
+          "padrao": "Olá, *{primeiroNome}*!\n\nSuas *férias foram aprovadas*\n\n*Início:* {inicio}\n*Retorno previsto:* {retorno}\n*Dias:* {dias}\n*Tipo:* {tipo}\n*Período aquisitivo:* {periodoAquisitivo}\n*Aprovado por:* {responsavel}\n\nBom descanso!\n\n_Mensagem automática - Opera Echo._",
+          "variaveis": [
+            "nome",
+            "primeiroNome",
+            "inicio",
+            "fim",
+            "retorno",
+            "dias",
+            "tipo",
+            "periodoAquisitivo",
+            "responsavel"
+          ]
+        },
+        "FERIAS_RECUSADA": {
+          "personalizado": "",
+          "padrao": "Olá, *{primeiroNome}*.\n\nSua solicitação de *férias não foi aprovada*\n\n*Período solicitado:* {inicio} a {fim}\n*Tipo:* {tipo}\n*Analisado por:* {responsavel}\n\nProcure sua liderança para combinar um novo período.\n\n_Mensagem automática - Opera Echo._",
+          "variaveis": [
+            "nome",
+            "primeiroNome",
+            "inicio",
+            "fim",
+            "dias",
+            "tipo",
+            "periodoAquisitivo",
+            "responsavel"
+          ]
+        },
+        "CODIGO_SENHA": {
+          "personalizado": "",
+          "padrao": "*Opera Echo* - redefinição de senha\n\nSeu código é: *{codigo}*\n\nEle vale por {validade} minutos. Não compartilhe este código com ninguém - a equipe do Opera Echo nunca pede seu código.\nSe você não pediu a redefinição, ignore esta mensagem.",
+          "variaveis": [
+            "primeiroNome",
+            "codigo",
+            "validade"
+          ]
+        }
+      },
+      "data_atualizacao": null,
+      "usuario_alteracao": null
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "config: ler com perfil de leitura": {
+    "status": 200,
+    "corpo": {
+      "ativo": true,
+      "url_api": "https://evolution.exemplo.com",
+      "instancia": "instancia-aberta",
+      "tem_token": true,
+      "fila": {
+        "inicioAquecimento": null,
+        "limiteInicial": 80,
+        "crescimentoSemanal": 30,
+        "limiteMaximo": 1000,
+        "maxPorMinuto": 12,
+        "pausaMinima": 2,
+        "pausaMaxima": 5,
+        "horaInicio": "08:00",
+        "horaFim": "08:00"
+      },
+      "eventos": {
+        "escala_semanal_ativa": true,
+        "escala_semanal_dia": 1,
+        "escala_semanal_hora": "18:00",
+        "escala_semanal_referencia": "ATUAL",
+        "escala_semanal_ultima": null,
+        "escala_alteracao_ativa": true,
+        "escala_alteracao_espera": 15,
+        "ferias_ativa": true,
+        "codigo_senha_ativa": false
+      },
+      "textos": {
+        "ESCALA_SEMANAL": {
+          "personalizado": "Olá {primeiroNome}, sua escala:\n{escala}",
+          "padrao": "Olá, *{primeiroNome}*!\n\nSegue a sua *escala da semana*\n*Módulo:* {modulo}\n*Período:* {periodo}\n\n{escala}\n\nA escala pode sofrer ajustes durante a semana. Se houver mudança, você será avisado por aqui.\n\n_Mensagem automática - Opera Echo._",
+          "variaveis": [
+            "nome",
+            "primeiroNome",
+            "modulo",
+            "periodo",
+            "escala"
+          ]
+        },
+        "ESCALA_ALTERACAO": {
+          "personalizado": "",
+          "padrao": "Olá, *{primeiroNome}*!\n\nA sua *escala foi alterada*. Vale o que está abaixo:\n*Módulo:* {modulo}\n\n{alteracoes}\n\n*Alterado por:* {responsavel}\n\n_Mensagem automática - Opera Echo._",
+          "variaveis": [
+            "nome",
+            "primeiroNome",
+            "modulo",
+            "alteracoes",
+            "responsavel"
+          ]
+        },
+        "FERIAS_APROVADA": {
+          "personalizado": "",
+          "padrao": "Olá, *{primeiroNome}*!\n\nSuas *férias foram aprovadas*\n\n*Início:* {inicio}\n*Retorno previsto:* {retorno}\n*Dias:* {dias}\n*Tipo:* {tipo}\n*Período aquisitivo:* {periodoAquisitivo}\n*Aprovado por:* {responsavel}\n\nBom descanso!\n\n_Mensagem automática - Opera Echo._",
+          "variaveis": [
+            "nome",
+            "primeiroNome",
+            "inicio",
+            "fim",
+            "retorno",
+            "dias",
+            "tipo",
+            "periodoAquisitivo",
+            "responsavel"
+          ]
+        },
+        "FERIAS_RECUSADA": {
+          "personalizado": "",
+          "padrao": "Olá, *{primeiroNome}*.\n\nSua solicitação de *férias não foi aprovada*\n\n*Período solicitado:* {inicio} a {fim}\n*Tipo:* {tipo}\n*Analisado por:* {responsavel}\n\nProcure sua liderança para combinar um novo período.\n\n_Mensagem automática - Opera Echo._",
+          "variaveis": [
+            "nome",
+            "primeiroNome",
+            "inicio",
+            "fim",
+            "dias",
+            "tipo",
+            "periodoAquisitivo",
+            "responsavel"
+          ]
+        },
+        "CODIGO_SENHA": {
+          "personalizado": "",
+          "padrao": "*Opera Echo* - redefinição de senha\n\nSeu código é: *{codigo}*\n\nEle vale por {validade} minutos. Não compartilhe este código com ninguém - a equipe do Opera Echo nunca pede seu código.\nSe você não pediu a redefinição, ignore esta mensagem.",
+          "variaveis": [
+            "primeiroNome",
+            "codigo",
+            "validade"
+          ]
+        }
+      },
+      "data_atualizacao": "2026-10-01T10:00:00",
+      "usuario_alteracao": "Ana Admin"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Leitor WhatsApp"
+        }
+      },
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "config: ler sem permissão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Sem acesso WhatsApp"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "config: ler sem login": {
+    "status": 401,
+    "corpo": {
+      "erro": "Não autenticado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: completo": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Configuração do WhatsApp salva."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "IF NOT EXISTS (SELECT 1 FROM tab_whatsapp_config WHERE id = 1) INSERT INTO tab_whatsapp_config (id) VALUES (1); UPDATE tab_whatsapp_config SET ativo = @atv, url_api = @url, instancia = @inst, token_acesso = COALESCE(@tok, token_acesso), inicio_aquecimento = CASE WHEN @atv = 1 AND @ini IS NULL AND inicio_aquecimento IS NULL THEN CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS DATE) ELSE COALESCE(@ini, inicio_aquecimento) END, limite_inicial = @lini, crescimento_semanal = @cre, limite_maximo = @lmax, max_por_minuto = @pmin, pausa_min_seg = @p1, pausa_max_seg = @p2, hora_envio_inicio = CAST(@h1 AS time(0)), hora_envio_fim = CAST(@h2 AS time(0)), escala_semanal_ativa = @esa, escala_semanal_dia = @esd, escala_semanal_hora = CAST(@esh AS time(0)), escala_semanal_referencia = @esr, escala_alteracao_ativa = @eaa, escala_alteracao_espera = @eae, ferias_ativa = @fa, codigo_senha_ativa = @csa, msg_escala_semanal = @t0, msg_escala_alteracao = @t1, msg_ferias_aprovada = @t2, msg_ferias_recusada = @t3, msg_codigo_senha = @t4, data_atualizacao = GETDATE(), usuario_alteracao = @usr WHERE id = 1;",
+        "entradas": {
+          "atv": 1,
+          "url": "https://evolution.exemplo.com",
+          "inst": "minha-instancia",
+          "tok": "cifrado(segredo-novo)",
+          "ini": "2026-09-01",
+          "lini": 80,
+          "cre": 30,
+          "lmax": 1000,
+          "pmin": 12,
+          "p1": 2,
+          "p2": 5,
+          "h1": "08:00",
+          "h2": "20:00",
+          "esa": 1,
+          "esd": 1,
+          "esh": "18:00",
+          "esr": "ATUAL",
+          "eaa": 1,
+          "eae": 15,
+          "fa": 1,
+          "csa": 0,
+          "usr": "Ana Admin",
+          "t0": "Olá {primeiroNome}, sua escala:\n{escala}",
+          "t1": null,
+          "t2": null,
+          "t3": null,
+          "t4": "Código {codigo}"
+        }
+      },
+      {
+        "texto": "UPDATE tab_whatsapp_envios SET status = 'CANCELADO', motivo = 'EXPIRADO', data_envio = GETDATE() WHERE status IN ('PENDENTE', 'AGUARDANDO') AND expira_em < GETDATE(); UPDATE tab_whatsapp_envios SET status = 'FALHA', erro = 'Envio interrompido (servidor reiniciado durante o envio).', data_envio = GETDATE() WHERE status = 'ENVIANDO' AND data_envio < DATEADD(MINUTE, -10, GETDATE());",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT id_envio, id_usuario, modulo, referencia, usuario_origem FROM tab_whatsapp_envios WHERE status = 'AGUARDANDO' AND liberar_em <= GETDATE()",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= CONVERT(datetime, (CAST(CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS date) AS datetime) AT TIME ZONE 'E. South America Standard Time') AT TIME ZONE 'UTC') AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= DATEADD(SECOND, -60, GETDATE()) AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH prox AS ( SELECT TOP (1) * FROM tab_whatsapp_envios WITH (UPDLOCK, READPAST, ROWLOCK) WHERE status = 'PENDENTE' AND (@urg = 0 OR prioridade = 1) ORDER BY prioridade, id_envio) UPDATE prox SET status = 'ENVIANDO', data_envio = GETDATE() OUTPUT inserted.id_envio, inserted.numero, inserted.mensagem, inserted.expira_em;",
+        "entradas": {
+          "urg": 0
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.estado",
+        "argumentos": [
+          {
+            "base": "https://evolution.exemplo.com",
+            "inst": "instancia-aberta",
+            "apikey": "chave"
+          }
+        ]
+      }
+    ]
+  },
+  "salvar: ativando com apikey já gravada": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Configuração do WhatsApp salva."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "IF NOT EXISTS (SELECT 1 FROM tab_whatsapp_config WHERE id = 1) INSERT INTO tab_whatsapp_config (id) VALUES (1); UPDATE tab_whatsapp_config SET ativo = @atv, url_api = @url, instancia = @inst, token_acesso = COALESCE(@tok, token_acesso), inicio_aquecimento = CASE WHEN @atv = 1 AND @ini IS NULL AND inicio_aquecimento IS NULL THEN CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS DATE) ELSE COALESCE(@ini, inicio_aquecimento) END, limite_inicial = @lini, crescimento_semanal = @cre, limite_maximo = @lmax, max_por_minuto = @pmin, pausa_min_seg = @p1, pausa_max_seg = @p2, hora_envio_inicio = CAST(@h1 AS time(0)), hora_envio_fim = CAST(@h2 AS time(0)), escala_semanal_ativa = @esa, escala_semanal_dia = @esd, escala_semanal_hora = CAST(@esh AS time(0)), escala_semanal_referencia = @esr, escala_alteracao_ativa = @eaa, escala_alteracao_espera = @eae, ferias_ativa = @fa, codigo_senha_ativa = @csa, msg_escala_semanal = @t0, msg_escala_alteracao = @t1, msg_ferias_aprovada = @t2, msg_ferias_recusada = @t3, msg_codigo_senha = @t4, data_atualizacao = GETDATE(), usuario_alteracao = @usr WHERE id = 1;",
+        "entradas": {
+          "atv": 1,
+          "url": "https://evolution.exemplo.com",
+          "inst": "minha-instancia",
+          "tok": null,
+          "ini": "2026-09-01",
+          "lini": 80,
+          "cre": 30,
+          "lmax": 1000,
+          "pmin": 12,
+          "p1": 2,
+          "p2": 5,
+          "h1": "08:00",
+          "h2": "20:00",
+          "esa": 1,
+          "esd": 1,
+          "esh": "18:00",
+          "esr": "ATUAL",
+          "eaa": 1,
+          "eae": 15,
+          "fa": 1,
+          "csa": 0,
+          "usr": "Ana Admin",
+          "t0": "Olá {primeiroNome}, sua escala:\n{escala}",
+          "t1": null,
+          "t2": null,
+          "t3": null,
+          "t4": "Código {codigo}"
+        }
+      },
+      {
+        "texto": "UPDATE tab_whatsapp_envios SET status = 'CANCELADO', motivo = 'EXPIRADO', data_envio = GETDATE() WHERE status IN ('PENDENTE', 'AGUARDANDO') AND expira_em < GETDATE(); UPDATE tab_whatsapp_envios SET status = 'FALHA', erro = 'Envio interrompido (servidor reiniciado durante o envio).', data_envio = GETDATE() WHERE status = 'ENVIANDO' AND data_envio < DATEADD(MINUTE, -10, GETDATE());",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT id_envio, id_usuario, modulo, referencia, usuario_origem FROM tab_whatsapp_envios WHERE status = 'AGUARDANDO' AND liberar_em <= GETDATE()",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= CONVERT(datetime, (CAST(CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS date) AS datetime) AT TIME ZONE 'E. South America Standard Time') AT TIME ZONE 'UTC') AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= DATEADD(SECOND, -60, GETDATE()) AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH prox AS ( SELECT TOP (1) * FROM tab_whatsapp_envios WITH (UPDLOCK, READPAST, ROWLOCK) WHERE status = 'PENDENTE' AND (@urg = 0 OR prioridade = 1) ORDER BY prioridade, id_envio) UPDATE prox SET status = 'ENVIANDO', data_envio = GETDATE() OUTPUT inserted.id_envio, inserted.numero, inserted.mensagem, inserted.expira_em;",
+        "entradas": {
+          "urg": 0
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.estado",
+        "argumentos": [
+          {
+            "base": "https://evolution.exemplo.com",
+            "inst": "instancia-aberta",
+            "apikey": "chave"
+          }
+        ]
+      }
+    ]
+  },
+  "salvar: desativando e sem blocos opcionais": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Configuração do WhatsApp salva."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "IF NOT EXISTS (SELECT 1 FROM tab_whatsapp_config WHERE id = 1) INSERT INTO tab_whatsapp_config (id) VALUES (1); UPDATE tab_whatsapp_config SET ativo = @atv, url_api = @url, instancia = @inst, token_acesso = COALESCE(@tok, token_acesso), inicio_aquecimento = CASE WHEN @atv = 1 AND @ini IS NULL AND inicio_aquecimento IS NULL THEN CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS DATE) ELSE COALESCE(@ini, inicio_aquecimento) END, limite_inicial = @lini, crescimento_semanal = @cre, limite_maximo = @lmax, max_por_minuto = @pmin, pausa_min_seg = @p1, pausa_max_seg = @p2, hora_envio_inicio = CAST(@h1 AS time(0)), hora_envio_fim = CAST(@h2 AS time(0)), escala_semanal_ativa = @esa, escala_semanal_dia = @esd, escala_semanal_hora = CAST(@esh AS time(0)), escala_semanal_referencia = @esr, escala_alteracao_ativa = @eaa, escala_alteracao_espera = @eae, ferias_ativa = @fa, codigo_senha_ativa = @csa, msg_escala_semanal = @t0, msg_escala_alteracao = @t1, msg_ferias_aprovada = @t2, msg_ferias_recusada = @t3, msg_codigo_senha = @t4, data_atualizacao = GETDATE(), usuario_alteracao = @usr WHERE id = 1;",
+        "entradas": {
+          "atv": 0,
+          "url": null,
+          "inst": null,
+          "tok": null,
+          "ini": null,
+          "lini": null,
+          "cre": null,
+          "lmax": null,
+          "pmin": null,
+          "p1": null,
+          "p2": null,
+          "h1": null,
+          "h2": null,
+          "esa": 0,
+          "esd": 0,
+          "esh": "18:00",
+          "esr": "PROXIMA",
+          "eaa": 0,
+          "eae": 10,
+          "fa": 0,
+          "csa": 1,
+          "usr": "Ana Admin",
+          "t0": null,
+          "t1": null,
+          "t2": null,
+          "t3": null,
+          "t4": null
+        }
+      },
+      {
+        "texto": "UPDATE tab_whatsapp_envios SET status = 'CANCELADO', motivo = 'EXPIRADO', data_envio = GETDATE() WHERE status IN ('PENDENTE', 'AGUARDANDO') AND expira_em < GETDATE(); UPDATE tab_whatsapp_envios SET status = 'FALHA', erro = 'Envio interrompido (servidor reiniciado durante o envio).', data_envio = GETDATE() WHERE status = 'ENVIANDO' AND data_envio < DATEADD(MINUTE, -10, GETDATE());",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT id_envio, id_usuario, modulo, referencia, usuario_origem FROM tab_whatsapp_envios WHERE status = 'AGUARDANDO' AND liberar_em <= GETDATE()",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= CONVERT(datetime, (CAST(CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS date) AS datetime) AT TIME ZONE 'E. South America Standard Time') AT TIME ZONE 'UTC') AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= DATEADD(SECOND, -60, GETDATE()) AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH prox AS ( SELECT TOP (1) * FROM tab_whatsapp_envios WITH (UPDLOCK, READPAST, ROWLOCK) WHERE status = 'PENDENTE' AND (@urg = 0 OR prioridade = 1) ORDER BY prioridade, id_envio) UPDATE prox SET status = 'ENVIANDO', data_envio = GETDATE() OUTPUT inserted.id_envio, inserted.numero, inserted.mensagem, inserted.expira_em;",
+        "entradas": {
+          "urg": 0
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.estado",
+        "argumentos": [
+          {
+            "base": "https://evolution.exemplo.com",
+            "inst": "instancia-aberta",
+            "apikey": "chave"
+          }
+        ]
+      }
+    ]
+  },
+  "salvar: corpo vazio": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Configuração do WhatsApp salva."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "IF NOT EXISTS (SELECT 1 FROM tab_whatsapp_config WHERE id = 1) INSERT INTO tab_whatsapp_config (id) VALUES (1); UPDATE tab_whatsapp_config SET ativo = @atv, url_api = @url, instancia = @inst, token_acesso = COALESCE(@tok, token_acesso), inicio_aquecimento = CASE WHEN @atv = 1 AND @ini IS NULL AND inicio_aquecimento IS NULL THEN CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS DATE) ELSE COALESCE(@ini, inicio_aquecimento) END, limite_inicial = @lini, crescimento_semanal = @cre, limite_maximo = @lmax, max_por_minuto = @pmin, pausa_min_seg = @p1, pausa_max_seg = @p2, hora_envio_inicio = CAST(@h1 AS time(0)), hora_envio_fim = CAST(@h2 AS time(0)), escala_semanal_ativa = @esa, escala_semanal_dia = @esd, escala_semanal_hora = CAST(@esh AS time(0)), escala_semanal_referencia = @esr, escala_alteracao_ativa = @eaa, escala_alteracao_espera = @eae, ferias_ativa = @fa, codigo_senha_ativa = @csa, msg_escala_semanal = @t0, msg_escala_alteracao = @t1, msg_ferias_aprovada = @t2, msg_ferias_recusada = @t3, msg_codigo_senha = @t4, data_atualizacao = GETDATE(), usuario_alteracao = @usr WHERE id = 1;",
+        "entradas": {
+          "atv": 0,
+          "url": null,
+          "inst": null,
+          "tok": null,
+          "ini": null,
+          "lini": null,
+          "cre": null,
+          "lmax": null,
+          "pmin": null,
+          "p1": null,
+          "p2": null,
+          "h1": null,
+          "h2": null,
+          "esa": 0,
+          "esd": 0,
+          "esh": "18:00",
+          "esr": "PROXIMA",
+          "eaa": 0,
+          "eae": 10,
+          "fa": 0,
+          "csa": 1,
+          "usr": "Ana Admin",
+          "t0": null,
+          "t1": null,
+          "t2": null,
+          "t3": null,
+          "t4": null
+        }
+      },
+      {
+        "texto": "UPDATE tab_whatsapp_envios SET status = 'CANCELADO', motivo = 'EXPIRADO', data_envio = GETDATE() WHERE status IN ('PENDENTE', 'AGUARDANDO') AND expira_em < GETDATE(); UPDATE tab_whatsapp_envios SET status = 'FALHA', erro = 'Envio interrompido (servidor reiniciado durante o envio).', data_envio = GETDATE() WHERE status = 'ENVIANDO' AND data_envio < DATEADD(MINUTE, -10, GETDATE());",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT id_envio, id_usuario, modulo, referencia, usuario_origem FROM tab_whatsapp_envios WHERE status = 'AGUARDANDO' AND liberar_em <= GETDATE()",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= CONVERT(datetime, (CAST(CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS date) AS datetime) AT TIME ZONE 'E. South America Standard Time') AT TIME ZONE 'UTC') AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= DATEADD(SECOND, -60, GETDATE()) AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH prox AS ( SELECT TOP (1) * FROM tab_whatsapp_envios WITH (UPDLOCK, READPAST, ROWLOCK) WHERE status = 'PENDENTE' AND (@urg = 0 OR prioridade = 1) ORDER BY prioridade, id_envio) UPDATE prox SET status = 'ENVIANDO', data_envio = GETDATE() OUTPUT inserted.id_envio, inserted.numero, inserted.mensagem, inserted.expira_em;",
+        "entradas": {
+          "urg": 0
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.estado",
+        "argumentos": [
+          {
+            "base": "https://evolution.exemplo.com",
+            "inst": "instancia-aberta",
+            "apikey": "chave"
+          }
+        ]
+      }
+    ]
+  },
+  "salvar: referência desconhecida e texto longo": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Configuração do WhatsApp salva."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "IF NOT EXISTS (SELECT 1 FROM tab_whatsapp_config WHERE id = 1) INSERT INTO tab_whatsapp_config (id) VALUES (1); UPDATE tab_whatsapp_config SET ativo = @atv, url_api = @url, instancia = @inst, token_acesso = COALESCE(@tok, token_acesso), inicio_aquecimento = CASE WHEN @atv = 1 AND @ini IS NULL AND inicio_aquecimento IS NULL THEN CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS DATE) ELSE COALESCE(@ini, inicio_aquecimento) END, limite_inicial = @lini, crescimento_semanal = @cre, limite_maximo = @lmax, max_por_minuto = @pmin, pausa_min_seg = @p1, pausa_max_seg = @p2, hora_envio_inicio = CAST(@h1 AS time(0)), hora_envio_fim = CAST(@h2 AS time(0)), escala_semanal_ativa = @esa, escala_semanal_dia = @esd, escala_semanal_hora = CAST(@esh AS time(0)), escala_semanal_referencia = @esr, escala_alteracao_ativa = @eaa, escala_alteracao_espera = @eae, ferias_ativa = @fa, codigo_senha_ativa = @csa, msg_escala_semanal = @t0, msg_escala_alteracao = @t1, msg_ferias_aprovada = @t2, msg_ferias_recusada = @t3, msg_codigo_senha = @t4, data_atualizacao = GETDATE(), usuario_alteracao = @usr WHERE id = 1;",
+        "entradas": {
+          "atv": 1,
+          "url": "https://evolution.exemplo.com",
+          "inst": "minha-instancia",
+          "tok": "cifrado(segredo-novo)",
+          "ini": "2026-09-01",
+          "lini": 80,
+          "cre": 30,
+          "lmax": 1000,
+          "pmin": 12,
+          "p1": 2,
+          "p2": 5,
+          "h1": "08:00",
+          "h2": "20:00",
+          "esa": 0,
+          "esd": 0,
+          "esh": "18:00",
+          "esr": "PROXIMA",
+          "eaa": 0,
+          "eae": 10,
+          "fa": 0,
+          "csa": 1,
+          "usr": "Ana Admin",
+          "t0": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "t1": null,
+          "t2": null,
+          "t3": null,
+          "t4": null
+        }
+      },
+      {
+        "texto": "UPDATE tab_whatsapp_envios SET status = 'CANCELADO', motivo = 'EXPIRADO', data_envio = GETDATE() WHERE status IN ('PENDENTE', 'AGUARDANDO') AND expira_em < GETDATE(); UPDATE tab_whatsapp_envios SET status = 'FALHA', erro = 'Envio interrompido (servidor reiniciado durante o envio).', data_envio = GETDATE() WHERE status = 'ENVIANDO' AND data_envio < DATEADD(MINUTE, -10, GETDATE());",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT id_envio, id_usuario, modulo, referencia, usuario_origem FROM tab_whatsapp_envios WHERE status = 'AGUARDANDO' AND liberar_em <= GETDATE()",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= CONVERT(datetime, (CAST(CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS date) AS datetime) AT TIME ZONE 'E. South America Standard Time') AT TIME ZONE 'UTC') AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= DATEADD(SECOND, -60, GETDATE()) AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH prox AS ( SELECT TOP (1) * FROM tab_whatsapp_envios WITH (UPDLOCK, READPAST, ROWLOCK) WHERE status = 'PENDENTE' AND (@urg = 0 OR prioridade = 1) ORDER BY prioridade, id_envio) UPDATE prox SET status = 'ENVIANDO', data_envio = GETDATE() OUTPUT inserted.id_envio, inserted.numero, inserted.mensagem, inserted.expira_em;",
+        "entradas": {
+          "urg": 0
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.estado",
+        "argumentos": [
+          {
+            "base": "https://evolution.exemplo.com",
+            "inst": "instancia-aberta",
+            "apikey": "chave"
+          }
+        ]
+      }
+    ]
+  },
+  "salvar: perfil de leitura": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: sem login": {
+    "status": 401,
+    "corpo": {
+      "erro": "Não autenticado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: ativar sem apikey": {
+    "status": 400,
+    "corpo": {
+      "erro": "Para ativar, informe URL, instância e apikey da Evolution."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "salvar: ativar sem URL": {
+    "status": 400,
+    "corpo": {
+      "erro": "Para ativar, informe URL, instância e apikey da Evolution."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: URL inválida": {
+    "status": 400,
+    "corpo": {
+      "erro": "URL da Evolution inválida (use http:// ou https://)."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: instância inválida": {
+    "status": 400,
+    "corpo": {
+      "erro": "Nome da instância inválido."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: limite fora da faixa": {
+    "status": 400,
+    "corpo": {
+      "erro": "Limite inicial: valor entre 1 e 5000."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: limite não numérico": {
+    "status": 400,
+    "corpo": {
+      "erro": "Máximo por minuto: valor entre 1 e 60."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: pausa mínima maior que a máxima": {
+    "status": 400,
+    "corpo": {
+      "erro": "A pausa mínima não pode ser maior que a máxima."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: limite inicial acima do teto": {
+    "status": 400,
+    "corpo": {
+      "erro": "O limite inicial não pode passar do teto diário."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: hora de início inválida": {
+    "status": 400,
+    "corpo": {
+      "erro": "Início da janela: use HH:MM."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: hora da escala semanal inválida": {
+    "status": 400,
+    "corpo": {
+      "erro": "Hora da escala semanal: use HH:MM."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: dia da escala fora da faixa": {
+    "status": 400,
+    "corpo": {
+      "erro": "Dia da escala semanal: valor entre 0 e 6."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: aquecimento no futuro": {
+    "status": 400,
+    "corpo": {
+      "erro": "O início do aquecimento não pode ser futuro."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: aquecimento em formato inválido": {
+    "status": 400,
+    "corpo": {
+      "erro": "O início do aquecimento não pode ser futuro."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "status: conectado": {
+    "status": 200,
+    "corpo": {
+      "status": "open"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.estado",
+        "argumentos": [
+          {
+            "base": "https://evolution.exemplo.com",
+            "inst": "instancia-aberta",
+            "apikey": "chave"
+          }
+        ]
+      }
+    ]
+  },
+  "status: sem configuração": {
+    "status": 200,
+    "corpo": {
+      "status": "NAO_CONFIGURADO"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.estado",
+        "argumentos": [
+          null
+        ]
+      }
+    ]
+  },
+  "status: sem permissão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "qrcode: ok": {
+    "status": 200,
+    "corpo": {
+      "base64": "imagem",
+      "code": "codigo",
+      "pairingCode": "ABCD-1234"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.qrcode",
+        "argumentos": [
+          {
+            "base": "https://evolution.exemplo.com",
+            "inst": "instancia-aberta",
+            "apikey": "chave"
+          }
+        ]
+      }
+    ]
+  },
+  "qrcode: sem configuração": {
+    "status": 400,
+    "corpo": {
+      "erro": "Integração WhatsApp não configurada (URL, instância e apikey)."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "qrcode: Evolution fora do ar": {
+    "status": 502,
+    "corpo": {
+      "erro": "A Evolution recusou ou não respondeu: 503 fora do ar"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.qrcode",
+        "argumentos": [
+          {
+            "base": "https://evolution.exemplo.com",
+            "inst": "instancia-falha",
+            "apikey": "chave"
+          }
+        ]
+      }
+    ]
+  },
+  "qrcode: perfil de leitura": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "desconectar: ok": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Número desconectado."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.desconectar",
+        "argumentos": [
+          {
+            "base": "https://evolution.exemplo.com",
+            "inst": "instancia-aberta",
+            "apikey": "chave"
+          }
+        ]
+      }
+    ]
+  },
+  "desconectar: sem configuração": {
+    "status": 400,
+    "corpo": {
+      "erro": "Integração WhatsApp não configurada (URL, instância e apikey)."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "desconectar: Evolution fora do ar": {
+    "status": 502,
+    "corpo": {
+      "erro": "A Evolution recusou ou não respondeu: 503 fora do ar"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.desconectar",
+        "argumentos": [
+          {
+            "base": "https://evolution.exemplo.com",
+            "inst": "instancia-falha",
+            "apikey": "chave"
+          }
+        ]
+      }
+    ]
+  },
+  "desconectar: perfil de leitura": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "fila: situação com integração ativa": {
+    "status": 200,
+    "corpo": {
+      "limiteHoje": 80,
+      "enviadosHoje": 1,
+      "pendentes": 1,
+      "aguardandoAgrupamento": 1,
+      "ultimoMinuto": 1,
+      "semana": 1,
+      "dentroDoHorario": "<relogio>",
+      "conectado": true,
+      "estado": "open",
+      "filaNesteServidor": true,
+      "proximaAcao": "Enviando."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= CONVERT(datetime, (CAST(CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS date) AS datetime) AT TIME ZONE 'E. South America Standard Time') AT TIME ZONE 'UTC') AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE status = 'PENDENTE'",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= DATEADD(SECOND, -60, GETDATE()) AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE status = 'AGUARDANDO'",
+        "entradas": {}
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.estado",
+        "argumentos": [
+          {
+            "base": "https://evolution.exemplo.com",
+            "inst": "instancia-aberta",
+            "apikey": "chave"
+          }
+        ]
+      }
+    ]
+  },
+  "fila: integração inativa": {
+    "status": 200,
+    "corpo": {
+      "limiteHoje": 80,
+      "enviadosHoje": 1,
+      "pendentes": 1,
+      "aguardandoAgrupamento": 1,
+      "ultimoMinuto": 1,
+      "semana": 1,
+      "dentroDoHorario": "<relogio>",
+      "conectado": false,
+      "estado": "INATIVO",
+      "filaNesteServidor": true,
+      "proximaAcao": "Integração inativa: nada é enviado."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= CONVERT(datetime, (CAST(CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS date) AS datetime) AT TIME ZONE 'E. South America Standard Time') AT TIME ZONE 'UTC') AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE status = 'PENDENTE'",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= DATEADD(SECOND, -60, GETDATE()) AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE status = 'AGUARDANDO'",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "fila: sem permissão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "envios: listar": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_envio": 9,
+        "id_usuario": 1,
+        "nome_completo": "Ana Admin",
+        "numero": "(21) *****-4321",
+        "tipo_evento": "ESCALA_SEMANAL",
+        "modulo": "IMPLANTACAO",
+        "status": "FALHA",
+        "motivo": null,
+        "erro": "timeout",
+        "prioridade": 5,
+        "usuario_origem": "Ana",
+        "mensagem": "Olá",
+        "data_criacao": "01/10/2026 10:00",
+        "data_envio": null,
+        "liberar_em": null
+      },
+      {
+        "id_envio": 8,
+        "id_usuario": 2,
+        "nome_completo": "Bia",
+        "numero": null,
+        "tipo_evento": "CODIGO_SENHA",
+        "modulo": null,
+        "status": "NAO_ENVIADO",
+        "motivo": "CELULAR_INVALIDO",
+        "erro": null,
+        "prioridade": 1,
+        "usuario_origem": null,
+        "mensagem": "(código de senha oculto)",
+        "data_criacao": "01/10/2026 09:00",
+        "data_envio": "01/10/2026 09:01",
+        "liberar_em": null
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT TOP (100) e.id_envio, e.id_usuario, u.nome_completo, e.numero, e.tipo_evento, e.modulo, e.status, e.motivo, e.erro, e.prioridade, e.usuario_origem, CASE WHEN e.tipo_evento = 'CODIGO_SENHA' THEN N'(código de senha oculto)' ELSE e.mensagem END AS mensagem, -- gravadas com GETDATE() (UTC): exibidas em Brasília FORMAT(e.data_criacao AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time', 'dd/MM/yyyy HH:mm') AS data_criacao, FORMAT(e.data_envio AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time', 'dd/MM/yyyy HH:mm') AS data_envio, FORMAT(e.liberar_em AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time', 'dd/MM/yyyy HH:mm') AS liberar_em FROM tab_whatsapp_envios e LEFT JOIN tab_usuarios u ON u.id_usuario = e.id_usuario WHERE 1=1 ORDER BY e.id_envio DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "envios: filtros": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_envio": 9,
+        "id_usuario": 1,
+        "nome_completo": "Ana Admin",
+        "numero": "(21) *****-4321",
+        "tipo_evento": "ESCALA_SEMANAL",
+        "modulo": "IMPLANTACAO",
+        "status": "FALHA",
+        "motivo": null,
+        "erro": "timeout",
+        "prioridade": 5,
+        "usuario_origem": "Ana",
+        "mensagem": "Olá",
+        "data_criacao": "01/10/2026 10:00",
+        "data_envio": null,
+        "liberar_em": null
+      },
+      {
+        "id_envio": 8,
+        "id_usuario": 2,
+        "nome_completo": "Bia",
+        "numero": null,
+        "tipo_evento": "CODIGO_SENHA",
+        "modulo": null,
+        "status": "NAO_ENVIADO",
+        "motivo": "CELULAR_INVALIDO",
+        "erro": null,
+        "prioridade": 1,
+        "usuario_origem": null,
+        "mensagem": "(código de senha oculto)",
+        "data_criacao": "01/10/2026 09:00",
+        "data_envio": "01/10/2026 09:01",
+        "liberar_em": null
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT TOP (5) e.id_envio, e.id_usuario, u.nome_completo, e.numero, e.tipo_evento, e.modulo, e.status, e.motivo, e.erro, e.prioridade, e.usuario_origem, CASE WHEN e.tipo_evento = 'CODIGO_SENHA' THEN N'(código de senha oculto)' ELSE e.mensagem END AS mensagem, -- gravadas com GETDATE() (UTC): exibidas em Brasília FORMAT(e.data_criacao AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time', 'dd/MM/yyyy HH:mm') AS data_criacao, FORMAT(e.data_envio AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time', 'dd/MM/yyyy HH:mm') AS data_envio, FORMAT(e.liberar_em AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time', 'dd/MM/yyyy HH:mm') AS liberar_em FROM tab_whatsapp_envios e LEFT JOIN tab_usuarios u ON u.id_usuario = e.id_usuario WHERE 1=1 AND e.status = @st AND e.tipo_evento = @tp AND u.nome_completo LIKE @t ORDER BY e.id_envio DESC",
+        "entradas": {
+          "st": "FALHA",
+          "tp": "ESCALA_SEMANAL",
+          "t": "%ana%"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "envios: limite fora da faixa": {
+    "status": 200,
+    "corpo": [],
+    "consultas": [
+      {
+        "texto": "SELECT TOP (500) e.id_envio, e.id_usuario, u.nome_completo, e.numero, e.tipo_evento, e.modulo, e.status, e.motivo, e.erro, e.prioridade, e.usuario_origem, CASE WHEN e.tipo_evento = 'CODIGO_SENHA' THEN N'(código de senha oculto)' ELSE e.mensagem END AS mensagem, -- gravadas com GETDATE() (UTC): exibidas em Brasília FORMAT(e.data_criacao AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time', 'dd/MM/yyyy HH:mm') AS data_criacao, FORMAT(e.data_envio AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time', 'dd/MM/yyyy HH:mm') AS data_envio, FORMAT(e.liberar_em AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time', 'dd/MM/yyyy HH:mm') AS liberar_em FROM tab_whatsapp_envios e LEFT JOIN tab_usuarios u ON u.id_usuario = e.id_usuario WHERE 1=1 ORDER BY e.id_envio DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "envios: sem permissão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "reenviar: ok": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Mensagem voltou para a fila."
+    },
+    "consultas": [
+      {
+        "texto": "UPDATE tab_whatsapp_envios SET status = 'PENDENTE', erro = NULL, motivo = NULL, data_envio = NULL, expira_em = CASE WHEN expira_em < GETDATE() THEN DATEADD(DAY, 1, GETDATE()) ELSE expira_em END WHERE id_envio = @id AND status IN ('FALHA', 'CANCELADO') AND tipo_evento <> 'CODIGO_SENHA' AND numero IS NOT NULL AND mensagem IS NOT NULL",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "UPDATE tab_whatsapp_envios SET status = 'CANCELADO', motivo = 'EXPIRADO', data_envio = GETDATE() WHERE status IN ('PENDENTE', 'AGUARDANDO') AND expira_em < GETDATE(); UPDATE tab_whatsapp_envios SET status = 'FALHA', erro = 'Envio interrompido (servidor reiniciado durante o envio).', data_envio = GETDATE() WHERE status = 'ENVIANDO' AND data_envio < DATEADD(MINUTE, -10, GETDATE());",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT id_envio, id_usuario, modulo, referencia, usuario_origem FROM tab_whatsapp_envios WHERE status = 'AGUARDANDO' AND liberar_em <= GETDATE()",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= CONVERT(datetime, (CAST(CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS date) AS datetime) AT TIME ZONE 'E. South America Standard Time') AT TIME ZONE 'UTC') AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= DATEADD(SECOND, -60, GETDATE()) AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH prox AS ( SELECT TOP (1) * FROM tab_whatsapp_envios WITH (UPDLOCK, READPAST, ROWLOCK) WHERE status = 'PENDENTE' AND (@urg = 0 OR prioridade = 1) ORDER BY prioridade, id_envio) UPDATE prox SET status = 'ENVIANDO', data_envio = GETDATE() OUTPUT inserted.id_envio, inserted.numero, inserted.mensagem, inserted.expira_em;",
+        "entradas": {
+          "urg": 0
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.estado",
+        "argumentos": [
+          {
+            "base": "https://evolution.exemplo.com",
+            "inst": "instancia-aberta",
+            "apikey": "chave"
+          }
+        ]
+      }
+    ]
+  },
+  "reenviar: nada a reenviar": {
+    "status": 400,
+    "corpo": {
+      "erro": "Só é possível reenviar mensagens com falha ou canceladas (exceto códigos de senha)."
+    },
+    "consultas": [
+      {
+        "texto": "UPDATE tab_whatsapp_envios SET status = 'PENDENTE', erro = NULL, motivo = NULL, data_envio = NULL, expira_em = CASE WHEN expira_em < GETDATE() THEN DATEADD(DAY, 1, GETDATE()) ELSE expira_em END WHERE id_envio = @id AND status IN ('FALHA', 'CANCELADO') AND tipo_evento <> 'CODIGO_SENHA' AND numero IS NOT NULL AND mensagem IS NOT NULL",
+        "entradas": {
+          "id": 9
+        }
+      }
+    ],
+    "externos": []
+  },
+  "reenviar: perfil de leitura": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "teste: enfileirado": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Teste na fila para (21) *****-4321. Chega em instantes se o número estiver conectado."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "SELECT id_usuario, nome_completo, celular, celular_whatsapp, ativo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_whatsapp_envios (id_usuario, numero, tipo_evento, modulo, referencia, mensagem, status, prioridade, expira_em, motivo, usuario_origem, data_envio) VALUES (@u, @n, @t, @m, @ref, @msg, @st, @p, @exp, @mot, @org, CASE WHEN @st = 'NAO_ENVIADO' THEN GETDATE() ELSE NULL END)",
+        "entradas": {
+          "u": 1,
+          "n": "<carimbo>",
+          "t": "TESTE",
+          "m": null,
+          "ref": null,
+          "msg": "*Opera Echo* - teste de integração\n\nSe você recebeu esta mensagem, o WhatsApp do sistema está funcionando.\n*Disparado por:* Ana Admin",
+          "st": "PENDENTE",
+          "p": 1,
+          "exp": "<data>",
+          "mot": null,
+          "org": "Ana Admin"
+        }
+      },
+      {
+        "texto": "UPDATE tab_whatsapp_envios SET status = 'CANCELADO', motivo = 'EXPIRADO', data_envio = GETDATE() WHERE status IN ('PENDENTE', 'AGUARDANDO') AND expira_em < GETDATE(); UPDATE tab_whatsapp_envios SET status = 'FALHA', erro = 'Envio interrompido (servidor reiniciado durante o envio).', data_envio = GETDATE() WHERE status = 'ENVIANDO' AND data_envio < DATEADD(MINUTE, -10, GETDATE());",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT id_envio, id_usuario, modulo, referencia, usuario_origem FROM tab_whatsapp_envios WHERE status = 'AGUARDANDO' AND liberar_em <= GETDATE()",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= CONVERT(datetime, (CAST(CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS date) AS datetime) AT TIME ZONE 'E. South America Standard Time') AT TIME ZONE 'UTC') AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= DATEADD(SECOND, -60, GETDATE()) AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH prox AS ( SELECT TOP (1) * FROM tab_whatsapp_envios WITH (UPDLOCK, READPAST, ROWLOCK) WHERE status = 'PENDENTE' AND (@urg = 0 OR prioridade = 1) ORDER BY prioridade, id_envio) UPDATE prox SET status = 'ENVIANDO', data_envio = GETDATE() OUTPUT inserted.id_envio, inserted.numero, inserted.mensagem, inserted.expira_em;",
+        "entradas": {
+          "urg": 0
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.estado",
+        "argumentos": [
+          {
+            "base": "https://evolution.exemplo.com",
+            "inst": "instancia-aberta",
+            "apikey": "chave"
+          }
+        ]
+      }
+    ]
+  },
+  "teste: usuário inexistente": {
+    "status": 400,
+    "corpo": {
+      "erro": "Não foi possível enfileirar o teste (USUARIO_INEXISTENTE)."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "SELECT id_usuario, nome_completo, celular, celular_whatsapp, ativo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_whatsapp_envios (id_usuario, numero, tipo_evento, modulo, referencia, mensagem, status, prioridade, expira_em, motivo, usuario_origem, data_envio) VALUES (@u, @n, @t, @m, @ref, @msg, @st, @p, @exp, @mot, @org, CASE WHEN @st = 'NAO_ENVIADO' THEN GETDATE() ELSE NULL END)",
+        "entradas": {
+          "u": 1,
+          "n": null,
+          "t": "TESTE",
+          "m": null,
+          "ref": null,
+          "msg": "*Opera Echo* - teste de integração\n\nSe você recebeu esta mensagem, o WhatsApp do sistema está funcionando.\n*Disparado por:* Ana Admin",
+          "st": "NAO_ENVIADO",
+          "p": 1,
+          "exp": "<data>",
+          "mot": "USUARIO_INEXISTENTE",
+          "org": "Ana Admin"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "teste: usuário inativo": {
+    "status": 400,
+    "corpo": {
+      "erro": "Não foi possível enfileirar o teste (USUARIO_INATIVO)."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "SELECT id_usuario, nome_completo, celular, celular_whatsapp, ativo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_whatsapp_envios (id_usuario, numero, tipo_evento, modulo, referencia, mensagem, status, prioridade, expira_em, motivo, usuario_origem, data_envio) VALUES (@u, @n, @t, @m, @ref, @msg, @st, @p, @exp, @mot, @org, CASE WHEN @st = 'NAO_ENVIADO' THEN GETDATE() ELSE NULL END)",
+        "entradas": {
+          "u": 1,
+          "n": null,
+          "t": "TESTE",
+          "m": null,
+          "ref": null,
+          "msg": "*Opera Echo* - teste de integração\n\nSe você recebeu esta mensagem, o WhatsApp do sistema está funcionando.\n*Disparado por:* Ana Admin",
+          "st": "NAO_ENVIADO",
+          "p": 1,
+          "exp": "<data>",
+          "mot": "USUARIO_INATIVO",
+          "org": "Ana Admin"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "teste: celular inválido": {
+    "status": 400,
+    "corpo": {
+      "erro": "Seu cadastro não tem celular com WhatsApp confirmado. Atualize seu contato e tente de novo."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "SELECT id_usuario, nome_completo, celular, celular_whatsapp, ativo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_whatsapp_envios (id_usuario, numero, tipo_evento, modulo, referencia, mensagem, status, prioridade, expira_em, motivo, usuario_origem, data_envio) VALUES (@u, @n, @t, @m, @ref, @msg, @st, @p, @exp, @mot, @org, CASE WHEN @st = 'NAO_ENVIADO' THEN GETDATE() ELSE NULL END)",
+        "entradas": {
+          "u": 1,
+          "n": null,
+          "t": "TESTE",
+          "m": null,
+          "ref": null,
+          "msg": "*Opera Echo* - teste de integração\n\nSe você recebeu esta mensagem, o WhatsApp do sistema está funcionando.\n*Disparado por:* Ana Admin",
+          "st": "NAO_ENVIADO",
+          "p": 1,
+          "exp": "<data>",
+          "mot": "CELULAR_INVALIDO",
+          "org": "Ana Admin"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "teste: perfil de leitura": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "escala semanal: enfileirada": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Semana de 26/10/2026: 2 mensagem(ns) na fila, 0 sem WhatsApp, 0 já enviada(s).",
+      "enfileiradas": 2,
+      "naoEnviadas": 0,
+      "ignoradas": 0
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT e.id_usuario FROM tab_escalas e JOIN tab_usuarios u ON u.id_usuario = e.id_usuario AND u.ativo = 1 WHERE e.data_escala BETWEEN @i AND @f",
+        "entradas": {
+          "i": "2026-10-26",
+          "f": "2026-11-01"
+        }
+      },
+      {
+        "texto": "SELECT 1 AS x FROM tab_whatsapp_envios WHERE id_usuario = @u AND tipo_evento = 'ESCALA_SEMANAL' AND modulo = @m AND referencia = @r AND status IN ('PENDENTE','ENVIANDO','ENVIADO')",
+        "entradas": {
+          "u": 7,
+          "m": "IMPLANTACAO",
+          "r": "2026-10-26"
+        }
+      },
+      {
+        "texto": "SELECT e.data_escala, e.tipo, e.turno, e.redmine, p.nome_projeto, un.nome_unidade, (SELECT STRING_AGG(tp.nome_produto, ', ') FROM tab_escala_produtos ep JOIN tab_produtos tp ON tp.id_produto = ep.id_produto WHERE ep.id_escala = e.id_escala) AS produtos FROM tab_escalas e LEFT JOIN tab_projetos p ON p.id_projeto = e.id_projeto LEFT JOIN tab_unidades un ON un.id_unidade = e.id_unidade WHERE e.id_usuario = @u AND e.data_escala BETWEEN @i AND @f ORDER BY e.data_escala",
+        "entradas": {
+          "u": 7,
+          "i": "2026-10-26",
+          "f": "2026-11-01"
+        }
+      },
+      {
+        "texto": "SELECT id_usuario, nome_completo, celular, celular_whatsapp, ativo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 7
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_whatsapp_envios (id_usuario, numero, tipo_evento, modulo, referencia, mensagem, status, prioridade, expira_em, motivo, usuario_origem, data_envio) VALUES (@u, @n, @t, @m, @ref, @msg, @st, @p, @exp, @mot, @org, CASE WHEN @st = 'NAO_ENVIADO' THEN GETDATE() ELSE NULL END)",
+        "entradas": {
+          "u": 7,
+          "n": "<carimbo>",
+          "t": "ESCALA_SEMANAL",
+          "m": "IMPLANTACAO",
+          "ref": "2026-10-26",
+          "msg": "Olá Maria, sua escala:\n• *Seg 26/10* - Trabalho (Diurno)\n   UPA Centro · Projeto X\n   A, B\n   Redmine: 1234\n• *Ter 27/10* - _a definir_\n• *Qua 28/10* - _a definir_\n• *Qui 29/10* - _a definir_\n• *Sex 30/10* - _a definir_\n• *Sáb 31/10* - _a definir_\n• *Dom 01/11* - _a definir_",
+          "st": "PENDENTE",
+          "p": 5,
+          "exp": "<data>",
+          "mot": null,
+          "org": "Ana Admin"
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT e.id_usuario FROM tab_proj_escalas e JOIN tab_usuarios u ON u.id_usuario = e.id_usuario AND u.ativo = 1 WHERE e.data_escala BETWEEN @i AND @f",
+        "entradas": {
+          "i": "2026-10-26",
+          "f": "2026-11-01"
+        }
+      },
+      {
+        "texto": "SELECT 1 AS x FROM tab_whatsapp_envios WHERE id_usuario = @u AND tipo_evento = 'ESCALA_SEMANAL' AND modulo = @m AND referencia = @r AND status IN ('PENDENTE','ENVIANDO','ENVIADO')",
+        "entradas": {
+          "u": 7,
+          "m": "PROJETOS",
+          "r": "2026-10-26"
+        }
+      },
+      {
+        "texto": "SELECT e.data_escala, e.tipo, e.turno, e.redmine, p.nome_projeto, un.nome_unidade, (SELECT STRING_AGG(tp.nome_produto, ', ') FROM tab_proj_escala_produtos ep JOIN tab_produtos tp ON tp.id_produto = ep.id_produto WHERE ep.id_escala = e.id_escala) AS produtos FROM tab_proj_escalas e LEFT JOIN tab_projetos p ON p.id_projeto = e.id_projeto LEFT JOIN tab_unidades un ON un.id_unidade = e.id_unidade WHERE e.id_usuario = @u AND e.data_escala BETWEEN @i AND @f ORDER BY e.data_escala",
+        "entradas": {
+          "u": 7,
+          "i": "2026-10-26",
+          "f": "2026-11-01"
+        }
+      },
+      {
+        "texto": "SELECT id_usuario, nome_completo, celular, celular_whatsapp, ativo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 7
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_whatsapp_envios (id_usuario, numero, tipo_evento, modulo, referencia, mensagem, status, prioridade, expira_em, motivo, usuario_origem, data_envio) VALUES (@u, @n, @t, @m, @ref, @msg, @st, @p, @exp, @mot, @org, CASE WHEN @st = 'NAO_ENVIADO' THEN GETDATE() ELSE NULL END)",
+        "entradas": {
+          "u": 7,
+          "n": "<carimbo>",
+          "t": "ESCALA_SEMANAL",
+          "m": "PROJETOS",
+          "ref": "2026-10-26",
+          "msg": "Olá Maria, sua escala:\n• *Seg 26/10* - Trabalho (Diurno)\n   UPA Centro · Projeto X\n   A, B\n   Redmine: 1234\n• *Ter 27/10* - _a definir_\n• *Qua 28/10* - _a definir_\n• *Qui 29/10* - _a definir_\n• *Sex 30/10* - _a definir_\n• *Sáb 31/10* - _a definir_\n• *Dom 01/11* - _a definir_",
+          "st": "PENDENTE",
+          "p": 5,
+          "exp": "<data>",
+          "mot": null,
+          "org": "Ana Admin"
+        }
+      },
+      {
+        "texto": "UPDATE tab_whatsapp_envios SET status = 'CANCELADO', motivo = 'EXPIRADO', data_envio = GETDATE() WHERE status IN ('PENDENTE', 'AGUARDANDO') AND expira_em < GETDATE(); UPDATE tab_whatsapp_envios SET status = 'FALHA', erro = 'Envio interrompido (servidor reiniciado durante o envio).', data_envio = GETDATE() WHERE status = 'ENVIANDO' AND data_envio < DATEADD(MINUTE, -10, GETDATE());",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT id_envio, id_usuario, modulo, referencia, usuario_origem FROM tab_whatsapp_envios WHERE status = 'AGUARDANDO' AND liberar_em <= GETDATE()",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= CONVERT(datetime, (CAST(CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS date) AS datetime) AT TIME ZONE 'E. South America Standard Time') AT TIME ZONE 'UTC') AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= DATEADD(SECOND, -60, GETDATE()) AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH prox AS ( SELECT TOP (1) * FROM tab_whatsapp_envios WITH (UPDLOCK, READPAST, ROWLOCK) WHERE status = 'PENDENTE' AND (@urg = 0 OR prioridade = 1) ORDER BY prioridade, id_envio) UPDATE prox SET status = 'ENVIANDO', data_envio = GETDATE() OUTPUT inserted.id_envio, inserted.numero, inserted.mensagem, inserted.expira_em;",
+        "entradas": {
+          "urg": 0
+        }
+      },
+      {
+        "texto": "UPDATE tab_whatsapp_envios SET status = 'CANCELADO', motivo = 'EXPIRADO', data_envio = GETDATE() WHERE status IN ('PENDENTE', 'AGUARDANDO') AND expira_em < GETDATE(); UPDATE tab_whatsapp_envios SET status = 'FALHA', erro = 'Envio interrompido (servidor reiniciado durante o envio).', data_envio = GETDATE() WHERE status = 'ENVIANDO' AND data_envio < DATEADD(MINUTE, -10, GETDATE());",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT id_envio, id_usuario, modulo, referencia, usuario_origem FROM tab_whatsapp_envios WHERE status = 'AGUARDANDO' AND liberar_em <= GETDATE()",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= CONVERT(datetime, (CAST(CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS date) AS datetime) AT TIME ZONE 'E. South America Standard Time') AT TIME ZONE 'UTC') AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= DATEADD(SECOND, -60, GETDATE()) AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH prox AS ( SELECT TOP (1) * FROM tab_whatsapp_envios WITH (UPDLOCK, READPAST, ROWLOCK) WHERE status = 'PENDENTE' AND (@urg = 0 OR prioridade = 1) ORDER BY prioridade, id_envio) UPDATE prox SET status = 'ENVIANDO', data_envio = GETDATE() OUTPUT inserted.id_envio, inserted.numero, inserted.mensagem, inserted.expira_em;",
+        "entradas": {
+          "urg": 0
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.estado",
+        "argumentos": [
+          {
+            "base": "https://evolution.exemplo.com",
+            "inst": "instancia-aberta",
+            "apikey": "chave"
+          }
+        ]
+      },
+      {
+        "nome": "whatsapp.estado",
+        "argumentos": [
+          {
+            "base": "https://evolution.exemplo.com",
+            "inst": "instancia-aberta",
+            "apikey": "chave"
+          }
+        ]
+      }
+    ]
+  },
+  "escala semanal: módulo e forçar": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Semana de 26/10/2026: 1 mensagem(ns) na fila, 0 sem WhatsApp, 0 já enviada(s).",
+      "enfileiradas": 1,
+      "naoEnviadas": 0,
+      "ignoradas": 0
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT e.id_usuario FROM tab_proj_escalas e JOIN tab_usuarios u ON u.id_usuario = e.id_usuario AND u.ativo = 1 WHERE e.data_escala BETWEEN @i AND @f",
+        "entradas": {
+          "i": "2026-10-26",
+          "f": "2026-11-01"
+        }
+      },
+      {
+        "texto": "SELECT e.data_escala, e.tipo, e.turno, e.redmine, p.nome_projeto, un.nome_unidade, (SELECT STRING_AGG(tp.nome_produto, ', ') FROM tab_proj_escala_produtos ep JOIN tab_produtos tp ON tp.id_produto = ep.id_produto WHERE ep.id_escala = e.id_escala) AS produtos FROM tab_proj_escalas e LEFT JOIN tab_projetos p ON p.id_projeto = e.id_projeto LEFT JOIN tab_unidades un ON un.id_unidade = e.id_unidade WHERE e.id_usuario = @u AND e.data_escala BETWEEN @i AND @f ORDER BY e.data_escala",
+        "entradas": {
+          "u": 7,
+          "i": "2026-10-26",
+          "f": "2026-11-01"
+        }
+      },
+      {
+        "texto": "SELECT id_usuario, nome_completo, celular, celular_whatsapp, ativo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 7
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_whatsapp_envios (id_usuario, numero, tipo_evento, modulo, referencia, mensagem, status, prioridade, expira_em, motivo, usuario_origem, data_envio) VALUES (@u, @n, @t, @m, @ref, @msg, @st, @p, @exp, @mot, @org, CASE WHEN @st = 'NAO_ENVIADO' THEN GETDATE() ELSE NULL END)",
+        "entradas": {
+          "u": 7,
+          "n": "<carimbo>",
+          "t": "ESCALA_SEMANAL",
+          "m": "PROJETOS",
+          "ref": "2026-10-26",
+          "msg": "Olá Maria, sua escala:\n• *Seg 26/10* - Trabalho (Diurno)\n   UPA Centro · Projeto X\n   A, B\n   Redmine: 1234\n• *Ter 27/10* - _a definir_\n• *Qua 28/10* - _a definir_\n• *Qui 29/10* - _a definir_\n• *Sex 30/10* - _a definir_\n• *Sáb 31/10* - _a definir_\n• *Dom 01/11* - _a definir_",
+          "st": "PENDENTE",
+          "p": 5,
+          "exp": "<data>",
+          "mot": null,
+          "org": "Ana Admin"
+        }
+      },
+      {
+        "texto": "UPDATE tab_whatsapp_envios SET status = 'CANCELADO', motivo = 'EXPIRADO', data_envio = GETDATE() WHERE status IN ('PENDENTE', 'AGUARDANDO') AND expira_em < GETDATE(); UPDATE tab_whatsapp_envios SET status = 'FALHA', erro = 'Envio interrompido (servidor reiniciado durante o envio).', data_envio = GETDATE() WHERE status = 'ENVIANDO' AND data_envio < DATEADD(MINUTE, -10, GETDATE());",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT id_envio, id_usuario, modulo, referencia, usuario_origem FROM tab_whatsapp_envios WHERE status = 'AGUARDANDO' AND liberar_em <= GETDATE()",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= CONVERT(datetime, (CAST(CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS date) AS datetime) AT TIME ZONE 'E. South America Standard Time') AT TIME ZONE 'UTC') AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= DATEADD(SECOND, -60, GETDATE()) AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH prox AS ( SELECT TOP (1) * FROM tab_whatsapp_envios WITH (UPDLOCK, READPAST, ROWLOCK) WHERE status = 'PENDENTE' AND (@urg = 0 OR prioridade = 1) ORDER BY prioridade, id_envio) UPDATE prox SET status = 'ENVIANDO', data_envio = GETDATE() OUTPUT inserted.id_envio, inserted.numero, inserted.mensagem, inserted.expira_em;",
+        "entradas": {
+          "urg": 0
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.estado",
+        "argumentos": [
+          {
+            "base": "https://evolution.exemplo.com",
+            "inst": "instancia-aberta",
+            "apikey": "chave"
+          }
+        ]
+      }
+    ]
+  },
+  "escala semanal: lista de módulos vazia usa todos": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Semana de 26/10/2026: 2 mensagem(ns) na fila, 0 sem WhatsApp, 0 já enviada(s).",
+      "enfileiradas": 2,
+      "naoEnviadas": 0,
+      "ignoradas": 0
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT e.id_usuario FROM tab_escalas e JOIN tab_usuarios u ON u.id_usuario = e.id_usuario AND u.ativo = 1 WHERE e.data_escala BETWEEN @i AND @f",
+        "entradas": {
+          "i": "2026-10-26",
+          "f": "2026-11-01"
+        }
+      },
+      {
+        "texto": "SELECT 1 AS x FROM tab_whatsapp_envios WHERE id_usuario = @u AND tipo_evento = 'ESCALA_SEMANAL' AND modulo = @m AND referencia = @r AND status IN ('PENDENTE','ENVIANDO','ENVIADO')",
+        "entradas": {
+          "u": 7,
+          "m": "IMPLANTACAO",
+          "r": "2026-10-26"
+        }
+      },
+      {
+        "texto": "SELECT e.data_escala, e.tipo, e.turno, e.redmine, p.nome_projeto, un.nome_unidade, (SELECT STRING_AGG(tp.nome_produto, ', ') FROM tab_escala_produtos ep JOIN tab_produtos tp ON tp.id_produto = ep.id_produto WHERE ep.id_escala = e.id_escala) AS produtos FROM tab_escalas e LEFT JOIN tab_projetos p ON p.id_projeto = e.id_projeto LEFT JOIN tab_unidades un ON un.id_unidade = e.id_unidade WHERE e.id_usuario = @u AND e.data_escala BETWEEN @i AND @f ORDER BY e.data_escala",
+        "entradas": {
+          "u": 7,
+          "i": "2026-10-26",
+          "f": "2026-11-01"
+        }
+      },
+      {
+        "texto": "SELECT id_usuario, nome_completo, celular, celular_whatsapp, ativo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 7
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_whatsapp_envios (id_usuario, numero, tipo_evento, modulo, referencia, mensagem, status, prioridade, expira_em, motivo, usuario_origem, data_envio) VALUES (@u, @n, @t, @m, @ref, @msg, @st, @p, @exp, @mot, @org, CASE WHEN @st = 'NAO_ENVIADO' THEN GETDATE() ELSE NULL END)",
+        "entradas": {
+          "u": 7,
+          "n": "<carimbo>",
+          "t": "ESCALA_SEMANAL",
+          "m": "IMPLANTACAO",
+          "ref": "2026-10-26",
+          "msg": "Olá Maria, sua escala:\n• *Seg 26/10* - Trabalho (Diurno)\n   UPA Centro · Projeto X\n   A, B\n   Redmine: 1234\n• *Ter 27/10* - _a definir_\n• *Qua 28/10* - _a definir_\n• *Qui 29/10* - _a definir_\n• *Sex 30/10* - _a definir_\n• *Sáb 31/10* - _a definir_\n• *Dom 01/11* - _a definir_",
+          "st": "PENDENTE",
+          "p": 5,
+          "exp": "<data>",
+          "mot": null,
+          "org": "Ana Admin"
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT e.id_usuario FROM tab_proj_escalas e JOIN tab_usuarios u ON u.id_usuario = e.id_usuario AND u.ativo = 1 WHERE e.data_escala BETWEEN @i AND @f",
+        "entradas": {
+          "i": "2026-10-26",
+          "f": "2026-11-01"
+        }
+      },
+      {
+        "texto": "SELECT 1 AS x FROM tab_whatsapp_envios WHERE id_usuario = @u AND tipo_evento = 'ESCALA_SEMANAL' AND modulo = @m AND referencia = @r AND status IN ('PENDENTE','ENVIANDO','ENVIADO')",
+        "entradas": {
+          "u": 7,
+          "m": "PROJETOS",
+          "r": "2026-10-26"
+        }
+      },
+      {
+        "texto": "SELECT e.data_escala, e.tipo, e.turno, e.redmine, p.nome_projeto, un.nome_unidade, (SELECT STRING_AGG(tp.nome_produto, ', ') FROM tab_proj_escala_produtos ep JOIN tab_produtos tp ON tp.id_produto = ep.id_produto WHERE ep.id_escala = e.id_escala) AS produtos FROM tab_proj_escalas e LEFT JOIN tab_projetos p ON p.id_projeto = e.id_projeto LEFT JOIN tab_unidades un ON un.id_unidade = e.id_unidade WHERE e.id_usuario = @u AND e.data_escala BETWEEN @i AND @f ORDER BY e.data_escala",
+        "entradas": {
+          "u": 7,
+          "i": "2026-10-26",
+          "f": "2026-11-01"
+        }
+      },
+      {
+        "texto": "SELECT id_usuario, nome_completo, celular, celular_whatsapp, ativo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 7
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_whatsapp_envios (id_usuario, numero, tipo_evento, modulo, referencia, mensagem, status, prioridade, expira_em, motivo, usuario_origem, data_envio) VALUES (@u, @n, @t, @m, @ref, @msg, @st, @p, @exp, @mot, @org, CASE WHEN @st = 'NAO_ENVIADO' THEN GETDATE() ELSE NULL END)",
+        "entradas": {
+          "u": 7,
+          "n": "<carimbo>",
+          "t": "ESCALA_SEMANAL",
+          "m": "PROJETOS",
+          "ref": "2026-10-26",
+          "msg": "Olá Maria, sua escala:\n• *Seg 26/10* - Trabalho (Diurno)\n   UPA Centro · Projeto X\n   A, B\n   Redmine: 1234\n• *Ter 27/10* - _a definir_\n• *Qua 28/10* - _a definir_\n• *Qui 29/10* - _a definir_\n• *Sex 30/10* - _a definir_\n• *Sáb 31/10* - _a definir_\n• *Dom 01/11* - _a definir_",
+          "st": "PENDENTE",
+          "p": 5,
+          "exp": "<data>",
+          "mot": null,
+          "org": "Ana Admin"
+        }
+      },
+      {
+        "texto": "UPDATE tab_whatsapp_envios SET status = 'CANCELADO', motivo = 'EXPIRADO', data_envio = GETDATE() WHERE status IN ('PENDENTE', 'AGUARDANDO') AND expira_em < GETDATE(); UPDATE tab_whatsapp_envios SET status = 'FALHA', erro = 'Envio interrompido (servidor reiniciado durante o envio).', data_envio = GETDATE() WHERE status = 'ENVIANDO' AND data_envio < DATEADD(MINUTE, -10, GETDATE());",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT id_envio, id_usuario, modulo, referencia, usuario_origem FROM tab_whatsapp_envios WHERE status = 'AGUARDANDO' AND liberar_em <= GETDATE()",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= CONVERT(datetime, (CAST(CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS date) AS datetime) AT TIME ZONE 'E. South America Standard Time') AT TIME ZONE 'UTC') AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= DATEADD(SECOND, -60, GETDATE()) AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH prox AS ( SELECT TOP (1) * FROM tab_whatsapp_envios WITH (UPDLOCK, READPAST, ROWLOCK) WHERE status = 'PENDENTE' AND (@urg = 0 OR prioridade = 1) ORDER BY prioridade, id_envio) UPDATE prox SET status = 'ENVIANDO', data_envio = GETDATE() OUTPUT inserted.id_envio, inserted.numero, inserted.mensagem, inserted.expira_em;",
+        "entradas": {
+          "urg": 0
+        }
+      },
+      {
+        "texto": "UPDATE tab_whatsapp_envios SET status = 'CANCELADO', motivo = 'EXPIRADO', data_envio = GETDATE() WHERE status IN ('PENDENTE', 'AGUARDANDO') AND expira_em < GETDATE(); UPDATE tab_whatsapp_envios SET status = 'FALHA', erro = 'Envio interrompido (servidor reiniciado durante o envio).', data_envio = GETDATE() WHERE status = 'ENVIANDO' AND data_envio < DATEADD(MINUTE, -10, GETDATE());",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT id_envio, id_usuario, modulo, referencia, usuario_origem FROM tab_whatsapp_envios WHERE status = 'AGUARDANDO' AND liberar_em <= GETDATE()",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= CONVERT(datetime, (CAST(CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS date) AS datetime) AT TIME ZONE 'E. South America Standard Time') AT TIME ZONE 'UTC') AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) AS n FROM tab_whatsapp_envios WHERE data_envio >= DATEADD(SECOND, -60, GETDATE()) AND status IN ('ENVIADO','FALHA')",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH prox AS ( SELECT TOP (1) * FROM tab_whatsapp_envios WITH (UPDLOCK, READPAST, ROWLOCK) WHERE status = 'PENDENTE' AND (@urg = 0 OR prioridade = 1) ORDER BY prioridade, id_envio) UPDATE prox SET status = 'ENVIANDO', data_envio = GETDATE() OUTPUT inserted.id_envio, inserted.numero, inserted.mensagem, inserted.expira_em;",
+        "entradas": {
+          "urg": 0
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.estado",
+        "argumentos": [
+          {
+            "base": "https://evolution.exemplo.com",
+            "inst": "instancia-aberta",
+            "apikey": "chave"
+          }
+        ]
+      },
+      {
+        "nome": "whatsapp.estado",
+        "argumentos": [
+          {
+            "base": "https://evolution.exemplo.com",
+            "inst": "instancia-aberta",
+            "apikey": "chave"
+          }
+        ]
+      }
+    ]
+  },
+  "escala semanal: colaborador sem WhatsApp": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Semana de 26/10/2026: 0 mensagem(ns) na fila, 2 sem WhatsApp, 0 já enviada(s).",
+      "enfileiradas": 0,
+      "naoEnviadas": 2,
+      "ignoradas": 0
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT e.id_usuario FROM tab_escalas e JOIN tab_usuarios u ON u.id_usuario = e.id_usuario AND u.ativo = 1 WHERE e.data_escala BETWEEN @i AND @f",
+        "entradas": {
+          "i": "2026-10-26",
+          "f": "2026-11-01"
+        }
+      },
+      {
+        "texto": "SELECT 1 AS x FROM tab_whatsapp_envios WHERE id_usuario = @u AND tipo_evento = 'ESCALA_SEMANAL' AND modulo = @m AND referencia = @r AND status IN ('PENDENTE','ENVIANDO','ENVIADO')",
+        "entradas": {
+          "u": 7,
+          "m": "IMPLANTACAO",
+          "r": "2026-10-26"
+        }
+      },
+      {
+        "texto": "SELECT e.data_escala, e.tipo, e.turno, e.redmine, p.nome_projeto, un.nome_unidade, (SELECT STRING_AGG(tp.nome_produto, ', ') FROM tab_escala_produtos ep JOIN tab_produtos tp ON tp.id_produto = ep.id_produto WHERE ep.id_escala = e.id_escala) AS produtos FROM tab_escalas e LEFT JOIN tab_projetos p ON p.id_projeto = e.id_projeto LEFT JOIN tab_unidades un ON un.id_unidade = e.id_unidade WHERE e.id_usuario = @u AND e.data_escala BETWEEN @i AND @f ORDER BY e.data_escala",
+        "entradas": {
+          "u": 7,
+          "i": "2026-10-26",
+          "f": "2026-11-01"
+        }
+      },
+      {
+        "texto": "SELECT id_usuario, nome_completo, celular, celular_whatsapp, ativo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 7
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_whatsapp_envios (id_usuario, numero, tipo_evento, modulo, referencia, mensagem, status, prioridade, expira_em, motivo, usuario_origem, data_envio) VALUES (@u, @n, @t, @m, @ref, @msg, @st, @p, @exp, @mot, @org, CASE WHEN @st = 'NAO_ENVIADO' THEN GETDATE() ELSE NULL END)",
+        "entradas": {
+          "u": 7,
+          "n": null,
+          "t": "ESCALA_SEMANAL",
+          "m": "IMPLANTACAO",
+          "ref": "2026-10-26",
+          "msg": "Olá Maria, sua escala:\n• *Seg 26/10* - Trabalho (Diurno)\n   UPA Centro · Projeto X\n   A, B\n   Redmine: 1234\n• *Ter 27/10* - _a definir_\n• *Qua 28/10* - _a definir_\n• *Qui 29/10* - _a definir_\n• *Sex 30/10* - _a definir_\n• *Sáb 31/10* - _a definir_\n• *Dom 01/11* - _a definir_",
+          "st": "NAO_ENVIADO",
+          "p": 5,
+          "exp": "<data>",
+          "mot": "CELULAR_INVALIDO",
+          "org": "Ana Admin"
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT e.id_usuario FROM tab_proj_escalas e JOIN tab_usuarios u ON u.id_usuario = e.id_usuario AND u.ativo = 1 WHERE e.data_escala BETWEEN @i AND @f",
+        "entradas": {
+          "i": "2026-10-26",
+          "f": "2026-11-01"
+        }
+      },
+      {
+        "texto": "SELECT 1 AS x FROM tab_whatsapp_envios WHERE id_usuario = @u AND tipo_evento = 'ESCALA_SEMANAL' AND modulo = @m AND referencia = @r AND status IN ('PENDENTE','ENVIANDO','ENVIADO')",
+        "entradas": {
+          "u": 7,
+          "m": "PROJETOS",
+          "r": "2026-10-26"
+        }
+      },
+      {
+        "texto": "SELECT e.data_escala, e.tipo, e.turno, e.redmine, p.nome_projeto, un.nome_unidade, (SELECT STRING_AGG(tp.nome_produto, ', ') FROM tab_proj_escala_produtos ep JOIN tab_produtos tp ON tp.id_produto = ep.id_produto WHERE ep.id_escala = e.id_escala) AS produtos FROM tab_proj_escalas e LEFT JOIN tab_projetos p ON p.id_projeto = e.id_projeto LEFT JOIN tab_unidades un ON un.id_unidade = e.id_unidade WHERE e.id_usuario = @u AND e.data_escala BETWEEN @i AND @f ORDER BY e.data_escala",
+        "entradas": {
+          "u": 7,
+          "i": "2026-10-26",
+          "f": "2026-11-01"
+        }
+      },
+      {
+        "texto": "SELECT id_usuario, nome_completo, celular, celular_whatsapp, ativo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 7
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_whatsapp_envios (id_usuario, numero, tipo_evento, modulo, referencia, mensagem, status, prioridade, expira_em, motivo, usuario_origem, data_envio) VALUES (@u, @n, @t, @m, @ref, @msg, @st, @p, @exp, @mot, @org, CASE WHEN @st = 'NAO_ENVIADO' THEN GETDATE() ELSE NULL END)",
+        "entradas": {
+          "u": 7,
+          "n": null,
+          "t": "ESCALA_SEMANAL",
+          "m": "PROJETOS",
+          "ref": "2026-10-26",
+          "msg": "Olá Maria, sua escala:\n• *Seg 26/10* - Trabalho (Diurno)\n   UPA Centro · Projeto X\n   A, B\n   Redmine: 1234\n• *Ter 27/10* - _a definir_\n• *Qua 28/10* - _a definir_\n• *Qui 29/10* - _a definir_\n• *Sex 30/10* - _a definir_\n• *Sáb 31/10* - _a definir_\n• *Dom 01/11* - _a definir_",
+          "st": "NAO_ENVIADO",
+          "p": 5,
+          "exp": "<data>",
+          "mot": "CELULAR_INVALIDO",
+          "org": "Ana Admin"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "escala semanal: já enviada": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Semana de 26/10/2026: 0 mensagem(ns) na fila, 0 sem WhatsApp, 2 já enviada(s).",
+      "enfileiradas": 0,
+      "naoEnviadas": 0,
+      "ignoradas": 2
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT e.id_usuario FROM tab_escalas e JOIN tab_usuarios u ON u.id_usuario = e.id_usuario AND u.ativo = 1 WHERE e.data_escala BETWEEN @i AND @f",
+        "entradas": {
+          "i": "2026-10-26",
+          "f": "2026-11-01"
+        }
+      },
+      {
+        "texto": "SELECT 1 AS x FROM tab_whatsapp_envios WHERE id_usuario = @u AND tipo_evento = 'ESCALA_SEMANAL' AND modulo = @m AND referencia = @r AND status IN ('PENDENTE','ENVIANDO','ENVIADO')",
+        "entradas": {
+          "u": 7,
+          "m": "IMPLANTACAO",
+          "r": "2026-10-26"
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT e.id_usuario FROM tab_proj_escalas e JOIN tab_usuarios u ON u.id_usuario = e.id_usuario AND u.ativo = 1 WHERE e.data_escala BETWEEN @i AND @f",
+        "entradas": {
+          "i": "2026-10-26",
+          "f": "2026-11-01"
+        }
+      },
+      {
+        "texto": "SELECT 1 AS x FROM tab_whatsapp_envios WHERE id_usuario = @u AND tipo_evento = 'ESCALA_SEMANAL' AND modulo = @m AND referencia = @r AND status IN ('PENDENTE','ENVIANDO','ENVIADO')",
+        "entradas": {
+          "u": 7,
+          "m": "PROJETOS",
+          "r": "2026-10-26"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "escala semanal: integração inativa": {
+    "status": 400,
+    "corpo": {
+      "erro": "Ative a integração antes de enviar."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "escala semanal: semana inválida": {
+    "status": 400,
+    "corpo": {
+      "erro": "Informe a semana (data da segunda-feira)."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "escala semanal: sem semana": {
+    "status": 400,
+    "corpo": {
+      "erro": "Informe a semana (data da segunda-feira)."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "escala semanal: perfil de leitura": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "prévia: modelo configurado": {
+    "status": 200,
+    "corpo": {
+      "previa": "Olá Maria, sua escala:\n• *Seg 27/10* - Trabalho (Diurno)\n   UPA Centro · Projeto Exemplo\n• *Ter 28/10* - Folga"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "prévia: modelo padrão sem configuração": {
+    "status": 200,
+    "corpo": {
+      "previa": "Olá, *Maria*!\n\nSuas *férias foram aprovadas*\n\n*Início:* 03/11/2026\n*Retorno previsto:* 18/11/2026\n*Dias:* 15\n*Tipo:* 1º Período (15 Dias)\n*Período aquisitivo:* 2025\n*Aprovado por:* João Gestor\n\nBom descanso!\n\n_Mensagem automática - Opera Echo._"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "prévia: texto em edição": {
+    "status": 200,
+    "corpo": {
+      "previa": "Seu código: 123456 por 10 min"
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "prévia: perfil de leitura": {
+    "status": 200,
+    "corpo": {
+      "previa": "Olá, *Maria*!\n\nA sua *escala foi alterada*. Vale o que está abaixo:\n*Módulo:* Implantação\n\n• *Qua 29/10* - Home Office\n\n*Alterado por:* João Gestor\n\n_Mensagem automática - Opera Echo._"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_whatsapp_config WHERE id = 1",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "prévia: evento inválido": {
+    "status": 400,
+    "corpo": {
+      "erro": "Evento inválido."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "prévia: sem evento": {
+    "status": 400,
+    "corpo": {
+      "erro": "Evento inválido."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "prévia: sem permissão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  }
+}

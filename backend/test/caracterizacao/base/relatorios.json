@@ -1,0 +1,4679 @@
+{
+  "estatisticas-atividades: sem filtros": {
+    "status": 200,
+    "corpo": [
+      {
+        "motivos": "Treinamento",
+        "nome_projeto": "Projeto A",
+        "nome_unidade": "UBS Centro",
+        "produtos_trabalhados": "Prontuario",
+        "profissionais_env": "Maria",
+        "data_inicial": "01/10/2026",
+        "tempo_gasto": "02:00",
+        "qtd": 3,
+        "implantadores": "Ana, Bia",
+        "equipe_projeto": "Caio"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "WITH ImpAtiv AS ( SELECT a.id_atividade, STUFF(( SELECT DISTINCT ', ' + us.nome_completo FROM ( SELECT ai.id_implantador FROM tab_atividade_implantadores ai WHERE ai.id_atividade = a.id_atividade UNION SELECT a.id_implantador WHERE a.id_implantador IS NOT NULL ) v JOIN tab_usuarios us ON us.id_usuario = v.id_implantador FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)'), 1, 2, '') AS implantadores FROM tab_atividades a ), EqpProj AS ( SELECT a.id_atividade, STUFF(( SELECT DISTINCT ', ' + ue.nome_completo FROM tab_atividade_equipe_projeto ep JOIN tab_usuarios ue ON ue.id_usuario = ep.id_usuario WHERE ep.id_atividade = a.id_atividade FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)'), 1, 2, '') AS equipe_projeto FROM tab_atividades a ) SELECT a.motivos, p.nome_projeto, u.nome_unidade, a.produtos_trabalhados, a.profissionais_env, FORMAT(a.data_inicio, 'dd/MM/yyyy') as data_inicial, ISNULL(CONVERT(varchar(10), a.tempo_gasto, 108), '00:00') as tempo_gasto, COUNT(*) as qtd, ISNULL(MAX(ia.implantadores), '') as implantadores, ISNULL(MAX(ep.equipe_projeto), '') as equipe_projeto FROM tab_atividades a JOIN tab_projetos p ON a.id_projeto = p.id_projeto JOIN tab_unidades u ON a.id_unidade = u.id_unidade LEFT JOIN ImpAtiv ia ON ia.id_atividade = a.id_atividade LEFT JOIN EqpProj ep ON ep.id_atividade = a.id_atividade WHERE 1=1 GROUP BY a.motivos, p.nome_projeto, u.nome_unidade, a.produtos_trabalhados, a.profissionais_env, a.data_inicio, CONVERT(varchar(10), a.tempo_gasto, 108) ORDER BY a.motivos, p.nome_projeto, u.nome_unidade",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "estatisticas-atividades: todos os filtros": {
+    "status": 200,
+    "corpo": [
+      {
+        "motivos": "Treinamento",
+        "nome_projeto": "Projeto A",
+        "nome_unidade": "UBS Centro",
+        "produtos_trabalhados": "Prontuario",
+        "profissionais_env": "Maria",
+        "data_inicial": "01/10/2026",
+        "tempo_gasto": "02:00",
+        "qtd": 3,
+        "implantadores": "Ana, Bia",
+        "equipe_projeto": "Caio"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "WITH ImpAtiv AS ( SELECT a.id_atividade, STUFF(( SELECT DISTINCT ', ' + us.nome_completo FROM ( SELECT ai.id_implantador FROM tab_atividade_implantadores ai WHERE ai.id_atividade = a.id_atividade UNION SELECT a.id_implantador WHERE a.id_implantador IS NOT NULL ) v JOIN tab_usuarios us ON us.id_usuario = v.id_implantador FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)'), 1, 2, '') AS implantadores FROM tab_atividades a ), EqpProj AS ( SELECT a.id_atividade, STUFF(( SELECT DISTINCT ', ' + ue.nome_completo FROM tab_atividade_equipe_projeto ep JOIN tab_usuarios ue ON ue.id_usuario = ep.id_usuario WHERE ep.id_atividade = a.id_atividade FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)'), 1, 2, '') AS equipe_projeto FROM tab_atividades a ) SELECT a.motivos, p.nome_projeto, u.nome_unidade, a.produtos_trabalhados, a.profissionais_env, FORMAT(a.data_inicio, 'dd/MM/yyyy') as data_inicial, ISNULL(CONVERT(varchar(10), a.tempo_gasto, 108), '00:00') as tempo_gasto, COUNT(*) as qtd, ISNULL(MAX(ia.implantadores), '') as implantadores, ISNULL(MAX(ep.equipe_projeto), '') as equipe_projeto FROM tab_atividades a JOIN tab_projetos p ON a.id_projeto = p.id_projeto JOIN tab_unidades u ON a.id_unidade = u.id_unidade LEFT JOIN ImpAtiv ia ON ia.id_atividade = a.id_atividade LEFT JOIN EqpProj ep ON ep.id_atividade = a.id_atividade WHERE 1=1 AND CAST(ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)) AS DATE) >= @di AND CAST(ISNULL(a.data_inicio, a.data_atividade) AS DATE) <= @df AND a.motivos LIKE @motivo AND a.id_projeto = @proj AND a.id_unidade = @uni GROUP BY a.motivos, p.nome_projeto, u.nome_unidade, a.produtos_trabalhados, a.profissionais_env, a.data_inicio, CONVERT(varchar(10), a.tempo_gasto, 108) ORDER BY a.motivos, p.nome_projeto, u.nome_unidade",
+        "entradas": {
+          "di": "2026-10-01",
+          "df": "2026-10-31",
+          "motivo": "%Treinamento%",
+          "proj": "2",
+          "uni": "5"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "estatisticas-atividades: Todos/Todas ignorados": {
+    "status": 200,
+    "corpo": [
+      {
+        "linha": "padrao"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "WITH ImpAtiv AS ( SELECT a.id_atividade, STUFF(( SELECT DISTINCT ', ' + us.nome_completo FROM ( SELECT ai.id_implantador FROM tab_atividade_implantadores ai WHERE ai.id_atividade = a.id_atividade UNION SELECT a.id_implantador WHERE a.id_implantador IS NOT NULL ) v JOIN tab_usuarios us ON us.id_usuario = v.id_implantador FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)'), 1, 2, '') AS implantadores FROM tab_atividades a ), EqpProj AS ( SELECT a.id_atividade, STUFF(( SELECT DISTINCT ', ' + ue.nome_completo FROM tab_atividade_equipe_projeto ep JOIN tab_usuarios ue ON ue.id_usuario = ep.id_usuario WHERE ep.id_atividade = a.id_atividade FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)'), 1, 2, '') AS equipe_projeto FROM tab_atividades a ) SELECT a.motivos, p.nome_projeto, u.nome_unidade, a.produtos_trabalhados, a.profissionais_env, FORMAT(a.data_inicio, 'dd/MM/yyyy') as data_inicial, ISNULL(CONVERT(varchar(10), a.tempo_gasto, 108), '00:00') as tempo_gasto, COUNT(*) as qtd, ISNULL(MAX(ia.implantadores), '') as implantadores, ISNULL(MAX(ep.equipe_projeto), '') as equipe_projeto FROM tab_atividades a JOIN tab_projetos p ON a.id_projeto = p.id_projeto JOIN tab_unidades u ON a.id_unidade = u.id_unidade LEFT JOIN ImpAtiv ia ON ia.id_atividade = a.id_atividade LEFT JOIN EqpProj ep ON ep.id_atividade = a.id_atividade WHERE 1=1 GROUP BY a.motivos, p.nome_projeto, u.nome_unidade, a.produtos_trabalhados, a.profissionais_env, a.data_inicio, CONVERT(varchar(10), a.tempo_gasto, 108) ORDER BY a.motivos, p.nome_projeto, u.nome_unidade",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "estatisticas-atividades: perfil restrito": {
+    "status": 200,
+    "corpo": [
+      {
+        "motivos": "Treinamento",
+        "nome_projeto": "Projeto A",
+        "nome_unidade": "UBS Centro",
+        "produtos_trabalhados": "Prontuario",
+        "profissionais_env": "Maria",
+        "data_inicial": "01/10/2026",
+        "tempo_gasto": "02:00",
+        "qtd": 3,
+        "implantadores": "Ana, Bia",
+        "equipe_projeto": "Caio"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Implantador"
+        }
+      },
+      {
+        "texto": "WITH ImpAtiv AS ( SELECT a.id_atividade, STUFF(( SELECT DISTINCT ', ' + us.nome_completo FROM ( SELECT ai.id_implantador FROM tab_atividade_implantadores ai WHERE ai.id_atividade = a.id_atividade UNION SELECT a.id_implantador WHERE a.id_implantador IS NOT NULL ) v JOIN tab_usuarios us ON us.id_usuario = v.id_implantador FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)'), 1, 2, '') AS implantadores FROM tab_atividades a ), EqpProj AS ( SELECT a.id_atividade, STUFF(( SELECT DISTINCT ', ' + ue.nome_completo FROM tab_atividade_equipe_projeto ep JOIN tab_usuarios ue ON ue.id_usuario = ep.id_usuario WHERE ep.id_atividade = a.id_atividade FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)'), 1, 2, '') AS equipe_projeto FROM tab_atividades a ) SELECT a.motivos, p.nome_projeto, u.nome_unidade, a.produtos_trabalhados, a.profissionais_env, FORMAT(a.data_inicio, 'dd/MM/yyyy') as data_inicial, ISNULL(CONVERT(varchar(10), a.tempo_gasto, 108), '00:00') as tempo_gasto, COUNT(*) as qtd, ISNULL(MAX(ia.implantadores), '') as implantadores, ISNULL(MAX(ep.equipe_projeto), '') as equipe_projeto FROM tab_atividades a JOIN tab_projetos p ON a.id_projeto = p.id_projeto JOIN tab_unidades u ON a.id_unidade = u.id_unidade LEFT JOIN ImpAtiv ia ON ia.id_atividade = a.id_atividade LEFT JOIN EqpProj ep ON ep.id_atividade = a.id_atividade WHERE 1=1 GROUP BY a.motivos, p.nome_projeto, u.nome_unidade, a.produtos_trabalhados, a.profissionais_env, a.data_inicio, CONVERT(varchar(10), a.tempo_gasto, 108) ORDER BY a.motivos, p.nome_projeto, u.nome_unidade",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "estatisticas-atividades: sem permissão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Visitante"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "estatisticas-atividades: só data inicial é recusada": {
+    "status": 400,
+    "corpo": {
+      "erro": "Informe a data inicial e a data final do período."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "estatisticas-atividades: sem login": {
+    "status": 401,
+    "corpo": {
+      "erro": "Não autenticado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "estatisticas-projetos: sem filtros": {
+    "status": 200,
+    "corpo": [
+      {
+        "motivos": "Treinamento",
+        "nome_projeto": "Projeto A",
+        "nome_unidade": "UBS Centro",
+        "produtos_trabalhados": "Prontuario",
+        "profissionais_env": "Maria",
+        "data_inicial": "01/10/2026",
+        "tempo_gasto": "02:00",
+        "qtd": 3,
+        "implantadores": "Ana, Bia",
+        "equipe_projeto": "Caio"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT a.motivos, p.nome_projeto, u.nome_unidade, a.produtos_trabalhados, a.profissionais_env, FORMAT(a.data_inicio, 'dd/MM/yyyy') as data_inicial, ISNULL(CONVERT(varchar(10), a.tempo_gasto, 108), '00:00') as tempo_gasto, COUNT(*) as qtd FROM tab_proj_atividades a JOIN tab_projetos p ON a.id_projeto = p.id_projeto JOIN tab_unidades u ON a.id_unidade = u.id_unidade WHERE 1=1 GROUP BY a.motivos, p.nome_projeto, u.nome_unidade, a.produtos_trabalhados, a.profissionais_env, a.data_inicio, CONVERT(varchar(10), a.tempo_gasto, 108) ORDER BY a.motivos, p.nome_projeto, u.nome_unidade",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "estatisticas-projetos: todos os filtros": {
+    "status": 200,
+    "corpo": [
+      {
+        "motivos": "Treinamento",
+        "nome_projeto": "Projeto A",
+        "nome_unidade": "UBS Centro",
+        "produtos_trabalhados": "Prontuario",
+        "profissionais_env": "Maria",
+        "data_inicial": "01/10/2026",
+        "tempo_gasto": "02:00",
+        "qtd": 3,
+        "implantadores": "Ana, Bia",
+        "equipe_projeto": "Caio"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT a.motivos, p.nome_projeto, u.nome_unidade, a.produtos_trabalhados, a.profissionais_env, FORMAT(a.data_inicio, 'dd/MM/yyyy') as data_inicial, ISNULL(CONVERT(varchar(10), a.tempo_gasto, 108), '00:00') as tempo_gasto, COUNT(*) as qtd FROM tab_proj_atividades a JOIN tab_projetos p ON a.id_projeto = p.id_projeto JOIN tab_unidades u ON a.id_unidade = u.id_unidade WHERE 1=1 AND CAST(ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)) AS DATE) >= @di AND CAST(ISNULL(a.data_inicio, a.data_atividade) AS DATE) <= @df AND a.motivos LIKE @motivo AND a.id_projeto = @proj AND a.id_unidade = @uni GROUP BY a.motivos, p.nome_projeto, u.nome_unidade, a.produtos_trabalhados, a.profissionais_env, a.data_inicio, CONVERT(varchar(10), a.tempo_gasto, 108) ORDER BY a.motivos, p.nome_projeto, u.nome_unidade",
+        "entradas": {
+          "di": "2026-10-01",
+          "df": "2026-10-31",
+          "motivo": "%Visita%",
+          "proj": "3",
+          "uni": "6"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "estatisticas-projetos: perfil restrito isola por projeto": {
+    "status": 200,
+    "corpo": [
+      {
+        "motivos": "Treinamento",
+        "nome_projeto": "Projeto A",
+        "nome_unidade": "UBS Centro",
+        "produtos_trabalhados": "Prontuario",
+        "profissionais_env": "Maria",
+        "data_inicial": "01/10/2026",
+        "tempo_gasto": "02:00",
+        "qtd": 3,
+        "implantadores": "Ana, Bia",
+        "equipe_projeto": "Caio"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT a.motivos, p.nome_projeto, u.nome_unidade, a.produtos_trabalhados, a.profissionais_env, FORMAT(a.data_inicio, 'dd/MM/yyyy') as data_inicial, ISNULL(CONVERT(varchar(10), a.tempo_gasto, 108), '00:00') as tempo_gasto, COUNT(*) as qtd FROM tab_proj_atividades a JOIN tab_projetos p ON a.id_projeto = p.id_projeto JOIN tab_unidades u ON a.id_unidade = u.id_unidade WHERE 1=1 AND a.id_projeto IN (@__lot_a_id_projeto_0) GROUP BY a.motivos, p.nome_projeto, u.nome_unidade, a.produtos_trabalhados, a.profissionais_env, a.data_inicio, CONVERT(varchar(10), a.tempo_gasto, 108) ORDER BY a.motivos, p.nome_projeto, u.nome_unidade",
+        "entradas": {
+          "__lot_a_id_projeto_0": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "estatisticas-projetos: sem permissão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "auditoria-localizacao: sem filtros": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_rastreio": 1,
+        "usuario": "ana",
+        "latitude": "-22.9",
+        "longitude": "-43.1",
+        "tipo_registro": "ATIVIDADE",
+        "data_hora": "<data>",
+        "detalhes_registro": "x"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT id_rastreio, usuario, latitude, longitude, tipo_registro, data_hora, detalhes_registro FROM tab_rastreamento_app WHERE 1=1 ORDER BY data_hora DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "auditoria-localizacao: todos os filtros": {
+    "status": 200,
+    "corpo": [
+      {
+        "linha": "padrao"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT id_rastreio, usuario, latitude, longitude, tipo_registro, data_hora, detalhes_registro FROM tab_rastreamento_app WHERE 1=1 AND data_hora >= @inicio AND data_hora <= @fim AND usuario = @user AND tipo_registro = @tipo ORDER BY data_hora DESC",
+        "entradas": {
+          "inicio": "20261001 00:00:00",
+          "fim": "20261031 23:59:59",
+          "user": "ana",
+          "tipo": "ATIVIDADE"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "auditoria-localizacao: Todos ignorados": {
+    "status": 200,
+    "corpo": [
+      {
+        "linha": "padrao"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT id_rastreio, usuario, latitude, longitude, tipo_registro, data_hora, detalhes_registro FROM tab_rastreamento_app WHERE 1=1 ORDER BY data_hora DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "auditoria-localizacao: perfil restrito": {
+    "status": 200,
+    "corpo": [
+      {
+        "linha": "padrao"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT id_rastreio, usuario, latitude, longitude, tipo_registro, data_hora, detalhes_registro FROM tab_rastreamento_app WHERE 1=1 ORDER BY data_hora DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "auditoria-localizacao: sem permissão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "presenca-implantador: sem período": {
+    "status": 400,
+    "corpo": {
+      "erro": "Informe o período (dataInicio e dataFim)."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "presenca-implantador: período": {
+    "status": 200,
+    "corpo": {
+      "Projeto A": {
+        "UBS Centro": {
+          "Ana": [
+            "01/10/2026",
+            "02/10/2026"
+          ],
+          "Bia": [
+            "01/10/2026"
+          ]
+        },
+        "UBS Norte": {
+          "Bia": [
+            "03/10/2026"
+          ]
+        }
+      },
+      "Projeto B": {
+        "UPA": {
+          "Caio": [
+            "05/10/2026"
+          ]
+        }
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT p.nome_projeto, u.nome_unidade, us.nome_completo AS nome_implantador, FORMAT(e.data_escala, 'dd/MM/yyyy') AS data_fmt, e.data_escala FROM tab_escalas e JOIN tab_projetos p ON e.id_projeto = p.id_projeto JOIN tab_unidades u ON e.id_unidade = u.id_unidade JOIN tab_usuarios us ON e.id_usuario = us.id_usuario WHERE e.tipo = 'TRABALHO' AND e.data_escala BETWEEN @di AND @df ORDER BY p.nome_projeto, u.nome_unidade, us.nome_completo, e.data_escala",
+        "entradas": {
+          "di": "2026-10-01",
+          "df": "2026-10-31"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "presenca-implantador: projeto e unidade": {
+    "status": 200,
+    "corpo": {
+      "Projeto A": {
+        "UBS Centro": {
+          "Ana": [
+            "01/10/2026",
+            "02/10/2026"
+          ],
+          "Bia": [
+            "01/10/2026"
+          ]
+        },
+        "UBS Norte": {
+          "Bia": [
+            "03/10/2026"
+          ]
+        }
+      },
+      "Projeto B": {
+        "UPA": {
+          "Caio": [
+            "05/10/2026"
+          ]
+        }
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT p.nome_projeto, u.nome_unidade, us.nome_completo AS nome_implantador, FORMAT(e.data_escala, 'dd/MM/yyyy') AS data_fmt, e.data_escala FROM tab_escalas e JOIN tab_projetos p ON e.id_projeto = p.id_projeto JOIN tab_unidades u ON e.id_unidade = u.id_unidade JOIN tab_usuarios us ON e.id_usuario = us.id_usuario WHERE e.tipo = 'TRABALHO' AND e.data_escala BETWEEN @di AND @df AND e.id_projeto = @proj AND e.id_unidade = @uni ORDER BY p.nome_projeto, u.nome_unidade, us.nome_completo, e.data_escala",
+        "entradas": {
+          "di": "2026-10-01",
+          "df": "2026-10-31",
+          "proj": "2",
+          "uni": "5"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "presenca-implantador: Todos ignorados": {
+    "status": 200,
+    "corpo": {
+      "1": {
+        "1": {
+          "1": [
+            1
+          ]
+        }
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT p.nome_projeto, u.nome_unidade, us.nome_completo AS nome_implantador, FORMAT(e.data_escala, 'dd/MM/yyyy') AS data_fmt, e.data_escala FROM tab_escalas e JOIN tab_projetos p ON e.id_projeto = p.id_projeto JOIN tab_unidades u ON e.id_unidade = u.id_unidade JOIN tab_usuarios us ON e.id_usuario = us.id_usuario WHERE e.tipo = 'TRABALHO' AND e.data_escala BETWEEN @di AND @df ORDER BY p.nome_projeto, u.nome_unidade, us.nome_completo, e.data_escala",
+        "entradas": {
+          "di": "2026-10-01",
+          "df": "2026-10-31"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "presenca-implantador: perfil restrito": {
+    "status": 200,
+    "corpo": {
+      "Projeto A": {
+        "UBS Centro": {
+          "Ana": [
+            "01/10/2026",
+            "02/10/2026"
+          ],
+          "Bia": [
+            "01/10/2026"
+          ]
+        },
+        "UBS Norte": {
+          "Bia": [
+            "03/10/2026"
+          ]
+        }
+      },
+      "Projeto B": {
+        "UPA": {
+          "Caio": [
+            "05/10/2026"
+          ]
+        }
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT p.nome_projeto, u.nome_unidade, us.nome_completo AS nome_implantador, FORMAT(e.data_escala, 'dd/MM/yyyy') AS data_fmt, e.data_escala FROM tab_escalas e JOIN tab_projetos p ON e.id_projeto = p.id_projeto JOIN tab_unidades u ON e.id_unidade = u.id_unidade JOIN tab_usuarios us ON e.id_usuario = us.id_usuario WHERE e.tipo = 'TRABALHO' AND e.data_escala BETWEEN @di AND @df ORDER BY p.nome_projeto, u.nome_unidade, us.nome_completo, e.data_escala",
+        "entradas": {
+          "di": "2026-10-01",
+          "df": "2026-10-31"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "presenca-implantador: sem permissão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "presenca-equipe: sem período": {
+    "status": 400,
+    "corpo": {
+      "erro": "Informe o período (dataInicio e dataFim)."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "presenca-equipe: período": {
+    "status": 200,
+    "corpo": {
+      "Projeto A": {
+        "UBS Centro": {
+          "01/10/2026": [
+            "Ana",
+            "Bia"
+          ],
+          "02/10/2026": [
+            "Ana"
+          ]
+        },
+        "UBS Norte": {
+          "03/10/2026": [
+            "Bia"
+          ]
+        }
+      },
+      "Projeto B": {
+        "UPA": {
+          "05/10/2026": [
+            "Caio"
+          ]
+        }
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT p.nome_projeto, u.nome_unidade, us.nome_completo AS nome_implantador, FORMAT(e.data_escala, 'dd/MM/yyyy') AS data_fmt, e.data_escala FROM tab_escalas e JOIN tab_projetos p ON e.id_projeto = p.id_projeto JOIN tab_unidades u ON e.id_unidade = u.id_unidade JOIN tab_usuarios us ON e.id_usuario = us.id_usuario WHERE e.tipo = 'TRABALHO' AND e.data_escala BETWEEN @di AND @df ORDER BY p.nome_projeto, u.nome_unidade, e.data_escala, us.nome_completo",
+        "entradas": {
+          "di": "2026-10-01",
+          "df": "2026-10-31"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "presenca-equipe: projeto e unidade": {
+    "status": 200,
+    "corpo": {
+      "Projeto A": {
+        "UBS Centro": {
+          "01/10/2026": [
+            "Ana",
+            "Bia"
+          ],
+          "02/10/2026": [
+            "Ana"
+          ]
+        },
+        "UBS Norte": {
+          "03/10/2026": [
+            "Bia"
+          ]
+        }
+      },
+      "Projeto B": {
+        "UPA": {
+          "05/10/2026": [
+            "Caio"
+          ]
+        }
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT p.nome_projeto, u.nome_unidade, us.nome_completo AS nome_implantador, FORMAT(e.data_escala, 'dd/MM/yyyy') AS data_fmt, e.data_escala FROM tab_escalas e JOIN tab_projetos p ON e.id_projeto = p.id_projeto JOIN tab_unidades u ON e.id_unidade = u.id_unidade JOIN tab_usuarios us ON e.id_usuario = us.id_usuario WHERE e.tipo = 'TRABALHO' AND e.data_escala BETWEEN @di AND @df AND e.id_projeto = @proj AND e.id_unidade = @uni ORDER BY p.nome_projeto, u.nome_unidade, e.data_escala, us.nome_completo",
+        "entradas": {
+          "di": "2026-10-01",
+          "df": "2026-10-31",
+          "proj": "2",
+          "uni": "5"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "presenca-equipe: Todos ignorados": {
+    "status": 200,
+    "corpo": {
+      "1": {
+        "1": {
+          "1": [
+            1
+          ]
+        }
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT p.nome_projeto, u.nome_unidade, us.nome_completo AS nome_implantador, FORMAT(e.data_escala, 'dd/MM/yyyy') AS data_fmt, e.data_escala FROM tab_escalas e JOIN tab_projetos p ON e.id_projeto = p.id_projeto JOIN tab_unidades u ON e.id_unidade = u.id_unidade JOIN tab_usuarios us ON e.id_usuario = us.id_usuario WHERE e.tipo = 'TRABALHO' AND e.data_escala BETWEEN @di AND @df ORDER BY p.nome_projeto, u.nome_unidade, e.data_escala, us.nome_completo",
+        "entradas": {
+          "di": "2026-10-01",
+          "df": "2026-10-31"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "presenca-equipe: perfil restrito": {
+    "status": 200,
+    "corpo": {
+      "Projeto A": {
+        "UBS Centro": {
+          "01/10/2026": [
+            "Ana",
+            "Bia"
+          ],
+          "02/10/2026": [
+            "Ana"
+          ]
+        },
+        "UBS Norte": {
+          "03/10/2026": [
+            "Bia"
+          ]
+        }
+      },
+      "Projeto B": {
+        "UPA": {
+          "05/10/2026": [
+            "Caio"
+          ]
+        }
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT p.nome_projeto, u.nome_unidade, us.nome_completo AS nome_implantador, FORMAT(e.data_escala, 'dd/MM/yyyy') AS data_fmt, e.data_escala FROM tab_escalas e JOIN tab_projetos p ON e.id_projeto = p.id_projeto JOIN tab_unidades u ON e.id_unidade = u.id_unidade JOIN tab_usuarios us ON e.id_usuario = us.id_usuario WHERE e.tipo = 'TRABALHO' AND e.data_escala BETWEEN @di AND @df ORDER BY p.nome_projeto, u.nome_unidade, e.data_escala, us.nome_completo",
+        "entradas": {
+          "di": "2026-10-01",
+          "df": "2026-10-31"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "presenca-equipe: sem permissão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "presenca-implantadores: sem filtros": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_atividade": 10,
+        "data_inicio": "2026-10-01",
+        "data_fim": "2026-10-01",
+        "nome_projeto": "Projeto A",
+        "nome_unidade": "UBS Centro",
+        "nome_implantador": "Ana"
+      },
+      {
+        "id_atividade": 11,
+        "data_inicio": "2026-10-02",
+        "data_fim": "2026-10-02",
+        "nome_projeto": "Projeto B",
+        "nome_unidade": "UPA",
+        "nome_implantador": "Caio"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT e.id_escala as id_atividade, FORMAT(e.data_escala, 'yyyy-MM-dd') as data_inicio, FORMAT(e.data_escala, 'yyyy-MM-dd') as data_fim, p.nome_projeto, un.nome_unidade, u.nome_completo AS nome_implantador FROM tab_escalas e INNER JOIN tab_projetos p ON e.id_projeto = p.id_projeto INNER JOIN tab_unidades un ON e.id_unidade = un.id_unidade INNER JOIN tab_usuarios u ON e.id_usuario = u.id_usuario WHERE e.tipo = 'TRABALHO' ORDER BY e.data_escala ASC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "presenca-implantadores: todos os filtros": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_atividade": 10,
+        "data_inicio": "2026-10-01",
+        "data_fim": "2026-10-01",
+        "nome_projeto": "Projeto A",
+        "nome_unidade": "UBS Centro",
+        "nome_implantador": "Ana"
+      },
+      {
+        "id_atividade": 11,
+        "data_inicio": "2026-10-02",
+        "data_fim": "2026-10-02",
+        "nome_projeto": "Projeto B",
+        "nome_unidade": "UPA",
+        "nome_implantador": "Caio"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT e.id_escala as id_atividade, FORMAT(e.data_escala, 'yyyy-MM-dd') as data_inicio, FORMAT(e.data_escala, 'yyyy-MM-dd') as data_fim, p.nome_projeto, un.nome_unidade, u.nome_completo AS nome_implantador FROM tab_escalas e INNER JOIN tab_projetos p ON e.id_projeto = p.id_projeto INNER JOIN tab_unidades un ON e.id_unidade = un.id_unidade INNER JOIN tab_usuarios u ON e.id_usuario = u.id_usuario WHERE e.tipo = 'TRABALHO' AND e.data_escala BETWEEN @di AND @df AND e.id_projeto = @proj AND e.id_unidade = @uni AND EXISTS ( SELECT 1 FROM tab_atividades a WHERE a.id_projeto = e.id_projeto AND a.id_unidade = e.id_unidade AND CAST(a.data_atividade AS DATE) = e.data_escala AND a.motivos LIKE @motivo AND ( a.id_implantador = e.id_usuario OR EXISTS ( SELECT 1 FROM tab_atividade_implantadores ai WHERE ai.id_atividade = a.id_atividade AND ai.id_implantador = e.id_usuario ) ) ) ORDER BY e.data_escala ASC",
+        "entradas": {
+          "di": "2026-10-01",
+          "df": "2026-10-31",
+          "proj": "2",
+          "uni": "5",
+          "motivo": "%Treinamento%"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "presenca-implantadores: Todos e vazios ignorados": {
+    "status": 200,
+    "corpo": [
+      {
+        "linha": "padrao"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT e.id_escala as id_atividade, FORMAT(e.data_escala, 'yyyy-MM-dd') as data_inicio, FORMAT(e.data_escala, 'yyyy-MM-dd') as data_fim, p.nome_projeto, un.nome_unidade, u.nome_completo AS nome_implantador FROM tab_escalas e INNER JOIN tab_projetos p ON e.id_projeto = p.id_projeto INNER JOIN tab_unidades un ON e.id_unidade = un.id_unidade INNER JOIN tab_usuarios u ON e.id_usuario = u.id_usuario WHERE e.tipo = 'TRABALHO' ORDER BY e.data_escala ASC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "presenca-implantadores: filtros vazios": {
+    "status": 200,
+    "corpo": [
+      {
+        "linha": "padrao"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT e.id_escala as id_atividade, FORMAT(e.data_escala, 'yyyy-MM-dd') as data_inicio, FORMAT(e.data_escala, 'yyyy-MM-dd') as data_fim, p.nome_projeto, un.nome_unidade, u.nome_completo AS nome_implantador FROM tab_escalas e INNER JOIN tab_projetos p ON e.id_projeto = p.id_projeto INNER JOIN tab_unidades un ON e.id_unidade = un.id_unidade INNER JOIN tab_usuarios u ON e.id_usuario = u.id_usuario WHERE e.tipo = 'TRABALHO' ORDER BY e.data_escala ASC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "presenca-implantadores: perfil restrito": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_atividade": 10,
+        "data_inicio": "2026-10-01",
+        "data_fim": "2026-10-01",
+        "nome_projeto": "Projeto A",
+        "nome_unidade": "UBS Centro",
+        "nome_implantador": "Ana"
+      },
+      {
+        "id_atividade": 11,
+        "data_inicio": "2026-10-02",
+        "data_fim": "2026-10-02",
+        "nome_projeto": "Projeto B",
+        "nome_unidade": "UPA",
+        "nome_implantador": "Caio"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT e.id_escala as id_atividade, FORMAT(e.data_escala, 'yyyy-MM-dd') as data_inicio, FORMAT(e.data_escala, 'yyyy-MM-dd') as data_fim, p.nome_projeto, un.nome_unidade, u.nome_completo AS nome_implantador FROM tab_escalas e INNER JOIN tab_projetos p ON e.id_projeto = p.id_projeto INNER JOIN tab_unidades un ON e.id_unidade = un.id_unidade INNER JOIN tab_usuarios u ON e.id_usuario = u.id_usuario WHERE e.tipo = 'TRABALHO' AND e.data_escala BETWEEN @di AND @df ORDER BY e.data_escala ASC",
+        "entradas": {
+          "di": "2026-10-01",
+          "df": "2026-10-31"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "presenca-implantadores: basta um dos dois módulos": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_atividade": 10,
+        "data_inicio": "2026-10-01",
+        "data_fim": "2026-10-01",
+        "nome_projeto": "Projeto A",
+        "nome_unidade": "UBS Centro",
+        "nome_implantador": "Ana"
+      },
+      {
+        "id_atividade": 11,
+        "data_inicio": "2026-10-02",
+        "data_fim": "2026-10-02",
+        "nome_projeto": "Projeto B",
+        "nome_unidade": "UPA",
+        "nome_implantador": "Caio"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Coordenador"
+        }
+      },
+      {
+        "texto": "SELECT e.id_escala as id_atividade, FORMAT(e.data_escala, 'yyyy-MM-dd') as data_inicio, FORMAT(e.data_escala, 'yyyy-MM-dd') as data_fim, p.nome_projeto, un.nome_unidade, u.nome_completo AS nome_implantador FROM tab_escalas e INNER JOIN tab_projetos p ON e.id_projeto = p.id_projeto INNER JOIN tab_unidades un ON e.id_unidade = un.id_unidade INNER JOIN tab_usuarios u ON e.id_usuario = u.id_usuario WHERE e.tipo = 'TRABALHO' ORDER BY e.data_escala ASC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "presenca-implantadores: sem permissão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "projetos-ativos: sem filtros": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_projeto": 2,
+        "nome_projeto": "Projeto A",
+        "gera_lotacao": true,
+        "categoria": "A",
+        "unidades_ativas": 4,
+        "unidades_inativas": 1,
+        "unidades_georref": 3,
+        "municipios": 2,
+        "ufs": "RJ, SP",
+        "atividades_implantacao": 0,
+        "atividades_projetos": 0,
+        "ultima_atividade": "30/10/2026",
+        "produtos": [
+          {
+            "id_produto": 9,
+            "nome_produto": "Prontuario",
+            "unidades": 4
+          }
+        ]
+      },
+      {
+        "id_projeto": 3,
+        "nome_projeto": "Projeto B",
+        "gera_lotacao": false,
+        "categoria": "B",
+        "unidades_ativas": 0,
+        "unidades_inativas": 0,
+        "unidades_georref": 0,
+        "municipios": 0,
+        "ufs": null,
+        "atividades_implantacao": 0,
+        "atividades_projetos": 0,
+        "ultima_atividade": null,
+        "produtos": []
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT p.id_projeto, p.nome_projeto, p.gera_lotacao, p.categoria FROM tab_projetos p WHERE p.ativo = 1 ORDER BY p.nome_projeto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT u.id_projeto, SUM(CASE WHEN u.ativo = 1 THEN 1 ELSE 0 END) AS ativas, SUM(CASE WHEN u.ativo = 0 THEN 1 ELSE 0 END) AS inativas, SUM(CASE WHEN u.ativo = 1 AND u.latitude IS NOT NULL AND u.longitude IS NOT NULL THEN 1 ELSE 0 END) AS georref, COUNT(DISTINCT CASE WHEN u.ativo = 1 THEN u.id_cidade END) AS municipios FROM tab_unidades u GROUP BY u.id_projeto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT DISTINCT u.id_projeto, e.sigla FROM tab_unidades u JOIN tab_cidades c ON c.id_cidade = u.id_cidade JOIN tab_estados e ON e.id_estado = c.id_estado WHERE u.ativo = 1 ORDER BY e.sigla",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT a.id_projeto, CONVERT(varchar(10), MAX(CAST(ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)) AS DATE)), 103) AS data FROM tab_atividades a GROUP BY a.id_projeto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT u.id_projeto, pr.id_produto, pr.nome_produto, COUNT(DISTINCT u.id_unidade) AS unidades FROM tab_unidade_produtos up JOIN tab_unidades u ON u.id_unidade = up.id_unidade AND u.ativo = 1 JOIN tab_produtos pr ON pr.id_produto = up.id_produto AND pr.ativo = 1 WHERE u.id_projeto IN (@p0,@p1) GROUP BY u.id_projeto, pr.id_produto, pr.nome_produto ORDER BY pr.nome_produto",
+        "entradas": {
+          "p0": 2,
+          "p1": 3
+        }
+      }
+    ],
+    "externos": []
+  },
+  "projetos-ativos: todos os filtros": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_projeto": 2,
+        "nome_projeto": "Projeto A",
+        "gera_lotacao": true,
+        "categoria": "A",
+        "unidades_ativas": 4,
+        "unidades_inativas": 1,
+        "unidades_georref": 3,
+        "municipios": 2,
+        "ufs": "RJ, SP",
+        "atividades_implantacao": 7,
+        "atividades_projetos": 0,
+        "ultima_atividade": "30/10/2026",
+        "produtos": [
+          {
+            "id_produto": 9,
+            "nome_produto": "Prontuario",
+            "unidades": 4
+          }
+        ]
+      },
+      {
+        "id_projeto": 3,
+        "nome_projeto": "Projeto B",
+        "gera_lotacao": false,
+        "categoria": "B",
+        "unidades_ativas": 0,
+        "unidades_inativas": 0,
+        "unidades_georref": 0,
+        "municipios": 0,
+        "ufs": null,
+        "atividades_implantacao": 0,
+        "atividades_projetos": 2,
+        "ultima_atividade": null,
+        "produtos": []
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT p.id_projeto, p.nome_projeto, p.gera_lotacao, p.categoria FROM tab_projetos p WHERE p.ativo = 1 AND p.id_projeto = @proj AND p.categoria = @cat ORDER BY p.nome_projeto",
+        "entradas": {
+          "proj": 2,
+          "cat": "A"
+        }
+      },
+      {
+        "texto": "SELECT u.id_projeto, SUM(CASE WHEN u.ativo = 1 THEN 1 ELSE 0 END) AS ativas, SUM(CASE WHEN u.ativo = 0 THEN 1 ELSE 0 END) AS inativas, SUM(CASE WHEN u.ativo = 1 AND u.latitude IS NOT NULL AND u.longitude IS NOT NULL THEN 1 ELSE 0 END) AS georref, COUNT(DISTINCT CASE WHEN u.ativo = 1 THEN u.id_cidade END) AS municipios FROM tab_unidades u GROUP BY u.id_projeto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT DISTINCT u.id_projeto, e.sigla FROM tab_unidades u JOIN tab_cidades c ON c.id_cidade = u.id_cidade JOIN tab_estados e ON e.id_estado = c.id_estado WHERE u.ativo = 1 ORDER BY e.sigla",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT a.id_projeto, CONVERT(varchar(10), MAX(CAST(ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)) AS DATE)), 103) AS data FROM tab_atividades a GROUP BY a.id_projeto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT a.id_projeto, COUNT(*) AS qtd FROM tab_atividades a WHERE 1=1 AND CAST(ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)) AS DATE) >= @di AND CAST(ISNULL(a.data_inicio, a.data_atividade) AS DATE) <= @df GROUP BY a.id_projeto",
+        "entradas": {
+          "di": "2026-10-01",
+          "df": "2026-10-31"
+        }
+      },
+      {
+        "texto": "SELECT a.id_projeto, COUNT(*) AS qtd FROM tab_proj_atividades a WHERE 1=1 AND CAST(ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)) AS DATE) >= @di AND CAST(ISNULL(a.data_inicio, a.data_atividade) AS DATE) <= @df GROUP BY a.id_projeto",
+        "entradas": {
+          "di": "2026-10-01",
+          "df": "2026-10-31"
+        }
+      },
+      {
+        "texto": "SELECT u.id_projeto, pr.id_produto, pr.nome_produto, COUNT(DISTINCT u.id_unidade) AS unidades FROM tab_unidade_produtos up JOIN tab_unidades u ON u.id_unidade = up.id_unidade AND u.ativo = 1 JOIN tab_produtos pr ON pr.id_produto = up.id_produto AND pr.ativo = 1 WHERE u.id_projeto IN (@p0,@p1) GROUP BY u.id_projeto, pr.id_produto, pr.nome_produto ORDER BY pr.nome_produto",
+        "entradas": {
+          "p0": 2,
+          "p1": 3
+        }
+      }
+    ],
+    "externos": []
+  },
+  "projetos-ativos: período fora do formato é ignorado": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_projeto": 2,
+        "nome_projeto": "Projeto A",
+        "gera_lotacao": true,
+        "categoria": "A",
+        "unidades_ativas": 4,
+        "unidades_inativas": 1,
+        "unidades_georref": 3,
+        "municipios": 2,
+        "ufs": "RJ, SP",
+        "atividades_implantacao": 0,
+        "atividades_projetos": 0,
+        "ultima_atividade": "30/10/2026",
+        "produtos": [
+          {
+            "id_produto": 9,
+            "nome_produto": "Prontuario",
+            "unidades": 4
+          }
+        ]
+      },
+      {
+        "id_projeto": 3,
+        "nome_projeto": "Projeto B",
+        "gera_lotacao": false,
+        "categoria": "B",
+        "unidades_ativas": 0,
+        "unidades_inativas": 0,
+        "unidades_georref": 0,
+        "municipios": 0,
+        "ufs": null,
+        "atividades_implantacao": 0,
+        "atividades_projetos": 0,
+        "ultima_atividade": null,
+        "produtos": []
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT p.id_projeto, p.nome_projeto, p.gera_lotacao, p.categoria FROM tab_projetos p WHERE p.ativo = 1 ORDER BY p.nome_projeto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT u.id_projeto, SUM(CASE WHEN u.ativo = 1 THEN 1 ELSE 0 END) AS ativas, SUM(CASE WHEN u.ativo = 0 THEN 1 ELSE 0 END) AS inativas, SUM(CASE WHEN u.ativo = 1 AND u.latitude IS NOT NULL AND u.longitude IS NOT NULL THEN 1 ELSE 0 END) AS georref, COUNT(DISTINCT CASE WHEN u.ativo = 1 THEN u.id_cidade END) AS municipios FROM tab_unidades u GROUP BY u.id_projeto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT DISTINCT u.id_projeto, e.sigla FROM tab_unidades u JOIN tab_cidades c ON c.id_cidade = u.id_cidade JOIN tab_estados e ON e.id_estado = c.id_estado WHERE u.ativo = 1 ORDER BY e.sigla",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT a.id_projeto, CONVERT(varchar(10), MAX(CAST(ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)) AS DATE)), 103) AS data FROM tab_atividades a GROUP BY a.id_projeto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT u.id_projeto, pr.id_produto, pr.nome_produto, COUNT(DISTINCT u.id_unidade) AS unidades FROM tab_unidade_produtos up JOIN tab_unidades u ON u.id_unidade = up.id_unidade AND u.ativo = 1 JOIN tab_produtos pr ON pr.id_produto = up.id_produto AND pr.ativo = 1 WHERE u.id_projeto IN (@p0,@p1) GROUP BY u.id_projeto, pr.id_produto, pr.nome_produto ORDER BY pr.nome_produto",
+        "entradas": {
+          "p0": 2,
+          "p1": 3
+        }
+      }
+    ],
+    "externos": []
+  },
+  "projetos-ativos: Todos ignorados": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_projeto": 2,
+        "nome_projeto": "Projeto A",
+        "gera_lotacao": true,
+        "categoria": "A",
+        "unidades_ativas": 4,
+        "unidades_inativas": 1,
+        "unidades_georref": 3,
+        "municipios": 2,
+        "ufs": "RJ, SP",
+        "atividades_implantacao": 0,
+        "atividades_projetos": 0,
+        "ultima_atividade": "30/10/2026",
+        "produtos": [
+          {
+            "id_produto": 9,
+            "nome_produto": "Prontuario",
+            "unidades": 4
+          }
+        ]
+      },
+      {
+        "id_projeto": 3,
+        "nome_projeto": "Projeto B",
+        "gera_lotacao": false,
+        "categoria": "B",
+        "unidades_ativas": 0,
+        "unidades_inativas": 0,
+        "unidades_georref": 0,
+        "municipios": 0,
+        "ufs": null,
+        "atividades_implantacao": 0,
+        "atividades_projetos": 0,
+        "ultima_atividade": null,
+        "produtos": []
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT p.id_projeto, p.nome_projeto, p.gera_lotacao, p.categoria FROM tab_projetos p WHERE p.ativo = 1 ORDER BY p.nome_projeto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT u.id_projeto, SUM(CASE WHEN u.ativo = 1 THEN 1 ELSE 0 END) AS ativas, SUM(CASE WHEN u.ativo = 0 THEN 1 ELSE 0 END) AS inativas, SUM(CASE WHEN u.ativo = 1 AND u.latitude IS NOT NULL AND u.longitude IS NOT NULL THEN 1 ELSE 0 END) AS georref, COUNT(DISTINCT CASE WHEN u.ativo = 1 THEN u.id_cidade END) AS municipios FROM tab_unidades u GROUP BY u.id_projeto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT DISTINCT u.id_projeto, e.sigla FROM tab_unidades u JOIN tab_cidades c ON c.id_cidade = u.id_cidade JOIN tab_estados e ON e.id_estado = c.id_estado WHERE u.ativo = 1 ORDER BY e.sigla",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT a.id_projeto, CONVERT(varchar(10), MAX(CAST(ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)) AS DATE)), 103) AS data FROM tab_atividades a GROUP BY a.id_projeto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT u.id_projeto, pr.id_produto, pr.nome_produto, COUNT(DISTINCT u.id_unidade) AS unidades FROM tab_unidade_produtos up JOIN tab_unidades u ON u.id_unidade = up.id_unidade AND u.ativo = 1 JOIN tab_produtos pr ON pr.id_produto = up.id_produto AND pr.ativo = 1 WHERE u.id_projeto IN (@p0,@p1) GROUP BY u.id_projeto, pr.id_produto, pr.nome_produto ORDER BY pr.nome_produto",
+        "entradas": {
+          "p0": 2,
+          "p1": 3
+        }
+      }
+    ],
+    "externos": []
+  },
+  "projetos-ativos: nenhum projeto": {
+    "status": 200,
+    "corpo": [],
+    "consultas": [
+      {
+        "texto": "SELECT p.id_projeto, p.nome_projeto, p.gera_lotacao, p.categoria FROM tab_projetos p WHERE p.ativo = 1 ORDER BY p.nome_projeto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT u.id_projeto, SUM(CASE WHEN u.ativo = 1 THEN 1 ELSE 0 END) AS ativas, SUM(CASE WHEN u.ativo = 0 THEN 1 ELSE 0 END) AS inativas, SUM(CASE WHEN u.ativo = 1 AND u.latitude IS NOT NULL AND u.longitude IS NOT NULL THEN 1 ELSE 0 END) AS georref, COUNT(DISTINCT CASE WHEN u.ativo = 1 THEN u.id_cidade END) AS municipios FROM tab_unidades u GROUP BY u.id_projeto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT DISTINCT u.id_projeto, e.sigla FROM tab_unidades u JOIN tab_cidades c ON c.id_cidade = u.id_cidade JOIN tab_estados e ON e.id_estado = c.id_estado WHERE u.ativo = 1 ORDER BY e.sigla",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT a.id_projeto, CONVERT(varchar(10), MAX(CAST(ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)) AS DATE)), 103) AS data FROM tab_atividades a GROUP BY a.id_projeto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT a.id_projeto, COUNT(*) AS qtd FROM tab_atividades a WHERE 1=1 AND CAST(ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)) AS DATE) >= @di AND CAST(ISNULL(a.data_inicio, a.data_atividade) AS DATE) <= @df GROUP BY a.id_projeto",
+        "entradas": {
+          "di": "2026-10-01",
+          "df": "2026-10-31"
+        }
+      },
+      {
+        "texto": "SELECT a.id_projeto, COUNT(*) AS qtd FROM tab_proj_atividades a WHERE 1=1 AND CAST(ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)) AS DATE) >= @di AND CAST(ISNULL(a.data_inicio, a.data_atividade) AS DATE) <= @df GROUP BY a.id_projeto",
+        "entradas": {
+          "di": "2026-10-01",
+          "df": "2026-10-31"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "projetos-ativos: perfil restrito": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_projeto": 2,
+        "nome_projeto": "Projeto A",
+        "gera_lotacao": true,
+        "categoria": "A",
+        "unidades_ativas": 4,
+        "unidades_inativas": 1,
+        "unidades_georref": 3,
+        "municipios": 2,
+        "ufs": "RJ, SP",
+        "atividades_implantacao": 0,
+        "atividades_projetos": 0,
+        "ultima_atividade": "30/10/2026",
+        "produtos": [
+          {
+            "id_produto": 9,
+            "nome_produto": "Prontuario",
+            "unidades": 4
+          }
+        ]
+      },
+      {
+        "id_projeto": 3,
+        "nome_projeto": "Projeto B",
+        "gera_lotacao": false,
+        "categoria": "B",
+        "unidades_ativas": 0,
+        "unidades_inativas": 0,
+        "unidades_georref": 0,
+        "municipios": 0,
+        "ufs": null,
+        "atividades_implantacao": 0,
+        "atividades_projetos": 0,
+        "ultima_atividade": null,
+        "produtos": []
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT p.id_projeto, p.nome_projeto, p.gera_lotacao, p.categoria FROM tab_projetos p WHERE p.ativo = 1 ORDER BY p.nome_projeto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT u.id_projeto, SUM(CASE WHEN u.ativo = 1 THEN 1 ELSE 0 END) AS ativas, SUM(CASE WHEN u.ativo = 0 THEN 1 ELSE 0 END) AS inativas, SUM(CASE WHEN u.ativo = 1 AND u.latitude IS NOT NULL AND u.longitude IS NOT NULL THEN 1 ELSE 0 END) AS georref, COUNT(DISTINCT CASE WHEN u.ativo = 1 THEN u.id_cidade END) AS municipios FROM tab_unidades u GROUP BY u.id_projeto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT DISTINCT u.id_projeto, e.sigla FROM tab_unidades u JOIN tab_cidades c ON c.id_cidade = u.id_cidade JOIN tab_estados e ON e.id_estado = c.id_estado WHERE u.ativo = 1 ORDER BY e.sigla",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT a.id_projeto, CONVERT(varchar(10), MAX(CAST(ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)) AS DATE)), 103) AS data FROM tab_atividades a GROUP BY a.id_projeto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT u.id_projeto, pr.id_produto, pr.nome_produto, COUNT(DISTINCT u.id_unidade) AS unidades FROM tab_unidade_produtos up JOIN tab_unidades u ON u.id_unidade = up.id_unidade AND u.ativo = 1 JOIN tab_produtos pr ON pr.id_produto = up.id_produto AND pr.ativo = 1 WHERE u.id_projeto IN (@p0,@p1) GROUP BY u.id_projeto, pr.id_produto, pr.nome_produto ORDER BY pr.nome_produto",
+        "entradas": {
+          "p0": 2,
+          "p1": 3
+        }
+      }
+    ],
+    "externos": []
+  },
+  "projetos-ativos: sem permissão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "mapa-unidades: sem projeto nem categoria": {
+    "status": 400,
+    "corpo": {
+      "erro": "Informe o projeto ou a categoria."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "mapa-unidades: por projeto": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_unidade": 1,
+        "nome_unidade": "UBS Centro",
+        "cnes": "123",
+        "ativo": true,
+        "id_projeto": 2,
+        "nome_projeto": "Projeto A",
+        "categoria": "A",
+        "id_cidade": 5,
+        "nome_cidade": "Niteroi",
+        "uf": "RJ",
+        "latitude": -22.9,
+        "longitude": -43.1,
+        "aproximada": false,
+        "produtos": [
+          {
+            "id_produto": 9,
+            "nome_produto": "Prontuario"
+          },
+          {
+            "id_produto": 10,
+            "nome_produto": "Agenda"
+          }
+        ]
+      },
+      {
+        "id_unidade": 2,
+        "nome_unidade": "UBS Norte",
+        "cnes": "456",
+        "ativo": true,
+        "id_projeto": 2,
+        "nome_projeto": "Projeto A",
+        "categoria": "A",
+        "id_cidade": 5,
+        "nome_cidade": "Niteroi",
+        "uf": "RJ",
+        "latitude": -22.8,
+        "longitude": -43,
+        "aproximada": true,
+        "produtos": []
+      },
+      {
+        "id_unidade": 3,
+        "nome_unidade": "UPA",
+        "cnes": "789",
+        "ativo": false,
+        "id_projeto": 3,
+        "nome_projeto": "Projeto B",
+        "categoria": "B",
+        "id_cidade": 6,
+        "nome_cidade": "Macae",
+        "uf": "RJ",
+        "latitude": null,
+        "longitude": null,
+        "aproximada": true,
+        "produtos": [
+          {
+            "id_produto": 9,
+            "nome_produto": ""
+          }
+        ]
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.ativo, u.id_projeto, p.nome_projeto, p.categoria, u.id_cidade, c.nome_cidade, e.sigla AS uf, u.latitude, u.longitude, c.latitude AS lat_cidade, c.longitude AS lng_cidade, (SELECT STRING_AGG(CAST(pr.id_produto AS VARCHAR(10)), ',') WITHIN GROUP (ORDER BY pr.nome_produto) FROM tab_unidade_produtos up JOIN tab_produtos pr ON pr.id_produto = up.id_produto WHERE up.id_unidade = u.id_unidade AND pr.ativo = 1) AS ids_produtos, (SELECT STRING_AGG(pr.nome_produto, '||') WITHIN GROUP (ORDER BY pr.nome_produto) FROM tab_unidade_produtos up JOIN tab_produtos pr ON pr.id_produto = up.id_produto WHERE up.id_unidade = u.id_unidade AND pr.ativo = 1) AS nomes_produtos FROM tab_unidades u LEFT JOIN tab_cidades c ON c.id_cidade = u.id_cidade LEFT JOIN tab_estados e ON e.id_estado = c.id_estado LEFT JOIN tab_projetos p ON p.id_projeto = u.id_projeto WHERE 1=1 AND u.id_projeto = @proj AND u.ativo = @ativo ORDER BY c.nome_cidade, u.nome_unidade",
+        "entradas": {
+          "proj": 2,
+          "ativo": 1
+        }
+      }
+    ],
+    "externos": []
+  },
+  "mapa-unidades: por categoria": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_unidade": 1,
+        "nome_unidade": "UBS Centro",
+        "cnes": "123",
+        "ativo": true,
+        "id_projeto": 2,
+        "nome_projeto": "Projeto A",
+        "categoria": "A",
+        "id_cidade": 5,
+        "nome_cidade": "Niteroi",
+        "uf": "RJ",
+        "latitude": -22.9,
+        "longitude": -43.1,
+        "aproximada": false,
+        "produtos": [
+          {
+            "id_produto": 9,
+            "nome_produto": "Prontuario"
+          },
+          {
+            "id_produto": 10,
+            "nome_produto": "Agenda"
+          }
+        ]
+      },
+      {
+        "id_unidade": 2,
+        "nome_unidade": "UBS Norte",
+        "cnes": "456",
+        "ativo": true,
+        "id_projeto": 2,
+        "nome_projeto": "Projeto A",
+        "categoria": "A",
+        "id_cidade": 5,
+        "nome_cidade": "Niteroi",
+        "uf": "RJ",
+        "latitude": -22.8,
+        "longitude": -43,
+        "aproximada": true,
+        "produtos": []
+      },
+      {
+        "id_unidade": 3,
+        "nome_unidade": "UPA",
+        "cnes": "789",
+        "ativo": false,
+        "id_projeto": 3,
+        "nome_projeto": "Projeto B",
+        "categoria": "B",
+        "id_cidade": 6,
+        "nome_cidade": "Macae",
+        "uf": "RJ",
+        "latitude": null,
+        "longitude": null,
+        "aproximada": true,
+        "produtos": [
+          {
+            "id_produto": 9,
+            "nome_produto": ""
+          }
+        ]
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.ativo, u.id_projeto, p.nome_projeto, p.categoria, u.id_cidade, c.nome_cidade, e.sigla AS uf, u.latitude, u.longitude, c.latitude AS lat_cidade, c.longitude AS lng_cidade, (SELECT STRING_AGG(CAST(pr.id_produto AS VARCHAR(10)), ',') WITHIN GROUP (ORDER BY pr.nome_produto) FROM tab_unidade_produtos up JOIN tab_produtos pr ON pr.id_produto = up.id_produto WHERE up.id_unidade = u.id_unidade AND pr.ativo = 1) AS ids_produtos, (SELECT STRING_AGG(pr.nome_produto, '||') WITHIN GROUP (ORDER BY pr.nome_produto) FROM tab_unidade_produtos up JOIN tab_produtos pr ON pr.id_produto = up.id_produto WHERE up.id_unidade = u.id_unidade AND pr.ativo = 1) AS nomes_produtos FROM tab_unidades u LEFT JOIN tab_cidades c ON c.id_cidade = u.id_cidade LEFT JOIN tab_estados e ON e.id_estado = c.id_estado LEFT JOIN tab_projetos p ON p.id_projeto = u.id_projeto WHERE 1=1 AND p.categoria = @cat AND p.ativo = 1 AND u.ativo = @ativo ORDER BY c.nome_cidade, u.nome_unidade",
+        "entradas": {
+          "cat": "B",
+          "ativo": 1
+        }
+      }
+    ],
+    "externos": []
+  },
+  "mapa-unidades: todos os filtros": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_unidade": 1,
+        "nome_unidade": "UBS Centro",
+        "cnes": "123",
+        "ativo": true,
+        "id_projeto": 2,
+        "nome_projeto": "Projeto A",
+        "categoria": "A",
+        "id_cidade": 5,
+        "nome_cidade": "Niteroi",
+        "uf": "RJ",
+        "latitude": -22.9,
+        "longitude": -43.1,
+        "aproximada": false,
+        "produtos": [
+          {
+            "id_produto": 9,
+            "nome_produto": "Prontuario"
+          },
+          {
+            "id_produto": 10,
+            "nome_produto": "Agenda"
+          }
+        ]
+      },
+      {
+        "id_unidade": 2,
+        "nome_unidade": "UBS Norte",
+        "cnes": "456",
+        "ativo": true,
+        "id_projeto": 2,
+        "nome_projeto": "Projeto A",
+        "categoria": "A",
+        "id_cidade": 5,
+        "nome_cidade": "Niteroi",
+        "uf": "RJ",
+        "latitude": -22.8,
+        "longitude": -43,
+        "aproximada": true,
+        "produtos": []
+      },
+      {
+        "id_unidade": 3,
+        "nome_unidade": "UPA",
+        "cnes": "789",
+        "ativo": false,
+        "id_projeto": 3,
+        "nome_projeto": "Projeto B",
+        "categoria": "B",
+        "id_cidade": 6,
+        "nome_cidade": "Macae",
+        "uf": "RJ",
+        "latitude": null,
+        "longitude": null,
+        "aproximada": true,
+        "produtos": [
+          {
+            "id_produto": 9,
+            "nome_produto": ""
+          }
+        ]
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.ativo, u.id_projeto, p.nome_projeto, p.categoria, u.id_cidade, c.nome_cidade, e.sigla AS uf, u.latitude, u.longitude, c.latitude AS lat_cidade, c.longitude AS lng_cidade, (SELECT STRING_AGG(CAST(pr.id_produto AS VARCHAR(10)), ',') WITHIN GROUP (ORDER BY pr.nome_produto) FROM tab_unidade_produtos up JOIN tab_produtos pr ON pr.id_produto = up.id_produto WHERE up.id_unidade = u.id_unidade AND pr.ativo = 1) AS ids_produtos, (SELECT STRING_AGG(pr.nome_produto, '||') WITHIN GROUP (ORDER BY pr.nome_produto) FROM tab_unidade_produtos up JOIN tab_produtos pr ON pr.id_produto = up.id_produto WHERE up.id_unidade = u.id_unidade AND pr.ativo = 1) AS nomes_produtos FROM tab_unidades u LEFT JOIN tab_cidades c ON c.id_cidade = u.id_cidade LEFT JOIN tab_estados e ON e.id_estado = c.id_estado LEFT JOIN tab_projetos p ON p.id_projeto = u.id_projeto WHERE 1=1 AND p.categoria = @cat AND p.ativo = 1 AND u.id_projeto = @proj AND EXISTS (SELECT 1 FROM tab_unidade_produtos up WHERE up.id_unidade = u.id_unidade AND up.id_produto = @prod) AND u.ativo = @ativo AND u.id_cidade = @cid AND e.sigla = @uf ORDER BY c.nome_cidade, u.nome_unidade",
+        "entradas": {
+          "cat": "A",
+          "proj": 2,
+          "prod": 9,
+          "ativo": 0,
+          "cid": 5,
+          "uf": "RJ"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "mapa-unidades: status Todos": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_unidade": 1,
+        "nome_unidade": "UBS Centro",
+        "cnes": "123",
+        "ativo": true,
+        "id_projeto": 2,
+        "nome_projeto": "Projeto A",
+        "categoria": "A",
+        "id_cidade": 5,
+        "nome_cidade": "Niteroi",
+        "uf": "RJ",
+        "latitude": -22.9,
+        "longitude": -43.1,
+        "aproximada": false,
+        "produtos": [
+          {
+            "id_produto": 9,
+            "nome_produto": "Prontuario"
+          },
+          {
+            "id_produto": 10,
+            "nome_produto": "Agenda"
+          }
+        ]
+      },
+      {
+        "id_unidade": 2,
+        "nome_unidade": "UBS Norte",
+        "cnes": "456",
+        "ativo": true,
+        "id_projeto": 2,
+        "nome_projeto": "Projeto A",
+        "categoria": "A",
+        "id_cidade": 5,
+        "nome_cidade": "Niteroi",
+        "uf": "RJ",
+        "latitude": -22.8,
+        "longitude": -43,
+        "aproximada": true,
+        "produtos": []
+      },
+      {
+        "id_unidade": 3,
+        "nome_unidade": "UPA",
+        "cnes": "789",
+        "ativo": false,
+        "id_projeto": 3,
+        "nome_projeto": "Projeto B",
+        "categoria": "B",
+        "id_cidade": 6,
+        "nome_cidade": "Macae",
+        "uf": "RJ",
+        "latitude": null,
+        "longitude": null,
+        "aproximada": true,
+        "produtos": [
+          {
+            "id_produto": 9,
+            "nome_produto": ""
+          }
+        ]
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.ativo, u.id_projeto, p.nome_projeto, p.categoria, u.id_cidade, c.nome_cidade, e.sigla AS uf, u.latitude, u.longitude, c.latitude AS lat_cidade, c.longitude AS lng_cidade, (SELECT STRING_AGG(CAST(pr.id_produto AS VARCHAR(10)), ',') WITHIN GROUP (ORDER BY pr.nome_produto) FROM tab_unidade_produtos up JOIN tab_produtos pr ON pr.id_produto = up.id_produto WHERE up.id_unidade = u.id_unidade AND pr.ativo = 1) AS ids_produtos, (SELECT STRING_AGG(pr.nome_produto, '||') WITHIN GROUP (ORDER BY pr.nome_produto) FROM tab_unidade_produtos up JOIN tab_produtos pr ON pr.id_produto = up.id_produto WHERE up.id_unidade = u.id_unidade AND pr.ativo = 1) AS nomes_produtos FROM tab_unidades u LEFT JOIN tab_cidades c ON c.id_cidade = u.id_cidade LEFT JOIN tab_estados e ON e.id_estado = c.id_estado LEFT JOIN tab_projetos p ON p.id_projeto = u.id_projeto WHERE 1=1 AND u.id_projeto = @proj ORDER BY c.nome_cidade, u.nome_unidade",
+        "entradas": {
+          "proj": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "mapa-unidades: status true": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_unidade": 1,
+        "nome_unidade": "UBS Centro",
+        "cnes": "123",
+        "ativo": true,
+        "id_projeto": 2,
+        "nome_projeto": "Projeto A",
+        "categoria": "A",
+        "id_cidade": 5,
+        "nome_cidade": "Niteroi",
+        "uf": "RJ",
+        "latitude": -22.9,
+        "longitude": -43.1,
+        "aproximada": false,
+        "produtos": [
+          {
+            "id_produto": 9,
+            "nome_produto": "Prontuario"
+          },
+          {
+            "id_produto": 10,
+            "nome_produto": "Agenda"
+          }
+        ]
+      },
+      {
+        "id_unidade": 2,
+        "nome_unidade": "UBS Norte",
+        "cnes": "456",
+        "ativo": true,
+        "id_projeto": 2,
+        "nome_projeto": "Projeto A",
+        "categoria": "A",
+        "id_cidade": 5,
+        "nome_cidade": "Niteroi",
+        "uf": "RJ",
+        "latitude": -22.8,
+        "longitude": -43,
+        "aproximada": true,
+        "produtos": []
+      },
+      {
+        "id_unidade": 3,
+        "nome_unidade": "UPA",
+        "cnes": "789",
+        "ativo": false,
+        "id_projeto": 3,
+        "nome_projeto": "Projeto B",
+        "categoria": "B",
+        "id_cidade": 6,
+        "nome_cidade": "Macae",
+        "uf": "RJ",
+        "latitude": null,
+        "longitude": null,
+        "aproximada": true,
+        "produtos": [
+          {
+            "id_produto": 9,
+            "nome_produto": ""
+          }
+        ]
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.ativo, u.id_projeto, p.nome_projeto, p.categoria, u.id_cidade, c.nome_cidade, e.sigla AS uf, u.latitude, u.longitude, c.latitude AS lat_cidade, c.longitude AS lng_cidade, (SELECT STRING_AGG(CAST(pr.id_produto AS VARCHAR(10)), ',') WITHIN GROUP (ORDER BY pr.nome_produto) FROM tab_unidade_produtos up JOIN tab_produtos pr ON pr.id_produto = up.id_produto WHERE up.id_unidade = u.id_unidade AND pr.ativo = 1) AS ids_produtos, (SELECT STRING_AGG(pr.nome_produto, '||') WITHIN GROUP (ORDER BY pr.nome_produto) FROM tab_unidade_produtos up JOIN tab_produtos pr ON pr.id_produto = up.id_produto WHERE up.id_unidade = u.id_unidade AND pr.ativo = 1) AS nomes_produtos FROM tab_unidades u LEFT JOIN tab_cidades c ON c.id_cidade = u.id_cidade LEFT JOIN tab_estados e ON e.id_estado = c.id_estado LEFT JOIN tab_projetos p ON p.id_projeto = u.id_projeto WHERE 1=1 AND u.id_projeto = @proj AND u.ativo = @ativo ORDER BY c.nome_cidade, u.nome_unidade",
+        "entradas": {
+          "proj": 2,
+          "ativo": 1
+        }
+      }
+    ],
+    "externos": []
+  },
+  "mapa-unidades: perfil restrito": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_unidade": 1,
+        "nome_unidade": "UBS Centro",
+        "cnes": "123",
+        "ativo": true,
+        "id_projeto": 2,
+        "nome_projeto": "Projeto A",
+        "categoria": "A",
+        "id_cidade": 5,
+        "nome_cidade": "Niteroi",
+        "uf": "RJ",
+        "latitude": -22.9,
+        "longitude": -43.1,
+        "aproximada": false,
+        "produtos": [
+          {
+            "id_produto": 9,
+            "nome_produto": "Prontuario"
+          },
+          {
+            "id_produto": 10,
+            "nome_produto": "Agenda"
+          }
+        ]
+      },
+      {
+        "id_unidade": 2,
+        "nome_unidade": "UBS Norte",
+        "cnes": "456",
+        "ativo": true,
+        "id_projeto": 2,
+        "nome_projeto": "Projeto A",
+        "categoria": "A",
+        "id_cidade": 5,
+        "nome_cidade": "Niteroi",
+        "uf": "RJ",
+        "latitude": -22.8,
+        "longitude": -43,
+        "aproximada": true,
+        "produtos": []
+      },
+      {
+        "id_unidade": 3,
+        "nome_unidade": "UPA",
+        "cnes": "789",
+        "ativo": false,
+        "id_projeto": 3,
+        "nome_projeto": "Projeto B",
+        "categoria": "B",
+        "id_cidade": 6,
+        "nome_cidade": "Macae",
+        "uf": "RJ",
+        "latitude": null,
+        "longitude": null,
+        "aproximada": true,
+        "produtos": [
+          {
+            "id_produto": 9,
+            "nome_produto": ""
+          }
+        ]
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.ativo, u.id_projeto, p.nome_projeto, p.categoria, u.id_cidade, c.nome_cidade, e.sigla AS uf, u.latitude, u.longitude, c.latitude AS lat_cidade, c.longitude AS lng_cidade, (SELECT STRING_AGG(CAST(pr.id_produto AS VARCHAR(10)), ',') WITHIN GROUP (ORDER BY pr.nome_produto) FROM tab_unidade_produtos up JOIN tab_produtos pr ON pr.id_produto = up.id_produto WHERE up.id_unidade = u.id_unidade AND pr.ativo = 1) AS ids_produtos, (SELECT STRING_AGG(pr.nome_produto, '||') WITHIN GROUP (ORDER BY pr.nome_produto) FROM tab_unidade_produtos up JOIN tab_produtos pr ON pr.id_produto = up.id_produto WHERE up.id_unidade = u.id_unidade AND pr.ativo = 1) AS nomes_produtos FROM tab_unidades u LEFT JOIN tab_cidades c ON c.id_cidade = u.id_cidade LEFT JOIN tab_estados e ON e.id_estado = c.id_estado LEFT JOIN tab_projetos p ON p.id_projeto = u.id_projeto WHERE 1=1 AND u.id_projeto = @proj AND u.ativo = @ativo ORDER BY c.nome_cidade, u.nome_unidade",
+        "entradas": {
+          "proj": 2,
+          "ativo": 1
+        }
+      }
+    ],
+    "externos": []
+  },
+  "mapa-unidades: sem permissão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "tempo-medio-acao: sem filtros": {
+    "status": 200,
+    "corpo": {
+      "itens": [
+        {
+          "id_item": 1,
+          "descricao": "Treinar",
+          "responsavel": "Ana",
+          "status": "Fechado",
+          "prioridade": "Alta",
+          "modulo": "Agenda",
+          "titulo_plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "previsto_min": 60,
+          "gasto_min": 90,
+          "inicio_real": "01/10/2026",
+          "fim_real": "02/10/2026",
+          "desvio_min": 30,
+          "classificacao": "ESTOURADO"
+        },
+        {
+          "id_item": 2,
+          "descricao": "Treinar",
+          "responsavel": "Bia",
+          "status": "Fechado",
+          "prioridade": "Alta",
+          "modulo": "Agenda",
+          "titulo_plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "previsto_min": 60,
+          "gasto_min": 30,
+          "inicio_real": null,
+          "fim_real": null,
+          "desvio_min": -30,
+          "classificacao": "LEGAL"
+        },
+        {
+          "id_item": 3,
+          "descricao": "Instalar",
+          "responsavel": "Ana",
+          "status": "Fechado",
+          "prioridade": "Media",
+          "modulo": "Prontuario",
+          "titulo_plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "previsto_min": 100,
+          "gasto_min": 105,
+          "inicio_real": null,
+          "fim_real": null,
+          "desvio_min": 5,
+          "classificacao": "NA MEDIA"
+        },
+        {
+          "id_item": 4,
+          "descricao": "",
+          "responsavel": "",
+          "status": "A Iniciar",
+          "prioridade": "Baixa",
+          "modulo": null,
+          "titulo_plano": "Plano 2",
+          "nome_projeto": null,
+          "previsto_min": 0,
+          "gasto_min": null,
+          "inicio_real": null,
+          "fim_real": null,
+          "desvio_min": 0,
+          "classificacao": "SEM DADOS"
+        }
+      ],
+      "porResponsavel": [
+        {
+          "responsavel": "Ana",
+          "qtd": 2,
+          "previsto_total": 160,
+          "gasto_total": 195,
+          "media_previsto": 80,
+          "media_gasto": 98,
+          "media_desvio": 18,
+          "estourados": 1
+        },
+        {
+          "responsavel": "Bia",
+          "qtd": 1,
+          "previsto_total": 60,
+          "gasto_total": 30,
+          "media_previsto": 60,
+          "media_gasto": 30,
+          "media_desvio": -30,
+          "estourados": 0
+        }
+      ],
+      "porAcao": [
+        {
+          "descricao": "Instalar",
+          "qtd": 1,
+          "media_previsto": 100,
+          "media_gasto": 105,
+          "media_desvio": 5,
+          "estourados": 0
+        },
+        {
+          "descricao": "Treinar",
+          "qtd": 2,
+          "media_previsto": 60,
+          "media_gasto": 60,
+          "media_desvio": 0,
+          "estourados": 1
+        }
+      ],
+      "resumo": {
+        "total_itens": 4,
+        "com_dados": 3,
+        "sem_dados": 1,
+        "previsto_total": 220,
+        "gasto_total": 225,
+        "media_previsto": 73,
+        "media_gasto": 75,
+        "media_desvio": 2,
+        "qtd_estourado": 1,
+        "qtd_na_media": 1,
+        "qtd_legal": 1,
+        "media_tempo_estourado": 90,
+        "media_tempo_na_media": 105,
+        "media_tempo_legal": 30
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.id_item, i.descricao, i.responsavel, i.status, i.prioridade, i.modulo, pa.titulo AS titulo_plano, pj.nome_projeto, ISNULL(i.tempo_previsto, 0) AS previsto_min, ISNULL(i.tempo_gasto, 0) AS gasto_min, FORMAT(i.data_inicio_real, 'dd/MM/yyyy') AS inicio_real, FORMAT(i.data_fim_real, 'dd/MM/yyyy') AS fim_real FROM tab_plano_itens i JOIN tab_plano_acao pa ON i.id_plano = pa.id_plano LEFT JOIN tab_projetos pj ON pa.id_projeto = pj.id_projeto WHERE 1=1 ORDER BY pj.nome_projeto, i.responsavel, i.descricao",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "tempo-medio-acao: todos os filtros": {
+    "status": 200,
+    "corpo": {
+      "itens": [
+        {
+          "id_item": 1,
+          "descricao": "Treinar",
+          "responsavel": "Ana",
+          "status": "Fechado",
+          "prioridade": "Alta",
+          "modulo": "Agenda",
+          "titulo_plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "previsto_min": 60,
+          "gasto_min": 90,
+          "inicio_real": "01/10/2026",
+          "fim_real": "02/10/2026",
+          "desvio_min": 30,
+          "classificacao": "ESTOURADO"
+        },
+        {
+          "id_item": 2,
+          "descricao": "Treinar",
+          "responsavel": "Bia",
+          "status": "Fechado",
+          "prioridade": "Alta",
+          "modulo": "Agenda",
+          "titulo_plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "previsto_min": 60,
+          "gasto_min": 30,
+          "inicio_real": null,
+          "fim_real": null,
+          "desvio_min": -30,
+          "classificacao": "LEGAL"
+        },
+        {
+          "id_item": 3,
+          "descricao": "Instalar",
+          "responsavel": "Ana",
+          "status": "Fechado",
+          "prioridade": "Media",
+          "modulo": "Prontuario",
+          "titulo_plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "previsto_min": 100,
+          "gasto_min": 105,
+          "inicio_real": null,
+          "fim_real": null,
+          "desvio_min": 5,
+          "classificacao": "NA MEDIA"
+        },
+        {
+          "id_item": 4,
+          "descricao": "",
+          "responsavel": "",
+          "status": "A Iniciar",
+          "prioridade": "Baixa",
+          "modulo": null,
+          "titulo_plano": "Plano 2",
+          "nome_projeto": null,
+          "previsto_min": 0,
+          "gasto_min": null,
+          "inicio_real": null,
+          "fim_real": null,
+          "desvio_min": 0,
+          "classificacao": "SEM DADOS"
+        }
+      ],
+      "porResponsavel": [
+        {
+          "responsavel": "Ana",
+          "qtd": 2,
+          "previsto_total": 160,
+          "gasto_total": 195,
+          "media_previsto": 80,
+          "media_gasto": 98,
+          "media_desvio": 18,
+          "estourados": 1
+        },
+        {
+          "responsavel": "Bia",
+          "qtd": 1,
+          "previsto_total": 60,
+          "gasto_total": 30,
+          "media_previsto": 60,
+          "media_gasto": 30,
+          "media_desvio": -30,
+          "estourados": 0
+        }
+      ],
+      "porAcao": [
+        {
+          "descricao": "Instalar",
+          "qtd": 1,
+          "media_previsto": 100,
+          "media_gasto": 105,
+          "media_desvio": 5,
+          "estourados": 0
+        },
+        {
+          "descricao": "Treinar",
+          "qtd": 2,
+          "media_previsto": 60,
+          "media_gasto": 60,
+          "media_desvio": 0,
+          "estourados": 1
+        }
+      ],
+      "resumo": {
+        "total_itens": 4,
+        "com_dados": 3,
+        "sem_dados": 1,
+        "previsto_total": 220,
+        "gasto_total": 225,
+        "media_previsto": 73,
+        "media_gasto": 75,
+        "media_desvio": 2,
+        "qtd_estourado": 1,
+        "qtd_na_media": 1,
+        "qtd_legal": 1,
+        "media_tempo_estourado": 90,
+        "media_tempo_na_media": 105,
+        "media_tempo_legal": 30
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.id_item, i.descricao, i.responsavel, i.status, i.prioridade, i.modulo, pa.titulo AS titulo_plano, pj.nome_projeto, ISNULL(i.tempo_previsto, 0) AS previsto_min, ISNULL(i.tempo_gasto, 0) AS gasto_min, FORMAT(i.data_inicio_real, 'dd/MM/yyyy') AS inicio_real, FORMAT(i.data_fim_real, 'dd/MM/yyyy') AS fim_real FROM tab_plano_itens i JOIN tab_plano_acao pa ON i.id_plano = pa.id_plano LEFT JOIN tab_projetos pj ON pa.id_projeto = pj.id_projeto WHERE 1=1 AND CAST(pa.data_criacao AS DATE) BETWEEN @di AND @df AND pa.id_projeto = @proj AND i.responsavel = @resp AND i.status = @st ORDER BY pj.nome_projeto, i.responsavel, i.descricao",
+        "entradas": {
+          "di": "2026-10-01",
+          "df": "2026-10-31",
+          "proj": "2",
+          "resp": "Ana",
+          "st": "Fechado"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "tempo-medio-acao: Todos e vazios ignorados": {
+    "status": 200,
+    "corpo": {
+      "itens": [
+        {
+          "desvio_min": 0,
+          "classificacao": "NA MEDIA"
+        }
+      ],
+      "porResponsavel": [
+        {
+          "responsavel": "(Sem responsável)",
+          "qtd": 1,
+          "previsto_total": 0,
+          "gasto_total": 0,
+          "media_previsto": 0,
+          "media_gasto": 0,
+          "media_desvio": 0,
+          "estourados": 0
+        }
+      ],
+      "porAcao": [
+        {
+          "descricao": "(Sem descrição)",
+          "qtd": 1,
+          "media_previsto": 0,
+          "media_gasto": 0,
+          "media_desvio": 0,
+          "estourados": 0
+        }
+      ],
+      "resumo": {
+        "total_itens": 1,
+        "com_dados": 1,
+        "sem_dados": 0,
+        "previsto_total": 0,
+        "gasto_total": 0,
+        "media_previsto": 0,
+        "media_gasto": 0,
+        "media_desvio": 0,
+        "qtd_estourado": 0,
+        "qtd_na_media": 1,
+        "qtd_legal": 0,
+        "media_tempo_estourado": 0,
+        "media_tempo_na_media": 0,
+        "media_tempo_legal": 0
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.id_item, i.descricao, i.responsavel, i.status, i.prioridade, i.modulo, pa.titulo AS titulo_plano, pj.nome_projeto, ISNULL(i.tempo_previsto, 0) AS previsto_min, ISNULL(i.tempo_gasto, 0) AS gasto_min, FORMAT(i.data_inicio_real, 'dd/MM/yyyy') AS inicio_real, FORMAT(i.data_fim_real, 'dd/MM/yyyy') AS fim_real FROM tab_plano_itens i JOIN tab_plano_acao pa ON i.id_plano = pa.id_plano LEFT JOIN tab_projetos pj ON pa.id_projeto = pj.id_projeto WHERE 1=1 ORDER BY pj.nome_projeto, i.responsavel, i.descricao",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "tempo-medio-acao: sem nenhuma linha": {
+    "status": 200,
+    "corpo": {
+      "itens": [],
+      "porResponsavel": [],
+      "porAcao": [],
+      "resumo": {
+        "total_itens": 0,
+        "com_dados": 0,
+        "sem_dados": 0,
+        "previsto_total": 0,
+        "gasto_total": 0,
+        "media_previsto": 0,
+        "media_gasto": 0,
+        "media_desvio": 0,
+        "qtd_estourado": 0,
+        "qtd_na_media": 0,
+        "qtd_legal": 0,
+        "media_tempo_estourado": 0,
+        "media_tempo_na_media": 0,
+        "media_tempo_legal": 0
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.id_item, i.descricao, i.responsavel, i.status, i.prioridade, i.modulo, pa.titulo AS titulo_plano, pj.nome_projeto, ISNULL(i.tempo_previsto, 0) AS previsto_min, ISNULL(i.tempo_gasto, 0) AS gasto_min, FORMAT(i.data_inicio_real, 'dd/MM/yyyy') AS inicio_real, FORMAT(i.data_fim_real, 'dd/MM/yyyy') AS fim_real FROM tab_plano_itens i JOIN tab_plano_acao pa ON i.id_plano = pa.id_plano LEFT JOIN tab_projetos pj ON pa.id_projeto = pj.id_projeto WHERE 1=1 ORDER BY pj.nome_projeto, i.responsavel, i.descricao",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "tempo-medio-acao: perfil restrito isola por projeto": {
+    "status": 200,
+    "corpo": {
+      "itens": [
+        {
+          "id_item": 1,
+          "descricao": "Treinar",
+          "responsavel": "Ana",
+          "status": "Fechado",
+          "prioridade": "Alta",
+          "modulo": "Agenda",
+          "titulo_plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "previsto_min": 60,
+          "gasto_min": 90,
+          "inicio_real": "01/10/2026",
+          "fim_real": "02/10/2026",
+          "desvio_min": 30,
+          "classificacao": "ESTOURADO"
+        },
+        {
+          "id_item": 2,
+          "descricao": "Treinar",
+          "responsavel": "Bia",
+          "status": "Fechado",
+          "prioridade": "Alta",
+          "modulo": "Agenda",
+          "titulo_plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "previsto_min": 60,
+          "gasto_min": 30,
+          "inicio_real": null,
+          "fim_real": null,
+          "desvio_min": -30,
+          "classificacao": "LEGAL"
+        },
+        {
+          "id_item": 3,
+          "descricao": "Instalar",
+          "responsavel": "Ana",
+          "status": "Fechado",
+          "prioridade": "Media",
+          "modulo": "Prontuario",
+          "titulo_plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "previsto_min": 100,
+          "gasto_min": 105,
+          "inicio_real": null,
+          "fim_real": null,
+          "desvio_min": 5,
+          "classificacao": "NA MEDIA"
+        },
+        {
+          "id_item": 4,
+          "descricao": "",
+          "responsavel": "",
+          "status": "A Iniciar",
+          "prioridade": "Baixa",
+          "modulo": null,
+          "titulo_plano": "Plano 2",
+          "nome_projeto": null,
+          "previsto_min": 0,
+          "gasto_min": null,
+          "inicio_real": null,
+          "fim_real": null,
+          "desvio_min": 0,
+          "classificacao": "SEM DADOS"
+        }
+      ],
+      "porResponsavel": [
+        {
+          "responsavel": "Ana",
+          "qtd": 2,
+          "previsto_total": 160,
+          "gasto_total": 195,
+          "media_previsto": 80,
+          "media_gasto": 98,
+          "media_desvio": 18,
+          "estourados": 1
+        },
+        {
+          "responsavel": "Bia",
+          "qtd": 1,
+          "previsto_total": 60,
+          "gasto_total": 30,
+          "media_previsto": 60,
+          "media_gasto": 30,
+          "media_desvio": -30,
+          "estourados": 0
+        }
+      ],
+      "porAcao": [
+        {
+          "descricao": "Instalar",
+          "qtd": 1,
+          "media_previsto": 100,
+          "media_gasto": 105,
+          "media_desvio": 5,
+          "estourados": 0
+        },
+        {
+          "descricao": "Treinar",
+          "qtd": 2,
+          "media_previsto": 60,
+          "media_gasto": 60,
+          "media_desvio": 0,
+          "estourados": 1
+        }
+      ],
+      "resumo": {
+        "total_itens": 4,
+        "com_dados": 3,
+        "sem_dados": 1,
+        "previsto_total": 220,
+        "gasto_total": 225,
+        "media_previsto": 73,
+        "media_gasto": 75,
+        "media_desvio": 2,
+        "qtd_estourado": 1,
+        "qtd_na_media": 1,
+        "qtd_legal": 1,
+        "media_tempo_estourado": 90,
+        "media_tempo_na_media": 105,
+        "media_tempo_legal": 30
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.id_item, i.descricao, i.responsavel, i.status, i.prioridade, i.modulo, pa.titulo AS titulo_plano, pj.nome_projeto, ISNULL(i.tempo_previsto, 0) AS previsto_min, ISNULL(i.tempo_gasto, 0) AS gasto_min, FORMAT(i.data_inicio_real, 'dd/MM/yyyy') AS inicio_real, FORMAT(i.data_fim_real, 'dd/MM/yyyy') AS fim_real FROM tab_plano_itens i JOIN tab_plano_acao pa ON i.id_plano = pa.id_plano LEFT JOIN tab_projetos pj ON pa.id_projeto = pj.id_projeto WHERE 1=1 AND pa.id_projeto IN (@__lot_pa_id_projeto_0) ORDER BY pj.nome_projeto, i.responsavel, i.descricao",
+        "entradas": {
+          "__lot_pa_id_projeto_0": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "tempo-medio-acao: sem permissão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "plano-acao: sem filtros": {
+    "status": 200,
+    "corpo": {
+      "gerado_em": "<data>",
+      "hoje": "2026-11-08",
+      "resumo": {
+        "planos": 1,
+        "planos_ativos": 1,
+        "planos_concluidos": 0,
+        "planos_encerrados": 0,
+        "unidades": 1,
+        "clientes": 1,
+        "saude": {
+          "ATENÇÃO": 1
+        },
+        "total": 3,
+        "a_iniciar": 1,
+        "andamento": 1,
+        "atrasados": 0,
+        "fechados": 1,
+        "progresso": 47,
+        "esperado": 67,
+        "vencendo_7d": 0,
+        "fechados_no_prazo": 1,
+        "fechados_com_prazo": 1,
+        "previsto_min": 180,
+        "gasto_min": 80,
+        "trabalhado_min": 1,
+        "desvio": -20,
+        "aderencia": 100
+      },
+      "planos": [
+        {
+          "id_plano": 1,
+          "titulo": "Plano 1",
+          "cliente": "Prefeitura",
+          "cliente_informado": true,
+          "nome_projeto": "Projeto A",
+          "sub_tipo": "Implantacao",
+          "produto": "Agenda, Prontuario",
+          "status": "EM ANDAMENTO",
+          "saude": "ATENÇÃO",
+          "data_criacao": "2026-09-01",
+          "data_inicio_prevista": "2026-09-01",
+          "data_fim_prevista": "2026-12-01",
+          "unidades": 1,
+          "proximo_prazo": "2026-10-20",
+          "total": 3,
+          "a_iniciar": 1,
+          "andamento": 1,
+          "atrasados": 0,
+          "fechados": 1,
+          "progresso": 47,
+          "esperado": 67,
+          "vencendo_7d": 0,
+          "fechados_no_prazo": 1,
+          "fechados_com_prazo": 1,
+          "previsto_min": 180,
+          "gasto_min": 80,
+          "trabalhado_min": 1,
+          "desvio": -20,
+          "aderencia": 100,
+          "publico": false,
+          "token_publico": null
+        }
+      ],
+      "por_status": [
+        {
+          "nome": "A Iniciar",
+          "total": 1
+        },
+        {
+          "nome": "Em andamento",
+          "total": 1
+        },
+        {
+          "nome": "Atrasado",
+          "total": 0
+        },
+        {
+          "nome": "Fechado",
+          "total": 1
+        }
+      ],
+      "por_responsavel": [
+        {
+          "nome": "Ana",
+          "total": 2,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 1,
+          "progresso": 50,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        },
+        {
+          "nome": "Bia",
+          "total": 1,
+          "fechados": 0,
+          "atrasados": 0,
+          "andamento": 1,
+          "a_iniciar": 0,
+          "progresso": 40,
+          "previsto_min": 120,
+          "trabalhado_min": 0
+        }
+      ],
+      "por_modulo": [
+        {
+          "nome": "Agenda",
+          "total": 2,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 1,
+          "progresso": 50,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        },
+        {
+          "nome": "Prontuario",
+          "total": 1,
+          "fechados": 0,
+          "atrasados": 0,
+          "andamento": 1,
+          "a_iniciar": 0,
+          "progresso": 40,
+          "previsto_min": 120,
+          "trabalhado_min": 0
+        }
+      ],
+      "por_unidade": [
+        {
+          "nome": "UBS Centro",
+          "total": 2,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 1,
+          "progresso": 50,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        }
+      ],
+      "por_cliente": [
+        {
+          "nome": "Prefeitura",
+          "total": 3,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 1,
+          "a_iniciar": 1,
+          "progresso": 47,
+          "previsto_min": 180,
+          "trabalhado_min": 1
+        }
+      ],
+      "por_etapa": [
+        {
+          "nome": "EXECUÇÃO NAS UNIDADES",
+          "total": 2,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 1,
+          "progresso": 50,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        },
+        {
+          "nome": "GERAL",
+          "total": 1,
+          "fechados": 0,
+          "atrasados": 0,
+          "andamento": 1,
+          "a_iniciar": 0,
+          "progresso": 40,
+          "previsto_min": 120,
+          "trabalhado_min": 0
+        }
+      ],
+      "por_prioridade": [
+        {
+          "nome": "Alta",
+          "total": 1,
+          "fechados": 1,
+          "atrasados": 0,
+          "progresso": 100
+        },
+        {
+          "nome": "Média",
+          "total": 0,
+          "fechados": 0,
+          "atrasados": 0,
+          "progresso": 0
+        },
+        {
+          "nome": "Baixa",
+          "total": 1,
+          "fechados": 0,
+          "atrasados": 0,
+          "progresso": 0
+        }
+      ],
+      "atrasados": [
+        {
+          "id_item": 2,
+          "id_plano": 1,
+          "plano": "Plano 1",
+          "cliente": "Prefeitura",
+          "descricao": "Instalar",
+          "unidade": null,
+          "modulo": "Prontuario",
+          "grupo": null,
+          "responsavel": "Bia",
+          "prioridade": "Media",
+          "status": "Em andamento",
+          "data_inicio": "2026-10-01",
+          "data_fim": "2026-10-20",
+          "dias_atraso": 19
+        }
+      ],
+      "proximos_prazos": [],
+      "evolucao": [
+        {
+          "semana": "2026-08-17",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-08-24",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-08-31",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-09-07",
+          "previstos": 1,
+          "concluidos": 1,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-09-14",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-09-21",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-09-28",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-10-05",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-10-12",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-10-19",
+          "previstos": 1,
+          "concluidos": 0,
+          "acum_previsto": 67,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-10-26",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 67,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-11-02",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 67,
+          "acum_realizado": 33
+        }
+      ],
+      "por_pessoa": [
+        {
+          "id_usuario": 3,
+          "nome": "Ana Souza",
+          "itens": 1,
+          "abertos": 0,
+          "atrasados": 0,
+          "trabalhado_min": 50,
+          "apontamentos": 1
+        }
+      ],
+      "itens": [
+        {
+          "id_item": 1,
+          "id_plano": 1,
+          "plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "cliente": "Prefeitura",
+          "status_plano": "EM ANDAMENTO",
+          "modulo": "Agenda",
+          "grupo": null,
+          "unidade": "UBS Centro",
+          "descricao": "Treinar",
+          "responsavel": "Ana",
+          "equipe": "Ana Souza",
+          "prioridade": "Alta",
+          "status": "Fechado",
+          "percentual": 100,
+          "data_inicio": "2026-09-01",
+          "data_fim": "2026-09-10",
+          "data_inicio_real": "2026-09-01",
+          "data_fim_real": "2026-09-09",
+          "tempo_previsto": 60,
+          "tempo_gasto": 50,
+          "horas_trabalhadas": 1,
+          "observacao": "",
+          "situacao_prazo": "NO PRAZO",
+          "dias_atraso": 0
+        },
+        {
+          "id_item": 2,
+          "id_plano": 1,
+          "plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "cliente": "Prefeitura",
+          "status_plano": "EM ANDAMENTO",
+          "modulo": "Prontuario",
+          "grupo": "GERAL",
+          "unidade": null,
+          "descricao": "Instalar",
+          "responsavel": "Bia",
+          "equipe": "",
+          "prioridade": "Media",
+          "status": "Em andamento",
+          "percentual": 40,
+          "data_inicio": "2026-10-01",
+          "data_fim": "2026-10-20",
+          "data_inicio_real": null,
+          "data_fim_real": null,
+          "tempo_previsto": 120,
+          "tempo_gasto": 30,
+          "horas_trabalhadas": 0,
+          "observacao": "",
+          "situacao_prazo": "VENCIDO",
+          "dias_atraso": 19
+        },
+        {
+          "id_item": 3,
+          "id_plano": 1,
+          "plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "cliente": "Prefeitura",
+          "status_plano": "EM ANDAMENTO",
+          "modulo": "Agenda",
+          "grupo": null,
+          "unidade": "UBS Centro",
+          "descricao": "Revisar",
+          "responsavel": "Ana",
+          "equipe": "",
+          "prioridade": "Baixa",
+          "status": "A Iniciar",
+          "percentual": 0,
+          "data_inicio": null,
+          "data_fim": "2026-12-30",
+          "data_inicio_real": null,
+          "data_fim_real": null,
+          "tempo_previsto": 0,
+          "tempo_gasto": 0,
+          "horas_trabalhadas": 0,
+          "observacao": "",
+          "situacao_prazo": "A VENCER",
+          "dias_atraso": 0
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "UPDATE i SET i.status = 'Atrasado' FROM tab_plano_itens i JOIN tab_plano_acao p ON p.id_plano = i.id_plano WHERE p.status = 'EM ANDAMENTO' AND i.data_fim IS NOT NULL AND i.data_fim < @hoje AND i.status IN ('A Iniciar', 'Em andamento', 'Em Andamento', 'Pendente')",
+        "entradas": {
+          "hoje": "2026-11-08"
+        }
+      },
+      {
+        "texto": "SELECT p.id_plano, p.titulo, p.status, p.sub_tipo, p.cliente, p.descricao, p.data_criacao, p.data_inicio_prevista, p.data_fim_prevista, p.data_encerramento, p.publico, p.token_publico, p.criado_por, p.id_projeto, pj.nome_projeto, pr.nome_produto FROM tab_plano_acao p LEFT JOIN tab_projetos pj ON pj.id_projeto = p.id_projeto LEFT JOIN tab_produtos pr ON pr.id_produto = p.id_produto WHERE 1=1 ORDER BY p.data_criacao DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT i.id_item, i.id_plano, i.id_unidade, u.nome_unidade, i.modulo, i.titulo AS grupo, i.descricao, i.responsavel, i.cliente, i.observacao, i.status, i.prioridade, i.ordem, i.percentual, i.data_inicio, i.data_fim, i.data_inicio_real, i.data_fim_real, i.tempo_previsto, i.tempo_gasto, i.horas_trabalhadas FROM tab_plano_itens i LEFT JOIN tab_unidades u ON u.id_unidade = i.id_unidade WHERE i.id_plano IN (@p0)",
+        "entradas": {
+          "p0": 1
+        }
+      },
+      {
+        "texto": "SELECT e.id_item, i.id_plano, e.id_usuario, us.nome_completo FROM tab_plano_item_equipe e JOIN tab_plano_itens i ON i.id_item = e.id_item JOIN tab_usuarios us ON us.id_usuario = e.id_usuario WHERE i.id_plano IN (@p0)",
+        "entradas": {
+          "p0": 1
+        }
+      },
+      {
+        "texto": "SELECT a.id_item, a.id_plano, a.id_usuario, us.nome_completo, a.data_execucao, a.minutos FROM tab_plano_apontamentos a JOIN tab_usuarios us ON us.id_usuario = a.id_usuario WHERE a.id_plano IN (@p0)",
+        "entradas": {
+          "p0": 1
+        }
+      }
+    ],
+    "externos": []
+  },
+  "plano-acao: filtros da base": {
+    "status": 200,
+    "corpo": {
+      "gerado_em": "<data>",
+      "hoje": "2026-11-08",
+      "resumo": {
+        "planos": 1,
+        "planos_ativos": 1,
+        "planos_concluidos": 0,
+        "planos_encerrados": 0,
+        "unidades": 1,
+        "clientes": 1,
+        "saude": {
+          "ATENÇÃO": 1
+        },
+        "total": 3,
+        "a_iniciar": 1,
+        "andamento": 1,
+        "atrasados": 0,
+        "fechados": 1,
+        "progresso": 47,
+        "esperado": 67,
+        "vencendo_7d": 0,
+        "fechados_no_prazo": 1,
+        "fechados_com_prazo": 1,
+        "previsto_min": 180,
+        "gasto_min": 80,
+        "trabalhado_min": 1,
+        "desvio": -20,
+        "aderencia": 100
+      },
+      "planos": [
+        {
+          "id_plano": 1,
+          "titulo": "Plano 1",
+          "cliente": "Prefeitura",
+          "cliente_informado": true,
+          "nome_projeto": "Projeto A",
+          "sub_tipo": "Implantacao",
+          "produto": "Agenda, Prontuario",
+          "status": "EM ANDAMENTO",
+          "saude": "ATENÇÃO",
+          "data_criacao": "2026-09-01",
+          "data_inicio_prevista": "2026-09-01",
+          "data_fim_prevista": "2026-12-01",
+          "unidades": 1,
+          "proximo_prazo": "2026-10-20",
+          "total": 3,
+          "a_iniciar": 1,
+          "andamento": 1,
+          "atrasados": 0,
+          "fechados": 1,
+          "progresso": 47,
+          "esperado": 67,
+          "vencendo_7d": 0,
+          "fechados_no_prazo": 1,
+          "fechados_com_prazo": 1,
+          "previsto_min": 180,
+          "gasto_min": 80,
+          "trabalhado_min": 1,
+          "desvio": -20,
+          "aderencia": 100,
+          "publico": false,
+          "token_publico": null
+        }
+      ],
+      "por_status": [
+        {
+          "nome": "A Iniciar",
+          "total": 1
+        },
+        {
+          "nome": "Em andamento",
+          "total": 1
+        },
+        {
+          "nome": "Atrasado",
+          "total": 0
+        },
+        {
+          "nome": "Fechado",
+          "total": 1
+        }
+      ],
+      "por_responsavel": [
+        {
+          "nome": "Ana",
+          "total": 2,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 1,
+          "progresso": 50,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        },
+        {
+          "nome": "Bia",
+          "total": 1,
+          "fechados": 0,
+          "atrasados": 0,
+          "andamento": 1,
+          "a_iniciar": 0,
+          "progresso": 40,
+          "previsto_min": 120,
+          "trabalhado_min": 0
+        }
+      ],
+      "por_modulo": [
+        {
+          "nome": "Agenda",
+          "total": 2,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 1,
+          "progresso": 50,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        },
+        {
+          "nome": "Prontuario",
+          "total": 1,
+          "fechados": 0,
+          "atrasados": 0,
+          "andamento": 1,
+          "a_iniciar": 0,
+          "progresso": 40,
+          "previsto_min": 120,
+          "trabalhado_min": 0
+        }
+      ],
+      "por_unidade": [
+        {
+          "nome": "UBS Centro",
+          "total": 2,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 1,
+          "progresso": 50,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        }
+      ],
+      "por_cliente": [
+        {
+          "nome": "Prefeitura",
+          "total": 3,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 1,
+          "a_iniciar": 1,
+          "progresso": 47,
+          "previsto_min": 180,
+          "trabalhado_min": 1
+        }
+      ],
+      "por_etapa": [
+        {
+          "nome": "EXECUÇÃO NAS UNIDADES",
+          "total": 2,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 1,
+          "progresso": 50,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        },
+        {
+          "nome": "GERAL",
+          "total": 1,
+          "fechados": 0,
+          "atrasados": 0,
+          "andamento": 1,
+          "a_iniciar": 0,
+          "progresso": 40,
+          "previsto_min": 120,
+          "trabalhado_min": 0
+        }
+      ],
+      "por_prioridade": [
+        {
+          "nome": "Alta",
+          "total": 1,
+          "fechados": 1,
+          "atrasados": 0,
+          "progresso": 100
+        },
+        {
+          "nome": "Média",
+          "total": 0,
+          "fechados": 0,
+          "atrasados": 0,
+          "progresso": 0
+        },
+        {
+          "nome": "Baixa",
+          "total": 1,
+          "fechados": 0,
+          "atrasados": 0,
+          "progresso": 0
+        }
+      ],
+      "atrasados": [
+        {
+          "id_item": 2,
+          "id_plano": 1,
+          "plano": "Plano 1",
+          "cliente": "Prefeitura",
+          "descricao": "Instalar",
+          "unidade": null,
+          "modulo": "Prontuario",
+          "grupo": null,
+          "responsavel": "Bia",
+          "prioridade": "Media",
+          "status": "Em andamento",
+          "data_inicio": "2026-10-01",
+          "data_fim": "2026-10-20",
+          "dias_atraso": 19
+        }
+      ],
+      "proximos_prazos": [],
+      "evolucao": [
+        {
+          "semana": "2026-08-17",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-08-24",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-08-31",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-09-07",
+          "previstos": 1,
+          "concluidos": 1,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-09-14",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-09-21",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-09-28",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-10-05",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-10-12",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-10-19",
+          "previstos": 1,
+          "concluidos": 0,
+          "acum_previsto": 67,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-10-26",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 67,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-11-02",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 67,
+          "acum_realizado": 33
+        }
+      ],
+      "por_pessoa": [
+        {
+          "id_usuario": 3,
+          "nome": "Ana Souza",
+          "itens": 1,
+          "abertos": 0,
+          "atrasados": 0,
+          "trabalhado_min": 50,
+          "apontamentos": 1
+        }
+      ],
+      "itens": [
+        {
+          "id_item": 1,
+          "id_plano": 1,
+          "plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "cliente": "Prefeitura",
+          "status_plano": "EM ANDAMENTO",
+          "modulo": "Agenda",
+          "grupo": null,
+          "unidade": "UBS Centro",
+          "descricao": "Treinar",
+          "responsavel": "Ana",
+          "equipe": "Ana Souza",
+          "prioridade": "Alta",
+          "status": "Fechado",
+          "percentual": 100,
+          "data_inicio": "2026-09-01",
+          "data_fim": "2026-09-10",
+          "data_inicio_real": "2026-09-01",
+          "data_fim_real": "2026-09-09",
+          "tempo_previsto": 60,
+          "tempo_gasto": 50,
+          "horas_trabalhadas": 1,
+          "observacao": "",
+          "situacao_prazo": "NO PRAZO",
+          "dias_atraso": 0
+        },
+        {
+          "id_item": 2,
+          "id_plano": 1,
+          "plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "cliente": "Prefeitura",
+          "status_plano": "EM ANDAMENTO",
+          "modulo": "Prontuario",
+          "grupo": "GERAL",
+          "unidade": null,
+          "descricao": "Instalar",
+          "responsavel": "Bia",
+          "equipe": "",
+          "prioridade": "Media",
+          "status": "Em andamento",
+          "percentual": 40,
+          "data_inicio": "2026-10-01",
+          "data_fim": "2026-10-20",
+          "data_inicio_real": null,
+          "data_fim_real": null,
+          "tempo_previsto": 120,
+          "tempo_gasto": 30,
+          "horas_trabalhadas": 0,
+          "observacao": "",
+          "situacao_prazo": "VENCIDO",
+          "dias_atraso": 19
+        },
+        {
+          "id_item": 3,
+          "id_plano": 1,
+          "plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "cliente": "Prefeitura",
+          "status_plano": "EM ANDAMENTO",
+          "modulo": "Agenda",
+          "grupo": null,
+          "unidade": "UBS Centro",
+          "descricao": "Revisar",
+          "responsavel": "Ana",
+          "equipe": "",
+          "prioridade": "Baixa",
+          "status": "A Iniciar",
+          "percentual": 0,
+          "data_inicio": null,
+          "data_fim": "2026-12-30",
+          "data_inicio_real": null,
+          "data_fim_real": null,
+          "tempo_previsto": 0,
+          "tempo_gasto": 0,
+          "horas_trabalhadas": 0,
+          "observacao": "",
+          "situacao_prazo": "A VENCER",
+          "dias_atraso": 0
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "UPDATE i SET i.status = 'Atrasado' FROM tab_plano_itens i JOIN tab_plano_acao p ON p.id_plano = i.id_plano WHERE p.status = 'EM ANDAMENTO' AND i.data_fim IS NOT NULL AND i.data_fim < @hoje AND i.status IN ('A Iniciar', 'Em andamento', 'Em Andamento', 'Pendente')",
+        "entradas": {
+          "hoje": "2026-11-08"
+        }
+      },
+      {
+        "texto": "SELECT p.id_plano, p.titulo, p.status, p.sub_tipo, p.cliente, p.descricao, p.data_criacao, p.data_inicio_prevista, p.data_fim_prevista, p.data_encerramento, p.publico, p.token_publico, p.criado_por, p.id_projeto, pj.nome_projeto, pr.nome_produto FROM tab_plano_acao p LEFT JOIN tab_projetos pj ON pj.id_projeto = p.id_projeto LEFT JOIN tab_produtos pr ON pr.id_produto = p.id_produto WHERE 1=1 AND p.id_plano = @idp AND p.id_projeto = @proj AND p.status = @stp AND (p.cliente LIKE @cli OR (p.cliente IS NULL AND pj.nome_projeto LIKE @cli) OR EXISTS (SELECT 1 FROM tab_plano_itens ic WHERE ic.id_plano = p.id_plano AND ic.cliente LIKE @cli)) AND CAST(p.data_criacao AS DATE) BETWEEN @di AND @df ORDER BY p.data_criacao DESC",
+        "entradas": {
+          "idp": 1,
+          "proj": 2,
+          "stp": "EM ANDAMENTO",
+          "cli": "%Prefeitura%",
+          "di": "2026-10-01",
+          "df": "2026-10-31"
+        }
+      },
+      {
+        "texto": "SELECT i.id_item, i.id_plano, i.id_unidade, u.nome_unidade, i.modulo, i.titulo AS grupo, i.descricao, i.responsavel, i.cliente, i.observacao, i.status, i.prioridade, i.ordem, i.percentual, i.data_inicio, i.data_fim, i.data_inicio_real, i.data_fim_real, i.tempo_previsto, i.tempo_gasto, i.horas_trabalhadas FROM tab_plano_itens i LEFT JOIN tab_unidades u ON u.id_unidade = i.id_unidade WHERE i.id_plano IN (@p0)",
+        "entradas": {
+          "p0": 1
+        }
+      },
+      {
+        "texto": "SELECT e.id_item, i.id_plano, e.id_usuario, us.nome_completo FROM tab_plano_item_equipe e JOIN tab_plano_itens i ON i.id_item = e.id_item JOIN tab_usuarios us ON us.id_usuario = e.id_usuario WHERE i.id_plano IN (@p0)",
+        "entradas": {
+          "p0": 1
+        }
+      },
+      {
+        "texto": "SELECT a.id_item, a.id_plano, a.id_usuario, us.nome_completo, a.data_execucao, a.minutos FROM tab_plano_apontamentos a JOIN tab_usuarios us ON us.id_usuario = a.id_usuario WHERE a.id_plano IN (@p0)",
+        "entradas": {
+          "p0": 1
+        }
+      }
+    ],
+    "externos": []
+  },
+  "plano-acao: filtros dos itens": {
+    "status": 200,
+    "corpo": {
+      "gerado_em": "<data>",
+      "hoje": "2026-11-08",
+      "resumo": {
+        "planos": 1,
+        "planos_ativos": 1,
+        "planos_concluidos": 0,
+        "planos_encerrados": 0,
+        "unidades": 1,
+        "clientes": 1,
+        "saude": {
+          "CONCLUÍDO": 1
+        },
+        "total": 1,
+        "a_iniciar": 0,
+        "andamento": 0,
+        "atrasados": 0,
+        "fechados": 1,
+        "progresso": 100,
+        "esperado": 100,
+        "vencendo_7d": 0,
+        "fechados_no_prazo": 1,
+        "fechados_com_prazo": 1,
+        "previsto_min": 60,
+        "gasto_min": 50,
+        "trabalhado_min": 1,
+        "desvio": 0,
+        "aderencia": 100
+      },
+      "planos": [
+        {
+          "id_plano": 1,
+          "titulo": "Plano 1",
+          "cliente": "Prefeitura",
+          "cliente_informado": true,
+          "nome_projeto": "Projeto A",
+          "sub_tipo": "Implantacao",
+          "produto": "Agenda",
+          "status": "EM ANDAMENTO",
+          "saude": "CONCLUÍDO",
+          "data_criacao": "2026-09-01",
+          "data_inicio_prevista": "2026-09-01",
+          "data_fim_prevista": "2026-12-01",
+          "unidades": 1,
+          "proximo_prazo": null,
+          "total": 1,
+          "a_iniciar": 0,
+          "andamento": 0,
+          "atrasados": 0,
+          "fechados": 1,
+          "progresso": 100,
+          "esperado": 100,
+          "vencendo_7d": 0,
+          "fechados_no_prazo": 1,
+          "fechados_com_prazo": 1,
+          "previsto_min": 60,
+          "gasto_min": 50,
+          "trabalhado_min": 1,
+          "desvio": 0,
+          "aderencia": 100,
+          "publico": false,
+          "token_publico": null
+        }
+      ],
+      "por_status": [
+        {
+          "nome": "A Iniciar",
+          "total": 0
+        },
+        {
+          "nome": "Em andamento",
+          "total": 0
+        },
+        {
+          "nome": "Atrasado",
+          "total": 0
+        },
+        {
+          "nome": "Fechado",
+          "total": 1
+        }
+      ],
+      "por_responsavel": [
+        {
+          "nome": "Ana",
+          "total": 1,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 0,
+          "progresso": 100,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        }
+      ],
+      "por_modulo": [
+        {
+          "nome": "Agenda",
+          "total": 1,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 0,
+          "progresso": 100,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        }
+      ],
+      "por_unidade": [
+        {
+          "nome": "UBS Centro",
+          "total": 1,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 0,
+          "progresso": 100,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        }
+      ],
+      "por_cliente": [
+        {
+          "nome": "Prefeitura",
+          "total": 1,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 0,
+          "progresso": 100,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        }
+      ],
+      "por_etapa": [
+        {
+          "nome": "EXECUÇÃO NAS UNIDADES",
+          "total": 1,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 0,
+          "progresso": 100,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        }
+      ],
+      "por_prioridade": [
+        {
+          "nome": "Alta",
+          "total": 1,
+          "fechados": 1,
+          "atrasados": 0,
+          "progresso": 100
+        },
+        {
+          "nome": "Média",
+          "total": 0,
+          "fechados": 0,
+          "atrasados": 0,
+          "progresso": 0
+        },
+        {
+          "nome": "Baixa",
+          "total": 0,
+          "fechados": 0,
+          "atrasados": 0,
+          "progresso": 0
+        }
+      ],
+      "atrasados": [],
+      "proximos_prazos": [],
+      "evolucao": [
+        {
+          "semana": "2026-08-17",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-08-24",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-08-31",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-09-07",
+          "previstos": 1,
+          "concluidos": 1,
+          "acum_previsto": 100,
+          "acum_realizado": 100
+        },
+        {
+          "semana": "2026-09-14",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 100,
+          "acum_realizado": 100
+        },
+        {
+          "semana": "2026-09-21",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 100,
+          "acum_realizado": 100
+        },
+        {
+          "semana": "2026-09-28",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 100,
+          "acum_realizado": 100
+        },
+        {
+          "semana": "2026-10-05",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 100,
+          "acum_realizado": 100
+        },
+        {
+          "semana": "2026-10-12",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 100,
+          "acum_realizado": 100
+        },
+        {
+          "semana": "2026-10-19",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 100,
+          "acum_realizado": 100
+        },
+        {
+          "semana": "2026-10-26",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 100,
+          "acum_realizado": 100
+        },
+        {
+          "semana": "2026-11-02",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 100,
+          "acum_realizado": 100
+        }
+      ],
+      "por_pessoa": [
+        {
+          "id_usuario": 3,
+          "nome": "Ana Souza",
+          "itens": 1,
+          "abertos": 0,
+          "atrasados": 0,
+          "trabalhado_min": 50,
+          "apontamentos": 1
+        }
+      ],
+      "itens": [
+        {
+          "id_item": 1,
+          "id_plano": 1,
+          "plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "cliente": "Prefeitura",
+          "status_plano": "EM ANDAMENTO",
+          "modulo": "Agenda",
+          "grupo": null,
+          "unidade": "UBS Centro",
+          "descricao": "Treinar",
+          "responsavel": "Ana",
+          "equipe": "Ana Souza",
+          "prioridade": "Alta",
+          "status": "Fechado",
+          "percentual": 100,
+          "data_inicio": "2026-09-01",
+          "data_fim": "2026-09-10",
+          "data_inicio_real": "2026-09-01",
+          "data_fim_real": "2026-09-09",
+          "tempo_previsto": 60,
+          "tempo_gasto": 50,
+          "horas_trabalhadas": 1,
+          "observacao": "",
+          "situacao_prazo": "NO PRAZO",
+          "dias_atraso": 0
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "UPDATE i SET i.status = 'Atrasado' FROM tab_plano_itens i JOIN tab_plano_acao p ON p.id_plano = i.id_plano WHERE p.status = 'EM ANDAMENTO' AND i.data_fim IS NOT NULL AND i.data_fim < @hoje AND i.status IN ('A Iniciar', 'Em andamento', 'Em Andamento', 'Pendente')",
+        "entradas": {
+          "hoje": "2026-11-08"
+        }
+      },
+      {
+        "texto": "SELECT p.id_plano, p.titulo, p.status, p.sub_tipo, p.cliente, p.descricao, p.data_criacao, p.data_inicio_prevista, p.data_fim_prevista, p.data_encerramento, p.publico, p.token_publico, p.criado_por, p.id_projeto, pj.nome_projeto, pr.nome_produto FROM tab_plano_acao p LEFT JOIN tab_projetos pj ON pj.id_projeto = p.id_projeto LEFT JOIN tab_produtos pr ON pr.id_produto = p.id_produto WHERE 1=1 ORDER BY p.data_criacao DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT i.id_item, i.id_plano, i.id_unidade, u.nome_unidade, i.modulo, i.titulo AS grupo, i.descricao, i.responsavel, i.cliente, i.observacao, i.status, i.prioridade, i.ordem, i.percentual, i.data_inicio, i.data_fim, i.data_inicio_real, i.data_fim_real, i.tempo_previsto, i.tempo_gasto, i.horas_trabalhadas FROM tab_plano_itens i LEFT JOIN tab_unidades u ON u.id_unidade = i.id_unidade WHERE i.id_plano IN (@p0)",
+        "entradas": {
+          "p0": 1
+        }
+      },
+      {
+        "texto": "SELECT e.id_item, i.id_plano, e.id_usuario, us.nome_completo FROM tab_plano_item_equipe e JOIN tab_plano_itens i ON i.id_item = e.id_item JOIN tab_usuarios us ON us.id_usuario = e.id_usuario WHERE i.id_plano IN (@p0)",
+        "entradas": {
+          "p0": 1
+        }
+      },
+      {
+        "texto": "SELECT a.id_item, a.id_plano, a.id_usuario, us.nome_completo, a.data_execucao, a.minutos FROM tab_plano_apontamentos a JOIN tab_usuarios us ON us.id_usuario = a.id_usuario WHERE a.id_plano IN (@p0)",
+        "entradas": {
+          "p0": 1
+        }
+      }
+    ],
+    "externos": []
+  },
+  "plano-acao: filtros dos itens sem resultado": {
+    "status": 200,
+    "corpo": {
+      "gerado_em": "<data>",
+      "hoje": "2026-11-08",
+      "resumo": {
+        "planos": 1,
+        "planos_ativos": 1,
+        "planos_concluidos": 0,
+        "planos_encerrados": 0,
+        "unidades": 0,
+        "clientes": 1,
+        "saude": {
+          "NO PRAZO": 1
+        },
+        "total": 0,
+        "a_iniciar": 0,
+        "andamento": 0,
+        "atrasados": 0,
+        "fechados": 0,
+        "progresso": 0,
+        "esperado": 0,
+        "vencendo_7d": 0,
+        "fechados_no_prazo": 0,
+        "fechados_com_prazo": 0,
+        "previsto_min": 0,
+        "gasto_min": 0,
+        "trabalhado_min": 0,
+        "aderencia": null,
+        "desvio": 0
+      },
+      "planos": [
+        {
+          "id_plano": 1,
+          "titulo": "Plano 1",
+          "cliente": "Prefeitura",
+          "cliente_informado": true,
+          "nome_projeto": "Projeto A",
+          "sub_tipo": "Implantacao",
+          "produto": "Prontuario",
+          "status": "EM ANDAMENTO",
+          "saude": "NO PRAZO",
+          "data_criacao": "2026-09-01",
+          "data_inicio_prevista": "2026-09-01",
+          "data_fim_prevista": "2026-12-01",
+          "unidades": 0,
+          "proximo_prazo": null,
+          "total": 0,
+          "a_iniciar": 0,
+          "andamento": 0,
+          "atrasados": 0,
+          "fechados": 0,
+          "progresso": 0,
+          "esperado": 0,
+          "vencendo_7d": 0,
+          "fechados_no_prazo": 0,
+          "fechados_com_prazo": 0,
+          "previsto_min": 0,
+          "gasto_min": 0,
+          "trabalhado_min": 0,
+          "aderencia": null,
+          "desvio": 0,
+          "publico": false,
+          "token_publico": null
+        }
+      ],
+      "por_status": [
+        {
+          "nome": "A Iniciar",
+          "total": 0
+        },
+        {
+          "nome": "Em andamento",
+          "total": 0
+        },
+        {
+          "nome": "Atrasado",
+          "total": 0
+        },
+        {
+          "nome": "Fechado",
+          "total": 0
+        }
+      ],
+      "por_responsavel": [],
+      "por_modulo": [],
+      "por_unidade": [],
+      "por_cliente": [],
+      "por_etapa": [],
+      "por_prioridade": [
+        {
+          "nome": "Alta",
+          "total": 0,
+          "fechados": 0,
+          "atrasados": 0,
+          "progresso": 0
+        },
+        {
+          "nome": "Média",
+          "total": 0,
+          "fechados": 0,
+          "atrasados": 0,
+          "progresso": 0
+        },
+        {
+          "nome": "Baixa",
+          "total": 0,
+          "fechados": 0,
+          "atrasados": 0,
+          "progresso": 0
+        }
+      ],
+      "atrasados": [],
+      "proximos_prazos": [],
+      "evolucao": [
+        {
+          "semana": "2026-08-17",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-08-24",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-08-31",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-09-07",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-09-14",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-09-21",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-09-28",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-10-05",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-10-12",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-10-19",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-10-26",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-11-02",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        }
+      ],
+      "por_pessoa": [
+        {
+          "id_usuario": 3,
+          "nome": "Ana Souza",
+          "itens": 0,
+          "abertos": 0,
+          "atrasados": 0,
+          "trabalhado_min": 50,
+          "apontamentos": 1
+        }
+      ],
+      "itens": []
+    },
+    "consultas": [
+      {
+        "texto": "UPDATE i SET i.status = 'Atrasado' FROM tab_plano_itens i JOIN tab_plano_acao p ON p.id_plano = i.id_plano WHERE p.status = 'EM ANDAMENTO' AND i.data_fim IS NOT NULL AND i.data_fim < @hoje AND i.status IN ('A Iniciar', 'Em andamento', 'Em Andamento', 'Pendente')",
+        "entradas": {
+          "hoje": "2026-11-08"
+        }
+      },
+      {
+        "texto": "SELECT p.id_plano, p.titulo, p.status, p.sub_tipo, p.cliente, p.descricao, p.data_criacao, p.data_inicio_prevista, p.data_fim_prevista, p.data_encerramento, p.publico, p.token_publico, p.criado_por, p.id_projeto, pj.nome_projeto, pr.nome_produto FROM tab_plano_acao p LEFT JOIN tab_projetos pj ON pj.id_projeto = p.id_projeto LEFT JOIN tab_produtos pr ON pr.id_produto = p.id_produto WHERE 1=1 ORDER BY p.data_criacao DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT i.id_item, i.id_plano, i.id_unidade, u.nome_unidade, i.modulo, i.titulo AS grupo, i.descricao, i.responsavel, i.cliente, i.observacao, i.status, i.prioridade, i.ordem, i.percentual, i.data_inicio, i.data_fim, i.data_inicio_real, i.data_fim_real, i.tempo_previsto, i.tempo_gasto, i.horas_trabalhadas FROM tab_plano_itens i LEFT JOIN tab_unidades u ON u.id_unidade = i.id_unidade WHERE i.id_plano IN (@p0)",
+        "entradas": {
+          "p0": 1
+        }
+      },
+      {
+        "texto": "SELECT e.id_item, i.id_plano, e.id_usuario, us.nome_completo FROM tab_plano_item_equipe e JOIN tab_plano_itens i ON i.id_item = e.id_item JOIN tab_usuarios us ON us.id_usuario = e.id_usuario WHERE i.id_plano IN (@p0)",
+        "entradas": {
+          "p0": 1
+        }
+      },
+      {
+        "texto": "SELECT a.id_item, a.id_plano, a.id_usuario, us.nome_completo, a.data_execucao, a.minutos FROM tab_plano_apontamentos a JOIN tab_usuarios us ON us.id_usuario = a.id_usuario WHERE a.id_plano IN (@p0)",
+        "entradas": {
+          "p0": 1
+        }
+      }
+    ],
+    "externos": []
+  },
+  "plano-acao: Todos ignorados e valores inválidos": {
+    "status": 200,
+    "corpo": {
+      "gerado_em": "<data>",
+      "hoje": "2026-11-08",
+      "resumo": {
+        "planos": 1,
+        "planos_ativos": 1,
+        "planos_concluidos": 0,
+        "planos_encerrados": 0,
+        "unidades": 1,
+        "clientes": 1,
+        "saude": {
+          "ATENÇÃO": 1
+        },
+        "total": 3,
+        "a_iniciar": 1,
+        "andamento": 1,
+        "atrasados": 0,
+        "fechados": 1,
+        "progresso": 47,
+        "esperado": 67,
+        "vencendo_7d": 0,
+        "fechados_no_prazo": 1,
+        "fechados_com_prazo": 1,
+        "previsto_min": 180,
+        "gasto_min": 80,
+        "trabalhado_min": 1,
+        "desvio": -20,
+        "aderencia": 100
+      },
+      "planos": [
+        {
+          "id_plano": 1,
+          "titulo": "Plano 1",
+          "cliente": "Prefeitura",
+          "cliente_informado": true,
+          "nome_projeto": "Projeto A",
+          "sub_tipo": "Implantacao",
+          "produto": "Agenda, Prontuario",
+          "status": "EM ANDAMENTO",
+          "saude": "ATENÇÃO",
+          "data_criacao": "2026-09-01",
+          "data_inicio_prevista": "2026-09-01",
+          "data_fim_prevista": "2026-12-01",
+          "unidades": 1,
+          "proximo_prazo": "2026-10-20",
+          "total": 3,
+          "a_iniciar": 1,
+          "andamento": 1,
+          "atrasados": 0,
+          "fechados": 1,
+          "progresso": 47,
+          "esperado": 67,
+          "vencendo_7d": 0,
+          "fechados_no_prazo": 1,
+          "fechados_com_prazo": 1,
+          "previsto_min": 180,
+          "gasto_min": 80,
+          "trabalhado_min": 1,
+          "desvio": -20,
+          "aderencia": 100,
+          "publico": false,
+          "token_publico": null
+        }
+      ],
+      "por_status": [
+        {
+          "nome": "A Iniciar",
+          "total": 1
+        },
+        {
+          "nome": "Em andamento",
+          "total": 1
+        },
+        {
+          "nome": "Atrasado",
+          "total": 0
+        },
+        {
+          "nome": "Fechado",
+          "total": 1
+        }
+      ],
+      "por_responsavel": [
+        {
+          "nome": "Ana",
+          "total": 2,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 1,
+          "progresso": 50,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        },
+        {
+          "nome": "Bia",
+          "total": 1,
+          "fechados": 0,
+          "atrasados": 0,
+          "andamento": 1,
+          "a_iniciar": 0,
+          "progresso": 40,
+          "previsto_min": 120,
+          "trabalhado_min": 0
+        }
+      ],
+      "por_modulo": [
+        {
+          "nome": "Agenda",
+          "total": 2,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 1,
+          "progresso": 50,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        },
+        {
+          "nome": "Prontuario",
+          "total": 1,
+          "fechados": 0,
+          "atrasados": 0,
+          "andamento": 1,
+          "a_iniciar": 0,
+          "progresso": 40,
+          "previsto_min": 120,
+          "trabalhado_min": 0
+        }
+      ],
+      "por_unidade": [
+        {
+          "nome": "UBS Centro",
+          "total": 2,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 1,
+          "progresso": 50,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        }
+      ],
+      "por_cliente": [
+        {
+          "nome": "Prefeitura",
+          "total": 3,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 1,
+          "a_iniciar": 1,
+          "progresso": 47,
+          "previsto_min": 180,
+          "trabalhado_min": 1
+        }
+      ],
+      "por_etapa": [
+        {
+          "nome": "EXECUÇÃO NAS UNIDADES",
+          "total": 2,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 1,
+          "progresso": 50,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        },
+        {
+          "nome": "GERAL",
+          "total": 1,
+          "fechados": 0,
+          "atrasados": 0,
+          "andamento": 1,
+          "a_iniciar": 0,
+          "progresso": 40,
+          "previsto_min": 120,
+          "trabalhado_min": 0
+        }
+      ],
+      "por_prioridade": [
+        {
+          "nome": "Alta",
+          "total": 1,
+          "fechados": 1,
+          "atrasados": 0,
+          "progresso": 100
+        },
+        {
+          "nome": "Média",
+          "total": 0,
+          "fechados": 0,
+          "atrasados": 0,
+          "progresso": 0
+        },
+        {
+          "nome": "Baixa",
+          "total": 1,
+          "fechados": 0,
+          "atrasados": 0,
+          "progresso": 0
+        }
+      ],
+      "atrasados": [
+        {
+          "id_item": 2,
+          "id_plano": 1,
+          "plano": "Plano 1",
+          "cliente": "Prefeitura",
+          "descricao": "Instalar",
+          "unidade": null,
+          "modulo": "Prontuario",
+          "grupo": null,
+          "responsavel": "Bia",
+          "prioridade": "Media",
+          "status": "Em andamento",
+          "data_inicio": "2026-10-01",
+          "data_fim": "2026-10-20",
+          "dias_atraso": 19
+        }
+      ],
+      "proximos_prazos": [],
+      "evolucao": [
+        {
+          "semana": "2026-08-17",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-08-24",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-08-31",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-09-07",
+          "previstos": 1,
+          "concluidos": 1,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-09-14",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-09-21",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-09-28",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-10-05",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-10-12",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-10-19",
+          "previstos": 1,
+          "concluidos": 0,
+          "acum_previsto": 67,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-10-26",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 67,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-11-02",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 67,
+          "acum_realizado": 33
+        }
+      ],
+      "por_pessoa": [
+        {
+          "id_usuario": 3,
+          "nome": "Ana Souza",
+          "itens": 1,
+          "abertos": 0,
+          "atrasados": 0,
+          "trabalhado_min": 50,
+          "apontamentos": 1
+        }
+      ],
+      "itens": [
+        {
+          "id_item": 1,
+          "id_plano": 1,
+          "plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "cliente": "Prefeitura",
+          "status_plano": "EM ANDAMENTO",
+          "modulo": "Agenda",
+          "grupo": null,
+          "unidade": "UBS Centro",
+          "descricao": "Treinar",
+          "responsavel": "Ana",
+          "equipe": "Ana Souza",
+          "prioridade": "Alta",
+          "status": "Fechado",
+          "percentual": 100,
+          "data_inicio": "2026-09-01",
+          "data_fim": "2026-09-10",
+          "data_inicio_real": "2026-09-01",
+          "data_fim_real": "2026-09-09",
+          "tempo_previsto": 60,
+          "tempo_gasto": 50,
+          "horas_trabalhadas": 1,
+          "observacao": "",
+          "situacao_prazo": "NO PRAZO",
+          "dias_atraso": 0
+        },
+        {
+          "id_item": 2,
+          "id_plano": 1,
+          "plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "cliente": "Prefeitura",
+          "status_plano": "EM ANDAMENTO",
+          "modulo": "Prontuario",
+          "grupo": "GERAL",
+          "unidade": null,
+          "descricao": "Instalar",
+          "responsavel": "Bia",
+          "equipe": "",
+          "prioridade": "Media",
+          "status": "Em andamento",
+          "percentual": 40,
+          "data_inicio": "2026-10-01",
+          "data_fim": "2026-10-20",
+          "data_inicio_real": null,
+          "data_fim_real": null,
+          "tempo_previsto": 120,
+          "tempo_gasto": 30,
+          "horas_trabalhadas": 0,
+          "observacao": "",
+          "situacao_prazo": "VENCIDO",
+          "dias_atraso": 19
+        },
+        {
+          "id_item": 3,
+          "id_plano": 1,
+          "plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "cliente": "Prefeitura",
+          "status_plano": "EM ANDAMENTO",
+          "modulo": "Agenda",
+          "grupo": null,
+          "unidade": "UBS Centro",
+          "descricao": "Revisar",
+          "responsavel": "Ana",
+          "equipe": "",
+          "prioridade": "Baixa",
+          "status": "A Iniciar",
+          "percentual": 0,
+          "data_inicio": null,
+          "data_fim": "2026-12-30",
+          "data_inicio_real": null,
+          "data_fim_real": null,
+          "tempo_previsto": 0,
+          "tempo_gasto": 0,
+          "horas_trabalhadas": 0,
+          "observacao": "",
+          "situacao_prazo": "A VENCER",
+          "dias_atraso": 0
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "UPDATE i SET i.status = 'Atrasado' FROM tab_plano_itens i JOIN tab_plano_acao p ON p.id_plano = i.id_plano WHERE p.status = 'EM ANDAMENTO' AND i.data_fim IS NOT NULL AND i.data_fim < @hoje AND i.status IN ('A Iniciar', 'Em andamento', 'Em Andamento', 'Pendente')",
+        "entradas": {
+          "hoje": "2026-11-08"
+        }
+      },
+      {
+        "texto": "SELECT p.id_plano, p.titulo, p.status, p.sub_tipo, p.cliente, p.descricao, p.data_criacao, p.data_inicio_prevista, p.data_fim_prevista, p.data_encerramento, p.publico, p.token_publico, p.criado_por, p.id_projeto, pj.nome_projeto, pr.nome_produto FROM tab_plano_acao p LEFT JOIN tab_projetos pj ON pj.id_projeto = p.id_projeto LEFT JOIN tab_produtos pr ON pr.id_produto = p.id_produto WHERE 1=1 ORDER BY p.data_criacao DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT i.id_item, i.id_plano, i.id_unidade, u.nome_unidade, i.modulo, i.titulo AS grupo, i.descricao, i.responsavel, i.cliente, i.observacao, i.status, i.prioridade, i.ordem, i.percentual, i.data_inicio, i.data_fim, i.data_inicio_real, i.data_fim_real, i.tempo_previsto, i.tempo_gasto, i.horas_trabalhadas FROM tab_plano_itens i LEFT JOIN tab_unidades u ON u.id_unidade = i.id_unidade WHERE i.id_plano IN (@p0)",
+        "entradas": {
+          "p0": 1
+        }
+      },
+      {
+        "texto": "SELECT e.id_item, i.id_plano, e.id_usuario, us.nome_completo FROM tab_plano_item_equipe e JOIN tab_plano_itens i ON i.id_item = e.id_item JOIN tab_usuarios us ON us.id_usuario = e.id_usuario WHERE i.id_plano IN (@p0)",
+        "entradas": {
+          "p0": 1
+        }
+      },
+      {
+        "texto": "SELECT a.id_item, a.id_plano, a.id_usuario, us.nome_completo, a.data_execucao, a.minutos FROM tab_plano_apontamentos a JOIN tab_usuarios us ON us.id_usuario = a.id_usuario WHERE a.id_plano IN (@p0)",
+        "entradas": {
+          "p0": 1
+        }
+      }
+    ],
+    "externos": []
+  },
+  "plano-acao: nenhum plano": {
+    "status": 200,
+    "corpo": {
+      "gerado_em": "<data>",
+      "hoje": "2026-11-08",
+      "resumo": {
+        "planos": 0,
+        "planos_ativos": 0,
+        "planos_concluidos": 0,
+        "planos_encerrados": 0,
+        "unidades": 0,
+        "clientes": 0,
+        "saude": {},
+        "total": 0,
+        "a_iniciar": 0,
+        "andamento": 0,
+        "atrasados": 0,
+        "fechados": 0,
+        "progresso": 0,
+        "esperado": 0,
+        "vencendo_7d": 0,
+        "fechados_no_prazo": 0,
+        "fechados_com_prazo": 0,
+        "previsto_min": 0,
+        "gasto_min": 0,
+        "trabalhado_min": 0,
+        "aderencia": null,
+        "desvio": 0
+      },
+      "planos": [],
+      "por_status": [
+        {
+          "nome": "A Iniciar",
+          "total": 0
+        },
+        {
+          "nome": "Em andamento",
+          "total": 0
+        },
+        {
+          "nome": "Atrasado",
+          "total": 0
+        },
+        {
+          "nome": "Fechado",
+          "total": 0
+        }
+      ],
+      "por_responsavel": [],
+      "por_modulo": [],
+      "por_unidade": [],
+      "por_cliente": [],
+      "por_etapa": [],
+      "por_prioridade": [
+        {
+          "nome": "Alta",
+          "total": 0,
+          "fechados": 0,
+          "atrasados": 0,
+          "progresso": 0
+        },
+        {
+          "nome": "Média",
+          "total": 0,
+          "fechados": 0,
+          "atrasados": 0,
+          "progresso": 0
+        },
+        {
+          "nome": "Baixa",
+          "total": 0,
+          "fechados": 0,
+          "atrasados": 0,
+          "progresso": 0
+        }
+      ],
+      "atrasados": [],
+      "proximos_prazos": [],
+      "evolucao": [
+        {
+          "semana": "2026-08-17",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-08-24",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-08-31",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-09-07",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-09-14",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-09-21",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-09-28",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-10-05",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-10-12",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-10-19",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-10-26",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-11-02",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        }
+      ],
+      "por_pessoa": [],
+      "itens": []
+    },
+    "consultas": [
+      {
+        "texto": "UPDATE i SET i.status = 'Atrasado' FROM tab_plano_itens i JOIN tab_plano_acao p ON p.id_plano = i.id_plano WHERE p.status = 'EM ANDAMENTO' AND i.data_fim IS NOT NULL AND i.data_fim < @hoje AND i.status IN ('A Iniciar', 'Em andamento', 'Em Andamento', 'Pendente')",
+        "entradas": {
+          "hoje": "2026-11-08"
+        }
+      },
+      {
+        "texto": "SELECT p.id_plano, p.titulo, p.status, p.sub_tipo, p.cliente, p.descricao, p.data_criacao, p.data_inicio_prevista, p.data_fim_prevista, p.data_encerramento, p.publico, p.token_publico, p.criado_por, p.id_projeto, pj.nome_projeto, pr.nome_produto FROM tab_plano_acao p LEFT JOIN tab_projetos pj ON pj.id_projeto = p.id_projeto LEFT JOIN tab_produtos pr ON pr.id_produto = p.id_produto WHERE 1=1 ORDER BY p.data_criacao DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "plano-acao: perfil restrito isola por projeto": {
+    "status": 200,
+    "corpo": {
+      "gerado_em": "<data>",
+      "hoje": "2026-11-08",
+      "resumo": {
+        "planos": 1,
+        "planos_ativos": 1,
+        "planos_concluidos": 0,
+        "planos_encerrados": 0,
+        "unidades": 1,
+        "clientes": 1,
+        "saude": {
+          "ATENÇÃO": 1
+        },
+        "total": 3,
+        "a_iniciar": 1,
+        "andamento": 1,
+        "atrasados": 0,
+        "fechados": 1,
+        "progresso": 47,
+        "esperado": 67,
+        "vencendo_7d": 0,
+        "fechados_no_prazo": 1,
+        "fechados_com_prazo": 1,
+        "previsto_min": 180,
+        "gasto_min": 80,
+        "trabalhado_min": 1,
+        "desvio": -20,
+        "aderencia": 100
+      },
+      "planos": [
+        {
+          "id_plano": 1,
+          "titulo": "Plano 1",
+          "cliente": "Prefeitura",
+          "cliente_informado": true,
+          "nome_projeto": "Projeto A",
+          "sub_tipo": "Implantacao",
+          "produto": "Agenda, Prontuario",
+          "status": "EM ANDAMENTO",
+          "saude": "ATENÇÃO",
+          "data_criacao": "2026-09-01",
+          "data_inicio_prevista": "2026-09-01",
+          "data_fim_prevista": "2026-12-01",
+          "unidades": 1,
+          "proximo_prazo": "2026-10-20",
+          "total": 3,
+          "a_iniciar": 1,
+          "andamento": 1,
+          "atrasados": 0,
+          "fechados": 1,
+          "progresso": 47,
+          "esperado": 67,
+          "vencendo_7d": 0,
+          "fechados_no_prazo": 1,
+          "fechados_com_prazo": 1,
+          "previsto_min": 180,
+          "gasto_min": 80,
+          "trabalhado_min": 1,
+          "desvio": -20,
+          "aderencia": 100,
+          "publico": false,
+          "token_publico": null
+        }
+      ],
+      "por_status": [
+        {
+          "nome": "A Iniciar",
+          "total": 1
+        },
+        {
+          "nome": "Em andamento",
+          "total": 1
+        },
+        {
+          "nome": "Atrasado",
+          "total": 0
+        },
+        {
+          "nome": "Fechado",
+          "total": 1
+        }
+      ],
+      "por_responsavel": [
+        {
+          "nome": "Ana",
+          "total": 2,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 1,
+          "progresso": 50,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        },
+        {
+          "nome": "Bia",
+          "total": 1,
+          "fechados": 0,
+          "atrasados": 0,
+          "andamento": 1,
+          "a_iniciar": 0,
+          "progresso": 40,
+          "previsto_min": 120,
+          "trabalhado_min": 0
+        }
+      ],
+      "por_modulo": [
+        {
+          "nome": "Agenda",
+          "total": 2,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 1,
+          "progresso": 50,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        },
+        {
+          "nome": "Prontuario",
+          "total": 1,
+          "fechados": 0,
+          "atrasados": 0,
+          "andamento": 1,
+          "a_iniciar": 0,
+          "progresso": 40,
+          "previsto_min": 120,
+          "trabalhado_min": 0
+        }
+      ],
+      "por_unidade": [
+        {
+          "nome": "UBS Centro",
+          "total": 2,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 1,
+          "progresso": 50,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        }
+      ],
+      "por_cliente": [
+        {
+          "nome": "Prefeitura",
+          "total": 3,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 1,
+          "a_iniciar": 1,
+          "progresso": 47,
+          "previsto_min": 180,
+          "trabalhado_min": 1
+        }
+      ],
+      "por_etapa": [
+        {
+          "nome": "EXECUÇÃO NAS UNIDADES",
+          "total": 2,
+          "fechados": 1,
+          "atrasados": 0,
+          "andamento": 0,
+          "a_iniciar": 1,
+          "progresso": 50,
+          "previsto_min": 60,
+          "trabalhado_min": 1
+        },
+        {
+          "nome": "GERAL",
+          "total": 1,
+          "fechados": 0,
+          "atrasados": 0,
+          "andamento": 1,
+          "a_iniciar": 0,
+          "progresso": 40,
+          "previsto_min": 120,
+          "trabalhado_min": 0
+        }
+      ],
+      "por_prioridade": [
+        {
+          "nome": "Alta",
+          "total": 1,
+          "fechados": 1,
+          "atrasados": 0,
+          "progresso": 100
+        },
+        {
+          "nome": "Média",
+          "total": 0,
+          "fechados": 0,
+          "atrasados": 0,
+          "progresso": 0
+        },
+        {
+          "nome": "Baixa",
+          "total": 1,
+          "fechados": 0,
+          "atrasados": 0,
+          "progresso": 0
+        }
+      ],
+      "atrasados": [
+        {
+          "id_item": 2,
+          "id_plano": 1,
+          "plano": "Plano 1",
+          "cliente": "Prefeitura",
+          "descricao": "Instalar",
+          "unidade": null,
+          "modulo": "Prontuario",
+          "grupo": null,
+          "responsavel": "Bia",
+          "prioridade": "Media",
+          "status": "Em andamento",
+          "data_inicio": "2026-10-01",
+          "data_fim": "2026-10-20",
+          "dias_atraso": 19
+        }
+      ],
+      "proximos_prazos": [],
+      "evolucao": [
+        {
+          "semana": "2026-08-17",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-08-24",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-08-31",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 0,
+          "acum_realizado": 0
+        },
+        {
+          "semana": "2026-09-07",
+          "previstos": 1,
+          "concluidos": 1,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-09-14",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-09-21",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-09-28",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-10-05",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-10-12",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 33,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-10-19",
+          "previstos": 1,
+          "concluidos": 0,
+          "acum_previsto": 67,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-10-26",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 67,
+          "acum_realizado": 33
+        },
+        {
+          "semana": "2026-11-02",
+          "previstos": 0,
+          "concluidos": 0,
+          "acum_previsto": 67,
+          "acum_realizado": 33
+        }
+      ],
+      "por_pessoa": [
+        {
+          "id_usuario": 3,
+          "nome": "Ana Souza",
+          "itens": 1,
+          "abertos": 0,
+          "atrasados": 0,
+          "trabalhado_min": 50,
+          "apontamentos": 1
+        }
+      ],
+      "itens": [
+        {
+          "id_item": 1,
+          "id_plano": 1,
+          "plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "cliente": "Prefeitura",
+          "status_plano": "EM ANDAMENTO",
+          "modulo": "Agenda",
+          "grupo": null,
+          "unidade": "UBS Centro",
+          "descricao": "Treinar",
+          "responsavel": "Ana",
+          "equipe": "Ana Souza",
+          "prioridade": "Alta",
+          "status": "Fechado",
+          "percentual": 100,
+          "data_inicio": "2026-09-01",
+          "data_fim": "2026-09-10",
+          "data_inicio_real": "2026-09-01",
+          "data_fim_real": "2026-09-09",
+          "tempo_previsto": 60,
+          "tempo_gasto": 50,
+          "horas_trabalhadas": 1,
+          "observacao": "",
+          "situacao_prazo": "NO PRAZO",
+          "dias_atraso": 0
+        },
+        {
+          "id_item": 2,
+          "id_plano": 1,
+          "plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "cliente": "Prefeitura",
+          "status_plano": "EM ANDAMENTO",
+          "modulo": "Prontuario",
+          "grupo": "GERAL",
+          "unidade": null,
+          "descricao": "Instalar",
+          "responsavel": "Bia",
+          "equipe": "",
+          "prioridade": "Media",
+          "status": "Em andamento",
+          "percentual": 40,
+          "data_inicio": "2026-10-01",
+          "data_fim": "2026-10-20",
+          "data_inicio_real": null,
+          "data_fim_real": null,
+          "tempo_previsto": 120,
+          "tempo_gasto": 30,
+          "horas_trabalhadas": 0,
+          "observacao": "",
+          "situacao_prazo": "VENCIDO",
+          "dias_atraso": 19
+        },
+        {
+          "id_item": 3,
+          "id_plano": 1,
+          "plano": "Plano 1",
+          "nome_projeto": "Projeto A",
+          "cliente": "Prefeitura",
+          "status_plano": "EM ANDAMENTO",
+          "modulo": "Agenda",
+          "grupo": null,
+          "unidade": "UBS Centro",
+          "descricao": "Revisar",
+          "responsavel": "Ana",
+          "equipe": "",
+          "prioridade": "Baixa",
+          "status": "A Iniciar",
+          "percentual": 0,
+          "data_inicio": null,
+          "data_fim": "2026-12-30",
+          "data_inicio_real": null,
+          "data_fim_real": null,
+          "tempo_previsto": 0,
+          "tempo_gasto": 0,
+          "horas_trabalhadas": 0,
+          "observacao": "",
+          "situacao_prazo": "A VENCER",
+          "dias_atraso": 0
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "UPDATE i SET i.status = 'Atrasado' FROM tab_plano_itens i JOIN tab_plano_acao p ON p.id_plano = i.id_plano WHERE p.status = 'EM ANDAMENTO' AND i.data_fim IS NOT NULL AND i.data_fim < @hoje AND i.status IN ('A Iniciar', 'Em andamento', 'Em Andamento', 'Pendente')",
+        "entradas": {
+          "hoje": "2026-11-08"
+        }
+      },
+      {
+        "texto": "SELECT p.id_plano, p.titulo, p.status, p.sub_tipo, p.cliente, p.descricao, p.data_criacao, p.data_inicio_prevista, p.data_fim_prevista, p.data_encerramento, p.publico, p.token_publico, p.criado_por, p.id_projeto, pj.nome_projeto, pr.nome_produto FROM tab_plano_acao p LEFT JOIN tab_projetos pj ON pj.id_projeto = p.id_projeto LEFT JOIN tab_produtos pr ON pr.id_produto = p.id_produto WHERE 1=1 AND p.id_projeto IN (@__lot_p_id_projeto_0) ORDER BY p.data_criacao DESC",
+        "entradas": {
+          "__lot_p_id_projeto_0": 2
+        }
+      },
+      {
+        "texto": "SELECT i.id_item, i.id_plano, i.id_unidade, u.nome_unidade, i.modulo, i.titulo AS grupo, i.descricao, i.responsavel, i.cliente, i.observacao, i.status, i.prioridade, i.ordem, i.percentual, i.data_inicio, i.data_fim, i.data_inicio_real, i.data_fim_real, i.tempo_previsto, i.tempo_gasto, i.horas_trabalhadas FROM tab_plano_itens i LEFT JOIN tab_unidades u ON u.id_unidade = i.id_unidade WHERE i.id_plano IN (@p0)",
+        "entradas": {
+          "p0": 1
+        }
+      },
+      {
+        "texto": "SELECT e.id_item, i.id_plano, e.id_usuario, us.nome_completo FROM tab_plano_item_equipe e JOIN tab_plano_itens i ON i.id_item = e.id_item JOIN tab_usuarios us ON us.id_usuario = e.id_usuario WHERE i.id_plano IN (@p0)",
+        "entradas": {
+          "p0": 1
+        }
+      },
+      {
+        "texto": "SELECT a.id_item, a.id_plano, a.id_usuario, us.nome_completo, a.data_execucao, a.minutos FROM tab_plano_apontamentos a JOIN tab_usuarios us ON us.id_usuario = a.id_usuario WHERE a.id_plano IN (@p0)",
+        "entradas": {
+          "p0": 1
+        }
+      }
+    ],
+    "externos": []
+  },
+  "plano-acao: sem permissão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  }
+}

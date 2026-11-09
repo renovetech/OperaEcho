@@ -1,0 +1,287 @@
+{
+  "implantadores: administrador vê todos": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 1,
+        "nome_completo": "Ana"
+      },
+      {
+        "id_usuario": 2,
+        "nome_completo": "Beto"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.* FROM tab_usuarios u LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE 1=1 AND u.ativo = 1 ORDER BY u.nome_completo",
+        "entradas": {}
+      }
+    ]
+  },
+  "implantadores: lotação escolhida": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 1,
+        "nome_completo": "Ana"
+      },
+      {
+        "id_usuario": 2,
+        "nome_completo": "Beto"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.* FROM tab_usuarios u LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE 1=1 AND u.ativo = 1 AND ( u.id_lotacao = @pLotacao OR EXISTS (SELECT 1 FROM tab_usuario_lotacoes ul WHERE ul.id_usuario = u.id_usuario AND ul.id_projeto = @pLotacao) ) ORDER BY u.nome_completo",
+        "entradas": {
+          "pLotacao": 3
+        }
+      }
+    ]
+  },
+  "implantadores: lotação pelo parâmetro lotacao": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 1,
+        "nome_completo": "Ana"
+      },
+      {
+        "id_usuario": 2,
+        "nome_completo": "Beto"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.* FROM tab_usuarios u LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE 1=1 AND u.ativo = 1 AND ( u.id_lotacao = @pLotacao OR EXISTS (SELECT 1 FROM tab_usuario_lotacoes ul WHERE ul.id_usuario = u.id_usuario AND ul.id_projeto = @pLotacao) ) ORDER BY u.nome_completo",
+        "entradas": {
+          "pLotacao": 4
+        }
+      }
+    ]
+  },
+  "implantadores: escala só operadores e analistas": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 1,
+        "nome_completo": "Ana"
+      },
+      {
+        "id_usuario": 2,
+        "nome_completo": "Beto"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.* FROM tab_usuarios u LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE 1=1 AND u.ativo = 1 AND ( u.id_lotacao = @pLotacao OR EXISTS (SELECT 1 FROM tab_usuario_lotacoes ul WHERE ul.id_usuario = u.id_usuario AND ul.id_projeto = @pLotacao) ) AND UPPER(LTRIM(RTRIM(f.nome_funcao))) IN ('OPERADOR', 'ANALISTA') ORDER BY u.nome_completo",
+        "entradas": {
+          "pLotacao": 3
+        }
+      }
+    ]
+  },
+  "implantadores: escala com a opção true": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 1,
+        "nome_completo": "Ana"
+      },
+      {
+        "id_usuario": 2,
+        "nome_completo": "Beto"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.* FROM tab_usuarios u LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE 1=1 AND u.ativo = 1 AND ( u.id_lotacao = @pLotacao OR EXISTS (SELECT 1 FROM tab_usuario_lotacoes ul WHERE ul.id_usuario = u.id_usuario AND ul.id_projeto = @pLotacao) ) AND UPPER(LTRIM(RTRIM(f.nome_funcao))) IN ('OPERADOR', 'ANALISTA') ORDER BY u.nome_completo",
+        "entradas": {
+          "pLotacao": 3
+        }
+      }
+    ]
+  },
+  "implantadores: vigência na semana da escala": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 1,
+        "nome_completo": "Ana"
+      },
+      {
+        "id_usuario": 2,
+        "nome_completo": "Beto"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.* FROM tab_usuarios u LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE 1=1 AND COALESCE(u.data_ativacao, u.data_admissao, '1900-01-01') <= @escFim AND ( (u.ativo = 1 AND u.data_inativacao IS NULL) OR u.data_inativacao >= @escIni ) AND ( u.id_lotacao = @pLotacao OR EXISTS (SELECT 1 FROM tab_usuario_lotacoes ul WHERE ul.id_usuario = u.id_usuario AND ul.id_projeto = @pLotacao) ) ORDER BY u.nome_completo",
+        "entradas": {
+          "escIni": "2026-10-05",
+          "escFim": "2026-10-11",
+          "pLotacao": 3
+        }
+      }
+    ]
+  },
+  "implantadores: Todos com vigência": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 1,
+        "nome_completo": "Ana"
+      },
+      {
+        "id_usuario": 2,
+        "nome_completo": "Beto"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.* FROM tab_usuarios u LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE 1=1 AND COALESCE(u.data_ativacao, u.data_admissao, '1900-01-01') <= @escFim AND ( (u.ativo = 1 AND u.data_inativacao IS NULL) OR u.data_inativacao >= @escIni ) AND u.id_lotacao IN (@__estrita_u_id_lotacao_0,@__estrita_u_id_lotacao_1) ORDER BY u.nome_completo",
+        "entradas": {
+          "escIni": "2026-10-05",
+          "escFim": "2026-10-11",
+          "__estrita_u_id_lotacao_0": 2,
+          "__estrita_u_id_lotacao_1": 4
+        }
+      }
+    ]
+  },
+  "implantadores: só uma ponta da vigência é ignorada": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 1,
+        "nome_completo": "Ana"
+      },
+      {
+        "id_usuario": 2,
+        "nome_completo": "Beto"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.* FROM tab_usuarios u LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE 1=1 AND u.ativo = 1 AND u.id_lotacao IN (@__estrita_u_id_lotacao_0,@__estrita_u_id_lotacao_1) ORDER BY u.nome_completo",
+        "entradas": {
+          "__estrita_u_id_lotacao_0": 2,
+          "__estrita_u_id_lotacao_1": 4
+        }
+      }
+    ]
+  },
+  "implantadores: implantador vê só implantadores": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 1,
+        "nome_completo": "Ana"
+      },
+      {
+        "id_usuario": 2,
+        "nome_completo": "Beto"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.* FROM tab_usuarios u LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE 1=1 AND u.ativo = 1 AND UPPER(LTRIM(RTRIM(f.nome_funcao))) = 'IMPLANTADOR' ORDER BY u.nome_completo",
+        "entradas": {}
+      }
+    ]
+  },
+  "implantadores: coordenador de implantação com acento": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 1,
+        "nome_completo": "Ana"
+      },
+      {
+        "id_usuario": 2,
+        "nome_completo": "Beto"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.* FROM tab_usuarios u LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE 1=1 AND u.ativo = 1 AND UPPER(LTRIM(RTRIM(f.nome_funcao))) = 'IMPLANTADOR' ORDER BY u.nome_completo",
+        "entradas": {}
+      }
+    ]
+  },
+  "implantadores: demais funções ficam nas suas lotações": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 1,
+        "nome_completo": "Ana"
+      },
+      {
+        "id_usuario": 2,
+        "nome_completo": "Beto"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.* FROM tab_usuarios u LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE 1=1 AND u.ativo = 1 AND u.id_lotacao IN (@__estrita_u_id_lotacao_0,@__estrita_u_id_lotacao_1) ORDER BY u.nome_completo",
+        "entradas": {
+          "__estrita_u_id_lotacao_0": 2,
+          "__estrita_u_id_lotacao_1": 4
+        }
+      }
+    ]
+  },
+  "implantadores: sem lotação não vê ninguém": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 1,
+        "nome_completo": "Ana"
+      },
+      {
+        "id_usuario": 2,
+        "nome_completo": "Beto"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.* FROM tab_usuarios u LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE 1=1 AND u.ativo = 1 AND 1=0 ORDER BY u.nome_completo",
+        "entradas": {}
+      }
+    ]
+  },
+  "implantadores: sem escopo": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 1,
+        "nome_completo": "Ana"
+      },
+      {
+        "id_usuario": 2,
+        "nome_completo": "Beto"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.* FROM tab_usuarios u LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE 1=1 AND u.ativo = 1 AND 1=0 ORDER BY u.nome_completo",
+        "entradas": {}
+      }
+    ]
+  },
+  "lotações extras do usuário": {
+    "status": 200,
+    "corpo": [
+      3,
+      5
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT id_projeto FROM tab_usuario_lotacoes WHERE id_usuario = @id",
+        "entradas": {
+          "id": "9"
+        }
+      }
+    ]
+  }
+}

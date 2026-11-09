@@ -1,0 +1,138 @@
+{
+  "dados novos": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "joao.lima",
+          "id": 0
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT id_usuario FROM tab_usuarios WHERE cpf = @cpf OR matricula = @mat",
+        "entradas": {
+          "cpf": "98765432100",
+          "mat": "M200"
+        }
+      },
+      {
+        "texto": "SELECT nome_setor FROM tab_setores WHERE id_setor = @ids",
+        "entradas": {
+          "ids": 3
+        }
+      },
+      {
+        "texto": "SELECT nome_funcao FROM tab_funcoes WHERE id_funcao = @idf",
+        "entradas": {
+          "idf": 4
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuarios ( nome_completo, cpf, data_nascimento, data_admissao, sexo, celular, celular_whatsapp, email, matricula, id_setor, setor, id_funcao, funcao, id_lotacao, usuario, senha_hash, perfil_acesso, ativo ) OUTPUT INSERTED.id_usuario VALUES ( @n, @c, @dt, @dadm, @s, @cel, @cw, @em, @m, @ids, @txtSetor, @idf, @txtFuncao, @idl, @u, @pwd, @p, @a )",
+        "entradas": {
+          "n": "João Lima",
+          "c": "98765432100",
+          "dt": null,
+          "dadm": "2026-02-01",
+          "s": "",
+          "cel": "21987654321",
+          "cw": 1,
+          "em": null,
+          "m": "M200",
+          "ids": 3,
+          "idf": 4,
+          "idl": 2,
+          "txtSetor": 1,
+          "txtFuncao": 1,
+          "u": "joao.lima",
+          "p": "Solicitante",
+          "a": 0,
+          "pwd": "<hash>"
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_lotacoes WHERE id_usuario = @idu",
+        "entradas": {
+          "idu": 50
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "login já existente não se revela": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "joao.lima",
+          "id": 0
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "CPF já existente não se revela": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "joao.lima",
+          "id": 0
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT id_usuario FROM tab_usuarios WHERE cpf = @cpf OR matricula = @mat",
+        "entradas": {
+          "cpf": "98765432100",
+          "mat": "M200"
+        }
+      },
+      {
+        "texto": "ROLLBACK"
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  }
+}

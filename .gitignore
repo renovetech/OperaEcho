@@ -42,3 +42,10 @@ yarn-error.log*
 *.log
 .DS_Store
 Thumbs.db
+
+# Arquivos sem uso, aguardando descarte
+_lixo/
+
+# Resultados dos testes de navegador
+test-results/
+playwright-report/

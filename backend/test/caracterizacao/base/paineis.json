@@ -1,0 +1,690 @@
+{
+  "totais: visão global": {
+    "status": 200,
+    "corpo": {
+      "operadores": 1,
+      "projetos": 1,
+      "unidades": 1,
+      "produtos": 1
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_lotacao FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "SELECT COUNT(u.id_usuario) as t FROM tab_usuarios u INNER JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE u.ativo=1 AND f.nome_funcao LIKE '%OPERADOR%'",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) as t FROM tab_projetos WHERE ativo=1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) as t FROM tab_unidades WHERE ativo=1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) as t FROM tab_produtos WHERE ativo=1",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "totais: global com lotação nula": {
+    "status": 200,
+    "corpo": {
+      "operadores": 1,
+      "projetos": 1,
+      "unidades": 1,
+      "produtos": 1
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_lotacao FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "SELECT COUNT(u.id_usuario) as t FROM tab_usuarios u INNER JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE u.ativo=1 AND f.nome_funcao LIKE '%OPERADOR%'",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) as t FROM tab_projetos WHERE ativo=1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) as t FROM tab_unidades WHERE ativo=1",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) as t FROM tab_produtos WHERE ativo=1",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "totais: lotação restrita": {
+    "status": 200,
+    "corpo": {
+      "operadores": 1,
+      "projetos": 1,
+      "unidades": 1,
+      "produtos": 1
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_lotacao FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 7
+        }
+      },
+      {
+        "texto": "SELECT COUNT(u.id_usuario) as t FROM tab_usuarios u INNER JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE u.ativo=1 AND f.nome_funcao LIKE '%OPERADOR%' AND u.id_lotacao IN (2)",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) as t FROM tab_projetos WHERE ativo=1 AND id_projeto IN (2)",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(*) as t FROM tab_unidades WHERE ativo=1 AND id_projeto IN (2)",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT COUNT(DISTINCT up.id_produto) as t FROM tab_unidade_produtos up INNER JOIN tab_unidades u ON up.id_unidade = u.id_unidade INNER JOIN tab_produtos p ON up.id_produto = p.id_produto WHERE u.ativo=1 AND p.ativo=1 AND u.id_projeto IN (2)",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "totais: usuário sem lotação": {
+    "status": 200,
+    "corpo": {
+      "implantadores": 0,
+      "operadores": 0,
+      "projetos": 0,
+      "unidades": 0,
+      "produtos": 0
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_lotacao FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      }
+    ],
+    "externos": []
+  },
+  "totais: sem login": {
+    "status": 401,
+    "corpo": {
+      "erro": "Não autenticado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "proximas-ferias: visão global": {
+    "status": 200,
+    "corpo": [
+      {
+        "nome_completo": "Ana",
+        "data_inicio": "<data>",
+        "data_fim": "<data>"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT id_lotacao FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "SELECT u.nome_completo, f.data_inicio, f.data_fim FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario WHERE f.status = 'APROVADO' AND f.data_fim >= CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS DATE) ORDER BY f.data_inicio ASC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "proximas-ferias: lotação restrita": {
+    "status": 200,
+    "corpo": [
+      {
+        "linha": "padrao"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT id_lotacao FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "SELECT u.nome_completo, f.data_inicio, f.data_fim FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario WHERE f.status = 'APROVADO' AND f.data_fim >= CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS DATE) AND u.id_lotacao IN (2) ORDER BY f.data_inicio ASC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "proximas-ferias: usuário sem lotação": {
+    "status": 200,
+    "corpo": [],
+    "consultas": [
+      {
+        "texto": "SELECT id_lotacao FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      }
+    ],
+    "externos": []
+  },
+  "progresso-planos: visão global": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_plano": 1,
+        "titulo": "Plano 1",
+        "nome_projeto": "Projeto A",
+        "total_unidades": 10,
+        "unidades_concluidas": 5,
+        "unidades_andamento": 3,
+        "unidades_atrasadas": 1,
+        "perc_concluido": 50,
+        "perc_andamento": 30,
+        "perc_atrasado": 10,
+        "perc_restante": 10
+      },
+      {
+        "id_plano": 2,
+        "titulo": "Plano 2",
+        "nome_projeto": "Projeto Geral",
+        "total_unidades": 0,
+        "unidades_concluidas": 0,
+        "unidades_andamento": 0,
+        "unidades_atrasadas": 0,
+        "perc_concluido": 0,
+        "perc_andamento": 0,
+        "perc_atrasado": 0,
+        "perc_restante": 100
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT id_lotacao FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "SELECT p.id_plano, p.titulo, ISNULL(proj.nome_projeto, 'Projeto Geral') as nome_projeto, (SELECT COUNT(*) FROM tab_plano_itens i WHERE i.id_plano = p.id_plano) as total_tarefas, (SELECT COUNT(*) FROM tab_plano_itens i WHERE i.id_plano = p.id_plano AND i.status IN ('Concluido','Concluído','Fechado')) as tarefas_concluidas, (SELECT COUNT(*) FROM tab_plano_itens i WHERE i.id_plano = p.id_plano AND i.status IN ('Em Andamento','Em andamento')) as tarefas_andamento, (SELECT COUNT(*) FROM tab_plano_itens i WHERE i.id_plano = p.id_plano AND i.status = 'Atrasado') as tarefas_atrasadas FROM tab_plano_acao p LEFT JOIN tab_projetos proj ON p.id_projeto = proj.id_projeto WHERE p.status = 'EM ANDAMENTO'",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "progresso-planos: lotação restrita": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_plano": 1,
+        "titulo": 1,
+        "nome_projeto": 1,
+        "total_unidades": 1,
+        "unidades_concluidas": 1,
+        "unidades_andamento": 1,
+        "unidades_atrasadas": 1,
+        "perc_concluido": 100,
+        "perc_andamento": 100,
+        "perc_atrasado": 100,
+        "perc_restante": 0
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT id_lotacao FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "SELECT p.id_plano, p.titulo, ISNULL(proj.nome_projeto, 'Projeto Geral') as nome_projeto, (SELECT COUNT(*) FROM tab_plano_itens i WHERE i.id_plano = p.id_plano) as total_tarefas, (SELECT COUNT(*) FROM tab_plano_itens i WHERE i.id_plano = p.id_plano AND i.status IN ('Concluido','Concluído','Fechado')) as tarefas_concluidas, (SELECT COUNT(*) FROM tab_plano_itens i WHERE i.id_plano = p.id_plano AND i.status IN ('Em Andamento','Em andamento')) as tarefas_andamento, (SELECT COUNT(*) FROM tab_plano_itens i WHERE i.id_plano = p.id_plano AND i.status = 'Atrasado') as tarefas_atrasadas FROM tab_plano_acao p LEFT JOIN tab_projetos proj ON p.id_projeto = proj.id_projeto WHERE p.status = 'EM ANDAMENTO' AND p.id_projeto IN (2)",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "progresso-planos: usuário sem lotação": {
+    "status": 200,
+    "corpo": [],
+    "consultas": [
+      {
+        "texto": "SELECT id_lotacao FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      }
+    ],
+    "externos": []
+  },
+  "atividades-hoje: sem data": {
+    "status": 200,
+    "corpo": {
+      "total": 1,
+      "por_equipe": [
+        {
+          "nome": 1,
+          "total": 1,
+          "implantador": "1",
+          "unidade": "1",
+          "motivo": "1"
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "WITH TodosVinculos AS ( SELECT id_atividade, id_implantador FROM tab_atividade_implantadores UNION SELECT id_atividade, id_implantador FROM tab_atividades WHERE id_implantador IS NOT NULL ) SELECT a.id_atividade, ISNULL(proj.nome_projeto, 'Equipe Geral') as nome_projeto, u.nome_completo as implantador, un.nome_unidade as unidade, a.motivos as motivo FROM TodosVinculos tv INNER JOIN tab_atividades a ON tv.id_atividade = a.id_atividade INNER JOIN tab_usuarios u ON tv.id_implantador = u.id_usuario LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao LEFT JOIN tab_projetos proj ON a.id_projeto = proj.id_projeto LEFT JOIN tab_unidades un ON a.id_unidade = un.id_unidade WHERE CAST(a.data_atividade AS DATE) = COALESCE(@hoje, CAST(GETDATE() AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time' AS DATE)) AND UPPER(LTRIM(RTRIM(f.nome_funcao))) IN ('IMPLANTADOR')",
+        "entradas": {
+          "hoje": null
+        }
+      }
+    ],
+    "externos": []
+  },
+  "atividades-hoje: com data": {
+    "status": 200,
+    "corpo": {
+      "total": 1,
+      "por_equipe": [
+        {
+          "nome": 1,
+          "total": 1,
+          "implantador": "1",
+          "unidade": "1",
+          "motivo": "1"
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "WITH TodosVinculos AS ( SELECT id_atividade, id_implantador FROM tab_atividade_implantadores UNION SELECT id_atividade, id_implantador FROM tab_atividades WHERE id_implantador IS NOT NULL ) SELECT a.id_atividade, ISNULL(proj.nome_projeto, 'Equipe Geral') as nome_projeto, u.nome_completo as implantador, un.nome_unidade as unidade, a.motivos as motivo FROM TodosVinculos tv INNER JOIN tab_atividades a ON tv.id_atividade = a.id_atividade INNER JOIN tab_usuarios u ON tv.id_implantador = u.id_usuario LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao LEFT JOIN tab_projetos proj ON a.id_projeto = proj.id_projeto LEFT JOIN tab_unidades un ON a.id_unidade = un.id_unidade WHERE CAST(a.data_atividade AS DATE) = COALESCE(@hoje, CAST(GETDATE() AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time' AS DATE)) AND UPPER(LTRIM(RTRIM(f.nome_funcao))) IN ('IMPLANTADOR')",
+        "entradas": {
+          "hoje": "2026-10-15"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "atividades-hoje: sem atividades": {
+    "status": 200,
+    "corpo": {
+      "total": 0,
+      "por_equipe": []
+    },
+    "consultas": [
+      {
+        "texto": "WITH TodosVinculos AS ( SELECT id_atividade, id_implantador FROM tab_atividade_implantadores UNION SELECT id_atividade, id_implantador FROM tab_atividades WHERE id_implantador IS NOT NULL ) SELECT a.id_atividade, ISNULL(proj.nome_projeto, 'Equipe Geral') as nome_projeto, u.nome_completo as implantador, un.nome_unidade as unidade, a.motivos as motivo FROM TodosVinculos tv INNER JOIN tab_atividades a ON tv.id_atividade = a.id_atividade INNER JOIN tab_usuarios u ON tv.id_implantador = u.id_usuario LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao LEFT JOIN tab_projetos proj ON a.id_projeto = proj.id_projeto LEFT JOIN tab_unidades un ON a.id_unidade = un.id_unidade WHERE CAST(a.data_atividade AS DATE) = COALESCE(@hoje, CAST(GETDATE() AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time' AS DATE)) AND UPPER(LTRIM(RTRIM(f.nome_funcao))) IN ('IMPLANTADOR')",
+        "entradas": {
+          "hoje": null
+        }
+      }
+    ],
+    "externos": []
+  },
+  "atividades-hoje-projetos: sem data": {
+    "status": 200,
+    "corpo": {
+      "total": 1,
+      "por_equipe": [
+        {
+          "nome": 1,
+          "total": 1,
+          "implantador": "1",
+          "unidade": "1",
+          "motivo": "1"
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "WITH TodosVinculos AS ( SELECT id_atividade, id_implantador FROM tab_proj_atividade_implantadores UNION SELECT id_atividade, id_implantador FROM tab_proj_atividades WHERE id_implantador IS NOT NULL ) SELECT a.id_atividade, ISNULL(proj.nome_projeto, 'Equipe Geral') as nome_projeto, u.nome_completo as implantador, un.nome_unidade as unidade, a.motivos as motivo FROM TodosVinculos tv INNER JOIN tab_proj_atividades a ON tv.id_atividade = a.id_atividade INNER JOIN tab_usuarios u ON tv.id_implantador = u.id_usuario LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao LEFT JOIN tab_projetos proj ON a.id_projeto = proj.id_projeto LEFT JOIN tab_unidades un ON a.id_unidade = un.id_unidade WHERE CAST(a.data_atividade AS DATE) = COALESCE(@hoje, CAST(GETDATE() AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time' AS DATE)) AND UPPER(LTRIM(RTRIM(f.nome_funcao))) IN ('OPERADOR', 'ANALISTA')",
+        "entradas": {
+          "hoje": null
+        }
+      }
+    ],
+    "externos": []
+  },
+  "atividades-hoje-projetos: com data": {
+    "status": 200,
+    "corpo": {
+      "total": 1,
+      "por_equipe": [
+        {
+          "nome": 1,
+          "total": 1,
+          "implantador": "1",
+          "unidade": "1",
+          "motivo": "1"
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "WITH TodosVinculos AS ( SELECT id_atividade, id_implantador FROM tab_proj_atividade_implantadores UNION SELECT id_atividade, id_implantador FROM tab_proj_atividades WHERE id_implantador IS NOT NULL ) SELECT a.id_atividade, ISNULL(proj.nome_projeto, 'Equipe Geral') as nome_projeto, u.nome_completo as implantador, un.nome_unidade as unidade, a.motivos as motivo FROM TodosVinculos tv INNER JOIN tab_proj_atividades a ON tv.id_atividade = a.id_atividade INNER JOIN tab_usuarios u ON tv.id_implantador = u.id_usuario LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao LEFT JOIN tab_projetos proj ON a.id_projeto = proj.id_projeto LEFT JOIN tab_unidades un ON a.id_unidade = un.id_unidade WHERE CAST(a.data_atividade AS DATE) = COALESCE(@hoje, CAST(GETDATE() AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time' AS DATE)) AND UPPER(LTRIM(RTRIM(f.nome_funcao))) IN ('OPERADOR', 'ANALISTA')",
+        "entradas": {
+          "hoje": "2026-10-15"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "notificacoes: quem não aprova recebe lista vazia": {
+    "status": 200,
+    "corpo": [],
+    "consultas": [],
+    "externos": []
+  },
+  "notificacoes: perfil restrito": {
+    "status": 200,
+    "corpo": [],
+    "consultas": [],
+    "externos": []
+  },
+  "mapa-implantacao: sem período": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_atividade": 1,
+        "profissionais_env": "Maria",
+        "motivos": "Treinamento",
+        "data_inicio": "<data>",
+        "data_fim": null,
+        "nome_projeto": "Projeto A",
+        "nome_unidade": "UBS",
+        "cidade": "Niteroi",
+        "uf": "RJ",
+        "latitude": "-22.9",
+        "longitude": "-43.1"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT a.id_atividade, a.profissionais_env, a.motivos, a.data_inicio, a.data_fim, p.nome_projeto, u.nome_unidade, c.nome_cidade as cidade, e.sigla as uf, c.latitude, c.longitude FROM tab_atividades a JOIN tab_projetos p ON a.id_projeto = p.id_projeto JOIN tab_unidades u ON a.id_unidade = u.id_unidade JOIN tab_cidades c ON u.id_cidade = c.id_cidade JOIN tab_estados e ON c.id_estado = e.id_estado WHERE 1=1",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "mapa-implantacao: com período": {
+    "status": 200,
+    "corpo": [
+      {
+        "linha": "padrao"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT a.id_atividade, a.profissionais_env, a.motivos, a.data_inicio, a.data_fim, p.nome_projeto, u.nome_unidade, c.nome_cidade as cidade, e.sigla as uf, c.latitude, c.longitude FROM tab_atividades a JOIN tab_projetos p ON a.id_projeto = p.id_projeto JOIN tab_unidades u ON a.id_unidade = u.id_unidade JOIN tab_cidades c ON u.id_cidade = c.id_cidade JOIN tab_estados e ON c.id_estado = e.id_estado WHERE 1=1 AND a.data_atividade <= @DataFim AND (a.data_fim IS NULL OR a.data_fim >= @DataInicio)",
+        "entradas": {
+          "DataInicio": "<data>",
+          "DataFim": "<data>"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "mapa-implantacao: só data inicial é recusada": {
+    "status": 400,
+    "corpo": {
+      "erro": "Informe a data inicial e a data final do período."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "produtividade-produtos": {
+    "status": 200,
+    "corpo": {
+      "geral": [
+        {
+          "nome_produto": "Prontuario",
+          "qtd_unidades": 4
+        }
+      ],
+      "detalheImplantadores": [
+        {
+          "implantador": "Ana",
+          "nome_produto": "Prontuario",
+          "qtd_atividades": 2
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT p.nome_produto, COUNT(up.id_unidade) as qtd_unidades FROM tab_produtos p LEFT JOIN tab_unidade_produtos up ON p.id_produto = up.id_produto WHERE p.ativo = 1 GROUP BY p.nome_produto ORDER BY qtd_unidades DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT u.nome_completo as implantador, p.nome_produto, COUNT(DISTINCT a.id_atividade) as qtd_atividades FROM tab_usuarios u INNER JOIN tab_atividade_implantadores ai ON u.id_usuario = ai.id_implantador INNER JOIN tab_atividades a ON ai.id_atividade = a.id_atividade CROSS APPLY STRING_SPLIT(a.produtos_trabalhados, ',') s INNER JOIN tab_produtos p ON TRIM(s.value) = p.nome_produto GROUP BY u.nome_completo, p.nome_produto ORDER BY u.nome_completo, qtd_atividades DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "detalhes-produto: sem período": {
+    "status": 200,
+    "corpo": [
+      {
+        "implantador": "Ana",
+        "projeto": "Projeto A",
+        "unidade": "UBS",
+        "data_atividade": "2026-10-01T12:00:00",
+        "motivos": "Treinamento"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "WITH TodosVinculos AS (SELECT id_atividade, id_implantador FROM tab_atividade_implantadores UNION SELECT id_atividade, id_implantador FROM tab_atividades WHERE id_implantador IS NOT NULL) SELECT ISNULL(u.nome_completo, 'Não Informado') as implantador, p.nome_projeto as projeto, un.nome_unidade as unidade, FORMAT(a.data_atividade, 'yyyy-MM-dd') + 'T12:00:00' as data_atividade, a.motivos FROM TodosVinculos tv INNER JOIN tab_atividades a ON tv.id_atividade = a.id_atividade LEFT JOIN tab_usuarios u ON tv.id_implantador = u.id_usuario LEFT JOIN tab_projetos p ON a.id_projeto = p.id_projeto LEFT JOIN tab_unidades un ON a.id_unidade = un.id_unidade CROSS APPLY STRING_SPLIT(a.produtos_trabalhados, ',') s WHERE TRIM(s.value) = @prod ORDER BY a.data_atividade DESC, un.nome_unidade",
+        "entradas": {
+          "prod": "Prontuario"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "detalhes-produto: com período": {
+    "status": 200,
+    "corpo": [
+      {
+        "linha": "padrao"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "WITH TodosVinculos AS (SELECT id_atividade, id_implantador FROM tab_atividade_implantadores UNION SELECT id_atividade, id_implantador FROM tab_atividades WHERE id_implantador IS NOT NULL) SELECT ISNULL(u.nome_completo, 'Não Informado') as implantador, p.nome_projeto as projeto, un.nome_unidade as unidade, FORMAT(a.data_atividade, 'yyyy-MM-dd') + 'T12:00:00' as data_atividade, a.motivos FROM TodosVinculos tv INNER JOIN tab_atividades a ON tv.id_atividade = a.id_atividade LEFT JOIN tab_usuarios u ON tv.id_implantador = u.id_usuario LEFT JOIN tab_projetos p ON a.id_projeto = p.id_projeto LEFT JOIN tab_unidades un ON a.id_unidade = un.id_unidade CROSS APPLY STRING_SPLIT(a.produtos_trabalhados, ',') s WHERE TRIM(s.value) = @prod AND a.data_atividade BETWEEN @di AND @df ORDER BY a.data_atividade DESC, un.nome_unidade",
+        "entradas": {
+          "prod": "Prontuario",
+          "di": "2026-10-01",
+          "df": "2026-10-31"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "estatisticas-produtividade: sem período": {
+    "status": 200,
+    "corpo": [
+      {
+        "implantador": "Ana",
+        "total_atividades_real": 4,
+        "qtd_implantacao": 1,
+        "qtd_treinamento": 2,
+        "qtd_visita": 1,
+        "qtd_apoio": 0
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "WITH TodosImplantadores AS ( SELECT id_atividade, id_implantador FROM tab_atividade_implantadores UNION SELECT id_atividade, id_implantador FROM tab_atividades WHERE id_implantador IS NOT NULL ) SELECT u.nome_completo as implantador, COUNT(DISTINCT a.id_atividade) as total_atividades_real, COUNT(DISTINCT CASE WHEN a.motivos LIKE '%Implantação%' THEN a.id_atividade END) as qtd_implantacao, COUNT(DISTINCT CASE WHEN a.motivos LIKE '%Treinamento%' THEN a.id_atividade END) as qtd_treinamento, COUNT(DISTINCT CASE WHEN a.motivos LIKE '%Visita Técnica%' THEN a.id_atividade END) as qtd_visita, COUNT(DISTINCT CASE WHEN a.motivos LIKE '%Apoio ao Projeto%' THEN a.id_atividade END) as qtd_apoio FROM TodosImplantadores ti INNER JOIN tab_atividades a ON ti.id_atividade = a.id_atividade INNER JOIN tab_usuarios u ON ti.id_implantador = u.id_usuario WHERE 1=1 GROUP BY u.nome_completo ORDER BY u.nome_completo",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "estatisticas-produtividade: com período": {
+    "status": 200,
+    "corpo": [
+      {
+        "linha": "padrao"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "WITH TodosImplantadores AS ( SELECT id_atividade, id_implantador FROM tab_atividade_implantadores UNION SELECT id_atividade, id_implantador FROM tab_atividades WHERE id_implantador IS NOT NULL ) SELECT u.nome_completo as implantador, COUNT(DISTINCT a.id_atividade) as total_atividades_real, COUNT(DISTINCT CASE WHEN a.motivos LIKE '%Implantação%' THEN a.id_atividade END) as qtd_implantacao, COUNT(DISTINCT CASE WHEN a.motivos LIKE '%Treinamento%' THEN a.id_atividade END) as qtd_treinamento, COUNT(DISTINCT CASE WHEN a.motivos LIKE '%Visita Técnica%' THEN a.id_atividade END) as qtd_visita, COUNT(DISTINCT CASE WHEN a.motivos LIKE '%Apoio ao Projeto%' THEN a.id_atividade END) as qtd_apoio FROM TodosImplantadores ti INNER JOIN tab_atividades a ON ti.id_atividade = a.id_atividade INNER JOIN tab_usuarios u ON ti.id_implantador = u.id_usuario WHERE 1=1 AND (a.data_atividade >= @di AND a.data_atividade <= @df) GROUP BY u.nome_completo ORDER BY u.nome_completo",
+        "entradas": {
+          "di": "2026-10-01",
+          "df": "2026-10-31"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "detalhe-produtividade: só implantador": {
+    "status": 200,
+    "corpo": [
+      {
+        "data": "2026-10-01T12:00:00",
+        "projeto": "Projeto A",
+        "unidade": "UBS",
+        "profissionais_env": "Maria"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "WITH TodosImplantadores AS (SELECT id_atividade, id_implantador FROM tab_atividade_implantadores UNION SELECT id_atividade, id_implantador FROM tab_atividades WHERE id_implantador IS NOT NULL) SELECT FORMAT(a.data_atividade, 'yyyy-MM-dd') + 'T12:00:00' as data, p.nome_projeto as projeto, un.nome_unidade as unidade, a.profissionais_env FROM TodosImplantadores ti INNER JOIN tab_atividades a ON ti.id_atividade = a.id_atividade INNER JOIN tab_usuarios u ON ti.id_implantador = u.id_usuario INNER JOIN tab_unidades un ON a.id_unidade = un.id_unidade INNER JOIN tab_projetos p ON a.id_projeto = p.id_projeto WHERE u.nome_completo = @imp ORDER BY a.data_atividade DESC",
+        "entradas": {
+          "imp": "Ana"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "detalhe-produtividade: motivo e período": {
+    "status": 200,
+    "corpo": [
+      {
+        "linha": "padrao"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "WITH TodosImplantadores AS (SELECT id_atividade, id_implantador FROM tab_atividade_implantadores UNION SELECT id_atividade, id_implantador FROM tab_atividades WHERE id_implantador IS NOT NULL) SELECT FORMAT(a.data_atividade, 'yyyy-MM-dd') + 'T12:00:00' as data, p.nome_projeto as projeto, un.nome_unidade as unidade, a.profissionais_env FROM TodosImplantadores ti INNER JOIN tab_atividades a ON ti.id_atividade = a.id_atividade INNER JOIN tab_usuarios u ON ti.id_implantador = u.id_usuario INNER JOIN tab_unidades un ON a.id_unidade = un.id_unidade INNER JOIN tab_projetos p ON a.id_projeto = p.id_projeto WHERE u.nome_completo = @imp AND a.motivos LIKE @mot AND (a.data_atividade >= @di AND a.data_atividade <= @df) ORDER BY a.data_atividade DESC",
+        "entradas": {
+          "imp": "Ana",
+          "mot": "%Treinamento%",
+          "di": "2026-10-01",
+          "df": "2026-10-31"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "metricas-implantacao: sem período": {
+    "status": 200,
+    "corpo": [
+      {
+        "implantador": "Ana",
+        "produto": "Prontuario",
+        "total_real_implantador": 4,
+        "qtd_implantacao": 1,
+        "qtd_treinamento": 2
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "WITH TodosVinculos AS ( SELECT id_atividade, id_implantador FROM tab_atividade_implantadores UNION SELECT id_atividade, id_implantador FROM tab_atividades WHERE id_implantador IS NOT NULL ), BaseReal AS ( SELECT u.id_usuario, COUNT(DISTINCT a.id_atividade) as total_real FROM TodosVinculos tv INNER JOIN tab_atividades a ON tv.id_atividade = a.id_atividade INNER JOIN tab_usuarios u ON tv.id_implantador = u.id_usuario WHERE 1=1 GROUP BY u.id_usuario ) SELECT u.nome_completo as implantador, TRIM(s.value) as produto, MAX(b.total_real) as total_real_implantador, COUNT(DISTINCT CASE WHEN a.motivos LIKE '%Implantação%' THEN a.id_atividade END) as qtd_implantacao, COUNT(DISTINCT CASE WHEN a.motivos LIKE '%Treinamento%' THEN a.id_atividade END) as qtd_treinamento FROM TodosVinculos tv INNER JOIN tab_atividades a ON tv.id_atividade = a.id_atividade INNER JOIN tab_usuarios u ON tv.id_implantador = u.id_usuario INNER JOIN BaseReal b ON u.id_usuario = b.id_usuario CROSS APPLY STRING_SPLIT(a.produtos_trabalhados, ',') s INNER JOIN tab_produtos p ON TRIM(s.value) = p.nome_produto INNER JOIN tab_usuario_produtos expertise ON expertise.id_usuario = u.id_usuario AND expertise.id_produto = p.id_produto WHERE TRIM(s.value) <> '' GROUP BY u.nome_completo, TRIM(s.value) HAVING COUNT(DISTINCT CASE WHEN a.motivos LIKE '%Implantação%' THEN a.id_atividade END) > 0 OR COUNT(DISTINCT CASE WHEN a.motivos LIKE '%Treinamento%' THEN a.id_atividade END) > 0 ORDER BY u.nome_completo, produto",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "metricas-implantacao: com período": {
+    "status": 200,
+    "corpo": [
+      {
+        "linha": "padrao"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "WITH TodosVinculos AS ( SELECT id_atividade, id_implantador FROM tab_atividade_implantadores UNION SELECT id_atividade, id_implantador FROM tab_atividades WHERE id_implantador IS NOT NULL ), BaseReal AS ( SELECT u.id_usuario, COUNT(DISTINCT a.id_atividade) as total_real FROM TodosVinculos tv INNER JOIN tab_atividades a ON tv.id_atividade = a.id_atividade INNER JOIN tab_usuarios u ON tv.id_implantador = u.id_usuario WHERE 1=1 AND a.data_atividade BETWEEN @di AND @df GROUP BY u.id_usuario ) SELECT u.nome_completo as implantador, TRIM(s.value) as produto, MAX(b.total_real) as total_real_implantador, COUNT(DISTINCT CASE WHEN a.motivos LIKE '%Implantação%' THEN a.id_atividade END) as qtd_implantacao, COUNT(DISTINCT CASE WHEN a.motivos LIKE '%Treinamento%' THEN a.id_atividade END) as qtd_treinamento FROM TodosVinculos tv INNER JOIN tab_atividades a ON tv.id_atividade = a.id_atividade INNER JOIN tab_usuarios u ON tv.id_implantador = u.id_usuario INNER JOIN BaseReal b ON u.id_usuario = b.id_usuario CROSS APPLY STRING_SPLIT(a.produtos_trabalhados, ',') s INNER JOIN tab_produtos p ON TRIM(s.value) = p.nome_produto INNER JOIN tab_usuario_produtos expertise ON expertise.id_usuario = u.id_usuario AND expertise.id_produto = p.id_produto WHERE TRIM(s.value) <> '' AND a.data_atividade BETWEEN @di AND @df GROUP BY u.nome_completo, TRIM(s.value) HAVING COUNT(DISTINCT CASE WHEN a.motivos LIKE '%Implantação%' THEN a.id_atividade END) > 0 OR COUNT(DISTINCT CASE WHEN a.motivos LIKE '%Treinamento%' THEN a.id_atividade END) > 0 ORDER BY u.nome_completo, produto",
+        "entradas": {
+          "di": "2026-10-01",
+          "df": "2026-10-31"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "sem módulo: mapa-implantacao": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Visitante"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "sem módulo: detalhes-produto?nome_produto=X": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "sem módulo: estatisticas-produtividade": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "sem módulo: detalhe-produtividade?implantador=X": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "sem módulo: metricas-implantacao": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "sem módulo: produtividade-produtos": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  }
+}

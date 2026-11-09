@@ -1,0 +1,1935 @@
+{
+  "colaboradores: projetos sem lotação": {
+    "status": 400,
+    "corpo": {
+      "erro": "Selecione a lotação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "colaboradores: projetos lotação fora do escopo": {
+    "status": 403,
+    "corpo": {
+      "erro": "Lotação fora do seu escopo."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "colaboradores: projetos como visão global": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 5,
+        "nome_completo": "Maria Souza",
+        "funcao": "Implantador",
+        "ativo": true,
+        "data_admissao": "<data>"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_usuarios WHERE ativo = 1 AND ( id_lotacao = @lot OR id_usuario IN (SELECT id_usuario FROM tab_usuario_lotacoes WHERE id_projeto = @lot) ) ORDER BY nome_completo",
+        "entradas": {
+          "lot": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "colaboradores: projetos função comum vê só a si": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 7,
+        "nome_completo": "Maria Souza",
+        "funcao": "Implantador",
+        "ativo": true,
+        "data_admissao": "<data>"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 7
+        }
+      }
+    ],
+    "externos": []
+  },
+  "colaboradores: implantação como visão global": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_lotacao": 2,
+        "perfil_acesso": "Administrador",
+        "ativo": true,
+        "usuario": "teste",
+        "nome_funcao": "Teste",
+        "funcao_global": false
+      }
+    ],
+    "consultas": [],
+    "externos": []
+  },
+  "colaboradores: implantação sem módulo vê só a si": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 7,
+        "nome_completo": "Maria Souza",
+        "funcao": "Implantador",
+        "ativo": true,
+        "data_admissao": "<data>"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 7
+        }
+      }
+    ],
+    "externos": []
+  },
+  "historico: gestão vê qualquer colaborador": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_ferias": 3,
+        "id_usuario": 5,
+        "nome_completo": "Maria Souza",
+        "status": "PENDENTE",
+        "data_inicio": "2026-01-10",
+        "data_fim": "2026-01-12",
+        "nome_lotacao": "SEDE - GD"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT f.*, u.nome_completo, u.cpf, u.matricula, u.setor, u.funcao, u.data_nascimento, u.data_admissao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario WHERE f.id_usuario = @id ORDER BY f.data_solicitacao DESC",
+        "entradas": {
+          "id": 5
+        }
+      }
+    ],
+    "externos": []
+  },
+  "historico: o próprio colaborador": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_ferias": 3,
+        "id_usuario": 7,
+        "nome_completo": "Maria Souza",
+        "status": "PENDENTE",
+        "data_inicio": "2026-01-10",
+        "data_fim": "2026-01-12",
+        "nome_lotacao": "SEDE - GD"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT f.*, u.nome_completo, u.cpf, u.matricula, u.setor, u.funcao, u.data_nascimento, u.data_admissao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario WHERE f.id_usuario = @id ORDER BY f.data_solicitacao DESC",
+        "entradas": {
+          "id": 7
+        }
+      }
+    ],
+    "externos": []
+  },
+  "historico: outro colaborador da lotação": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_ferias": 3,
+        "id_usuario": 9,
+        "nome_completo": "Maria Souza",
+        "status": "PENDENTE",
+        "data_inicio": "2026-01-10",
+        "data_fim": "2026-01-12",
+        "nome_lotacao": "SEDE - GD"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS ok FROM tab_usuarios WHERE id_usuario = @alvo AND ( id_lotacao IN (@pv0) OR id_usuario IN (SELECT id_usuario FROM tab_usuario_lotacoes WHERE id_projeto IN (@pv0)) )",
+        "entradas": {
+          "alvo": 9,
+          "pv0": 2
+        }
+      },
+      {
+        "texto": "SELECT f.*, u.nome_completo, u.cpf, u.matricula, u.setor, u.funcao, u.data_nascimento, u.data_admissao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario WHERE f.id_usuario = @id ORDER BY f.data_solicitacao DESC",
+        "entradas": {
+          "id": 9
+        }
+      }
+    ],
+    "externos": []
+  },
+  "historico: outro colaborador fora do escopo": {
+    "status": 403,
+    "corpo": {
+      "erro": "Colaborador fora do seu escopo."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS ok FROM tab_usuarios WHERE id_usuario = @alvo AND ( id_lotacao IN (@pv0) OR id_usuario IN (SELECT id_usuario FROM tab_usuario_lotacoes WHERE id_projeto IN (@pv0)) )",
+        "entradas": {
+          "alvo": 9,
+          "pv0": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "historico: identificador inválido": {
+    "status": 403,
+    "corpo": {
+      "erro": "Colaborador fora do seu escopo."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "conflitos: dono com lotação": {
+    "status": 200,
+    "corpo": [
+      {
+        "nome_completo": "João",
+        "data_inicio": "2026-01-12",
+        "data_fim": "2026-01-15",
+        "status": "APROVADO"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT f.id_usuario, f.status, u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "SELECT u.id_lotacao, u.funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "SELECT u.nome_completo, f.data_inicio, f.data_fim, f.status FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario WHERE f.id_ferias <> @id AND f.status IN ('APROVADO', 'PENDENTE') AND f.data_inicio <= @df AND f.data_fim >= @di AND u.id_lotacao = @lot",
+        "entradas": {
+          "id": 3,
+          "di": "2026-01-10",
+          "df": "2026-01-20",
+          "lot": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "conflitos: dono sem lotação (SEDE)": {
+    "status": 200,
+    "corpo": [],
+    "consultas": [
+      {
+        "texto": "SELECT f.id_usuario, f.status, u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "SELECT u.id_lotacao, u.funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "SELECT u.nome_completo, f.data_inicio, f.data_fim, f.status FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario WHERE f.id_ferias <> @id AND f.status IN ('APROVADO', 'PENDENTE') AND f.data_inicio <= @df AND f.data_fim >= @di AND u.id_lotacao IS NULL AND UPPER(u.funcao) LIKE '%IMPLANTADOR%'",
+        "entradas": {
+          "id": 3,
+          "di": "2026-01-10",
+          "df": "2026-01-20"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "conflitos: solicitação inexistente": {
+    "status": 200,
+    "corpo": [],
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Implantador"
+        }
+      },
+      {
+        "texto": "SELECT f.id_usuario, f.status, u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": 99
+        }
+      },
+      {
+        "texto": "SELECT 1 AS ok FROM tab_usuarios WHERE id_usuario = @alvo AND ( id_lotacao IN (@pv0) OR id_usuario IN (SELECT id_usuario FROM tab_usuario_lotacoes WHERE id_projeto IN (@pv0)) )",
+        "entradas": {
+          "alvo": 1,
+          "pv0": 2
+        }
+      },
+      {
+        "texto": "SELECT u.id_lotacao, u.funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": 99
+        }
+      },
+      {
+        "texto": "SELECT u.nome_completo, f.data_inicio, f.data_fim, f.status FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario WHERE f.id_ferias <> @id AND f.status IN ('APROVADO', 'PENDENTE') AND f.data_inicio <= @df AND f.data_fim >= @di AND 1=0",
+        "entradas": {
+          "id": 99,
+          "di": "2026-01-10",
+          "df": "2026-01-20"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "conflitos: nova solicitação sem id": {
+    "status": 200,
+    "corpo": [],
+    "consultas": [
+      {
+        "texto": "SELECT f.id_usuario, f.status, u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": 0
+        }
+      },
+      {
+        "texto": "SELECT u.id_lotacao, u.funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": 0
+        }
+      },
+      {
+        "texto": "SELECT u.nome_completo, f.data_inicio, f.data_fim, f.status FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario WHERE f.id_ferias <> @id AND f.status IN ('APROVADO', 'PENDENTE') AND f.data_inicio <= @df AND f.data_fim >= @di AND 1=0",
+        "entradas": {
+          "id": 0,
+          "di": "2026-01-10",
+          "df": "2026-01-20"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "salvar: gestão (formato web)": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "OK"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT data_admissao FROM tab_usuarios WHERE id_usuario = @u",
+        "entradas": {
+          "u": 5
+        }
+      },
+      {
+        "texto": "SELECT id_ferias, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim FROM tab_ferias WHERE id_usuario = @id AND status <> 'RECUSADO'",
+        "entradas": {
+          "id": 5
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "INSERT INTO tab_ferias (id_usuario, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim, dias_restantes, status, data_solicitacao) VALUES (@id_u, @pa, @tipo, @di, @df, @dr, 'PENDENTE', GETDATE())",
+        "entradas": {
+          "id_u": 5,
+          "pa": "2025",
+          "tipo": "1º Período (15 Dias)",
+          "di": "2026-02-02",
+          "df": "2026-02-16",
+          "dr": 30
+        }
+      },
+      {
+        "texto": "COMMIT"
+      },
+      {
+        "texto": "SELECT id_ferias, tipo_solicitacao FROM tab_ferias WHERE id_usuario = @u AND periodo_aquisitivo = @pa AND status <> 'RECUSADO' AND (tipo_solicitacao LIKE '%1º Período%' OR tipo_solicitacao LIKE '%2º Período%') ORDER BY data_inicio ASC",
+        "entradas": {
+          "u": 5,
+          "pa": "2025"
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET tipo_solicitacao = '1º Período (15 Dias)' WHERE id_ferias = @id",
+        "entradas": {
+          "id": 10
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET tipo_solicitacao = '2º Período (15 Dias)' WHERE id_ferias = @id",
+        "entradas": {
+          "id": 11
+        }
+      }
+    ],
+    "externos": []
+  },
+  "salvar: o próprio colaborador (formato mobile)": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "OK"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT data_admissao FROM tab_usuarios WHERE id_usuario = @u",
+        "entradas": {
+          "u": 7
+        }
+      },
+      {
+        "texto": "SELECT id_ferias, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim FROM tab_ferias WHERE id_usuario = @id AND status <> 'RECUSADO'",
+        "entradas": {
+          "id": 7
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "INSERT INTO tab_ferias (id_usuario, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim, dias_restantes, status, data_solicitacao) VALUES (@id_u, @pa, @tipo, @di, @df, @dr, 'PENDENTE', GETDATE())",
+        "entradas": {
+          "id_u": 7,
+          "pa": 2025,
+          "tipo": "1º Período (15 Dias)",
+          "di": "2026-02-02",
+          "df": "2026-02-16",
+          "dr": 30
+        }
+      },
+      {
+        "texto": "COMMIT"
+      },
+      {
+        "texto": "SELECT id_ferias, tipo_solicitacao FROM tab_ferias WHERE id_usuario = @u AND periodo_aquisitivo = @pa AND status <> 'RECUSADO' AND (tipo_solicitacao LIKE '%1º Período%' OR tipo_solicitacao LIKE '%2º Período%') ORDER BY data_inicio ASC",
+        "entradas": {
+          "u": 7,
+          "pa": 2025
+        }
+      }
+    ],
+    "externos": []
+  },
+  "salvar: colaborador da lotação": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "OK"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS ok FROM tab_usuarios WHERE id_usuario = @alvo AND ( id_lotacao IN (@pv0) OR id_usuario IN (SELECT id_usuario FROM tab_usuario_lotacoes WHERE id_projeto IN (@pv0)) )",
+        "entradas": {
+          "alvo": 9,
+          "pv0": 2
+        }
+      },
+      {
+        "texto": "SELECT data_admissao FROM tab_usuarios WHERE id_usuario = @u",
+        "entradas": {
+          "u": 9
+        }
+      },
+      {
+        "texto": "SELECT id_ferias, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim FROM tab_ferias WHERE id_usuario = @id AND status <> 'RECUSADO'",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "INSERT INTO tab_ferias (id_usuario, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim, dias_restantes, status, data_solicitacao) VALUES (@id_u, @pa, @tipo, @di, @df, @dr, 'PENDENTE', GETDATE())",
+        "entradas": {
+          "id_u": 9,
+          "pa": 2025,
+          "tipo": "1º Período (15 Dias)",
+          "di": "2026-02-02",
+          "df": "2026-02-16",
+          "dr": 30
+        }
+      },
+      {
+        "texto": "COMMIT"
+      },
+      {
+        "texto": "SELECT id_ferias, tipo_solicitacao FROM tab_ferias WHERE id_usuario = @u AND periodo_aquisitivo = @pa AND status <> 'RECUSADO' AND (tipo_solicitacao LIKE '%1º Período%' OR tipo_solicitacao LIKE '%2º Período%') ORDER BY data_inicio ASC",
+        "entradas": {
+          "u": 9,
+          "pa": 2025
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET tipo_solicitacao = '1º Período (15 Dias)' WHERE id_ferias = @id",
+        "entradas": {
+          "id": 10
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET tipo_solicitacao = '2º Período (15 Dias)' WHERE id_ferias = @id",
+        "entradas": {
+          "id": 11
+        }
+      }
+    ],
+    "externos": []
+  },
+  "salvar: colaborador fora do escopo": {
+    "status": 403,
+    "corpo": {
+      "erro": "Colaborador fora do seu escopo."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS ok FROM tab_usuarios WHERE id_usuario = @alvo AND ( id_lotacao IN (@pv0) OR id_usuario IN (SELECT id_usuario FROM tab_usuario_lotacoes WHERE id_projeto IN (@pv0)) )",
+        "entradas": {
+          "alvo": 9,
+          "pv0": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "salvar: data final antes da inicial": {
+    "status": 400,
+    "corpo": {
+      "erro": "Período inválido (data final antes da inicial ou acima de 60 dias)."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: período acima do máximo": {
+    "status": 400,
+    "corpo": {
+      "erro": "Período inválido (data final antes da inicial ou acima de 60 dias)."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: sem data de admissão": {
+    "status": 400,
+    "corpo": {
+      "erro": "Data de admissão não cadastrada para este usuário."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT data_admissao FROM tab_usuarios WHERE id_usuario = @u",
+        "entradas": {
+          "u": 5
+        }
+      }
+    ],
+    "externos": []
+  },
+  "salvar: acima do prazo legal": {
+    "status": 400,
+    "corpo": {
+      "erro": "A solicitação ultrapassa o prazo legal de 1 ano e 11 meses do período aquisitivo de 2025. Data limite: 2027-02-14.",
+      "data_limite": "2027-02-14"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT data_admissao FROM tab_usuarios WHERE id_usuario = @u",
+        "entradas": {
+          "u": 5
+        }
+      }
+    ],
+    "externos": []
+  },
+  "editar: período inválido": {
+    "status": 400,
+    "corpo": {
+      "erro": "Período inválido (data final antes da inicial ou acima de 60 dias)."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "editar: férias inexistentes": {
+    "status": 404,
+    "corpo": {
+      "erro": "Férias não encontradas."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT f.id_usuario, f.status, u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": 99
+        }
+      }
+    ],
+    "externos": []
+  },
+  "editar: colaborador fora do escopo": {
+    "status": 403,
+    "corpo": {
+      "erro": "Colaborador fora do seu escopo."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT f.id_usuario, f.status, u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "SELECT 1 AS ok FROM tab_usuarios WHERE id_usuario = @alvo AND ( id_lotacao IN (@pv0) OR id_usuario IN (SELECT id_usuario FROM tab_usuario_lotacoes WHERE id_projeto IN (@pv0)) )",
+        "entradas": {
+          "alvo": 9,
+          "pv0": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "editar: aprovadas sem poder aprovar": {
+    "status": 403,
+    "corpo": {
+      "erro": "Férias já aprovadas só podem ser alteradas por quem pode aprová-las."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT f.id_usuario, f.status, u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      }
+    ],
+    "externos": []
+  },
+  "editar: pendente pela gestão": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Atualizado e sincronizado com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT f.id_usuario, f.status, u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "SELECT id_ferias, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim FROM tab_ferias WHERE id_usuario = @id AND status <> 'RECUSADO'",
+        "entradas": {
+          "id": 5
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT * FROM tab_ferias WHERE id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "SELECT data_admissao FROM tab_usuarios WHERE id_usuario = @u",
+        "entradas": {
+          "u": 5
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET periodo_aquisitivo=@pa, tipo_solicitacao=@tipo, data_inicio=@di, data_fim=@df WHERE id_ferias=@id",
+        "entradas": {
+          "id": 3,
+          "pa": "2025",
+          "tipo": "2º Período (15 Dias)",
+          "di": "2026-03-02",
+          "df": "2026-03-04"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      },
+      {
+        "texto": "SELECT id_ferias, tipo_solicitacao FROM tab_ferias WHERE id_usuario = @u AND periodo_aquisitivo = @pa AND status <> 'RECUSADO' AND (tipo_solicitacao LIKE '%1º Período%' OR tipo_solicitacao LIKE '%2º Período%') ORDER BY data_inicio ASC",
+        "entradas": {
+          "u": 5,
+          "pa": "2025"
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET tipo_solicitacao = '1º Período (15 Dias)' WHERE id_ferias = @id",
+        "entradas": {
+          "id": 10
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET tipo_solicitacao = '2º Período (15 Dias)' WHERE id_ferias = @id",
+        "entradas": {
+          "id": 11
+        }
+      }
+    ],
+    "externos": []
+  },
+  "editar: aprovada pela gestão refaz a escala": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Atualizado e sincronizado com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT f.id_usuario, f.status, u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "SELECT id_ferias, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim FROM tab_ferias WHERE id_usuario = @id AND status <> 'RECUSADO'",
+        "entradas": {
+          "id": 5
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT * FROM tab_ferias WHERE id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "SELECT data_admissao FROM tab_usuarios WHERE id_usuario = @u",
+        "entradas": {
+          "u": 5
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_escala_produtos WHERE id_escala IN (SELECT id_escala FROM tab_escalas WHERE id_usuario=@u AND data_escala BETWEEN @di AND @df AND tipo='FERIAS'); DELETE FROM tab_escalas WHERE id_usuario=@u AND data_escala BETWEEN @di AND @df AND tipo='FERIAS';",
+        "entradas": {
+          "u": 5,
+          "di": "2026-01-10",
+          "df": "2026-01-12"
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET periodo_aquisitivo=@pa, tipo_solicitacao=@tipo, data_inicio=@di, data_fim=@df WHERE id_ferias=@id",
+        "entradas": {
+          "id": 3,
+          "pa": "2025",
+          "tipo": "2º Período (15 Dias)",
+          "di": "2026-03-02",
+          "df": "2026-03-04"
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_escala_produtos WHERE id_escala IN (SELECT id_escala FROM tab_escalas WHERE id_usuario=@u AND data_escala=@d); DELETE FROM tab_escalas WHERE id_usuario=@u AND data_escala=@d; INSERT INTO tab_escalas (id_usuario, data_escala, tipo) VALUES (@u, @d, @tp);",
+        "entradas": {
+          "u": 5,
+          "d": "2026-03-02",
+          "tp": "FERIAS"
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_escala_produtos WHERE id_escala IN (SELECT id_escala FROM tab_escalas WHERE id_usuario=@u AND data_escala=@d); DELETE FROM tab_escalas WHERE id_usuario=@u AND data_escala=@d; INSERT INTO tab_escalas (id_usuario, data_escala, tipo) VALUES (@u, @d, @tp);",
+        "entradas": {
+          "u": 5,
+          "d": "2026-03-03",
+          "tp": "FERIAS"
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_escala_produtos WHERE id_escala IN (SELECT id_escala FROM tab_escalas WHERE id_usuario=@u AND data_escala=@d); DELETE FROM tab_escalas WHERE id_usuario=@u AND data_escala=@d; INSERT INTO tab_escalas (id_usuario, data_escala, tipo) VALUES (@u, @d, @tp);",
+        "entradas": {
+          "u": 5,
+          "d": "2026-03-04",
+          "tp": "FERIAS"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      },
+      {
+        "texto": "SELECT id_ferias, tipo_solicitacao FROM tab_ferias WHERE id_usuario = @u AND periodo_aquisitivo = @pa AND status <> 'RECUSADO' AND (tipo_solicitacao LIKE '%1º Período%' OR tipo_solicitacao LIKE '%2º Período%') ORDER BY data_inicio ASC",
+        "entradas": {
+          "u": 5,
+          "pa": "2025"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "editar: pendente do próprio colaborador": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Atualizado e sincronizado com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT f.id_usuario, f.status, u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "SELECT id_ferias, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim FROM tab_ferias WHERE id_usuario = @id AND status <> 'RECUSADO'",
+        "entradas": {
+          "id": 7
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT * FROM tab_ferias WHERE id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "SELECT data_admissao FROM tab_usuarios WHERE id_usuario = @u",
+        "entradas": {
+          "u": 7
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET periodo_aquisitivo=@pa, tipo_solicitacao=@tipo, data_inicio=@di, data_fim=@df WHERE id_ferias=@id",
+        "entradas": {
+          "id": 3,
+          "pa": "2025",
+          "tipo": "2º Período (15 Dias)",
+          "di": "2026-03-02",
+          "df": "2026-03-04"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      },
+      {
+        "texto": "SELECT id_ferias, tipo_solicitacao FROM tab_ferias WHERE id_usuario = @u AND periodo_aquisitivo = @pa AND status <> 'RECUSADO' AND (tipo_solicitacao LIKE '%1º Período%' OR tipo_solicitacao LIKE '%2º Período%') ORDER BY data_inicio ASC",
+        "entradas": {
+          "u": 7,
+          "pa": "2025"
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET tipo_solicitacao = '1º Período (15 Dias)' WHERE id_ferias = @id",
+        "entradas": {
+          "id": 10
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET tipo_solicitacao = '2º Período (15 Dias)' WHERE id_ferias = @id",
+        "entradas": {
+          "id": 11
+        }
+      }
+    ],
+    "externos": []
+  },
+  "editar: acima do prazo legal desfaz a transação": {
+    "status": 400,
+    "corpo": {
+      "erro": "A solicitação ultrapassa o prazo legal de 1 ano e 11 meses do período aquisitivo de 2025. Data limite: 2027-02-14.",
+      "data_limite": "2027-02-14"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT f.id_usuario, f.status, u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "SELECT id_ferias, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim FROM tab_ferias WHERE id_usuario = @id AND status <> 'RECUSADO'",
+        "entradas": {
+          "id": 5
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT * FROM tab_ferias WHERE id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "SELECT data_admissao FROM tab_usuarios WHERE id_usuario = @u",
+        "entradas": {
+          "u": 5
+        }
+      },
+      {
+        "texto": "ROLLBACK"
+      }
+    ],
+    "externos": []
+  },
+  "editar: registro some durante a edição": {
+    "status": 500,
+    "corpo": {
+      "erro": "Erro interno do servidor."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT f.id_usuario, f.status, u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "SELECT id_ferias, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim FROM tab_ferias WHERE id_usuario = @id AND status <> 'RECUSADO'",
+        "entradas": {
+          "id": 5
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT * FROM tab_ferias WHERE id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "ROLLBACK"
+      }
+    ],
+    "externos": []
+  },
+  "listar: visão gerencial global": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_ferias": 3,
+        "id_usuario": 5,
+        "nome_completo": "Maria Souza",
+        "status": "PENDENTE",
+        "data_inicio": "2026-01-10",
+        "data_fim": "2026-01-12",
+        "nome_lotacao": "SEDE - GD"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "DELETE FROM tab_ferias WHERE status = 'PENDENTE' AND id_usuario IN (SELECT id_usuario FROM tab_usuarios WHERE ativo = 0)",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT f.*, u.nome_completo, u.cpf, u.matricula, u.setor, u.funcao, u.data_nascimento, u.data_admissao, ISNULL(pl.nome_projeto, 'SEDE - GD') AS nome_lotacao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_projetos pl ON u.id_lotacao = pl.id_projeto WHERE 1=1 AND u.ativo = 1 ORDER BY f.data_solicitacao DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "listar: gerencial filtro SEDE": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_ferias": 3,
+        "id_usuario": 5,
+        "nome_completo": "Maria Souza",
+        "status": "PENDENTE",
+        "data_inicio": "2026-01-10",
+        "data_fim": "2026-01-12",
+        "nome_lotacao": "SEDE - GD"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "DELETE FROM tab_ferias WHERE status = 'PENDENTE' AND id_usuario IN (SELECT id_usuario FROM tab_usuarios WHERE ativo = 0)",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT f.*, u.nome_completo, u.cpf, u.matricula, u.setor, u.funcao, u.data_nascimento, u.data_admissao, ISNULL(pl.nome_projeto, 'SEDE - GD') AS nome_lotacao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_projetos pl ON u.id_lotacao = pl.id_projeto WHERE 1=1 AND u.ativo = 1 AND (UPPER(u.funcao) LIKE '%IMPLANTADOR%') ORDER BY f.data_solicitacao DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "listar: gerencial filtro de lotação": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_ferias": 3,
+        "id_usuario": 5,
+        "nome_completo": "Maria Souza",
+        "status": "PENDENTE",
+        "data_inicio": "2026-01-10",
+        "data_fim": "2026-01-12",
+        "nome_lotacao": "SEDE - GD"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "DELETE FROM tab_ferias WHERE status = 'PENDENTE' AND id_usuario IN (SELECT id_usuario FROM tab_usuarios WHERE ativo = 0)",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT f.*, u.nome_completo, u.cpf, u.matricula, u.setor, u.funcao, u.data_nascimento, u.data_admissao, ISNULL(pl.nome_projeto, 'SEDE - GD') AS nome_lotacao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_projetos pl ON u.id_lotacao = pl.id_projeto WHERE 1=1 AND u.ativo = 1 AND u.id_lotacao = @lot ORDER BY f.data_solicitacao DESC",
+        "entradas": {
+          "lot": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "listar: gerencial filtro Todos": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_ferias": 3,
+        "id_usuario": 5,
+        "nome_completo": "Maria Souza",
+        "status": "PENDENTE",
+        "data_inicio": "2026-01-10",
+        "data_fim": "2026-01-12",
+        "nome_lotacao": "SEDE - GD"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "DELETE FROM tab_ferias WHERE status = 'PENDENTE' AND id_usuario IN (SELECT id_usuario FROM tab_usuarios WHERE ativo = 0)",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT f.*, u.nome_completo, u.cpf, u.matricula, u.setor, u.funcao, u.data_nascimento, u.data_admissao, ISNULL(pl.nome_projeto, 'SEDE - GD') AS nome_lotacao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_projetos pl ON u.id_lotacao = pl.id_projeto WHERE 1=1 AND u.ativo = 1 ORDER BY f.data_solicitacao DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "listar: administrador com id_usuario continua gerencial": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_ferias": 3,
+        "id_usuario": 5,
+        "nome_completo": "Maria Souza",
+        "status": "PENDENTE",
+        "data_inicio": "2026-01-10",
+        "data_fim": "2026-01-12",
+        "nome_lotacao": "SEDE - GD"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "DELETE FROM tab_ferias WHERE status = 'PENDENTE' AND id_usuario IN (SELECT id_usuario FROM tab_usuarios WHERE ativo = 0)",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT f.*, u.nome_completo, u.cpf, u.matricula, u.setor, u.funcao, u.data_nascimento, u.data_admissao, ISNULL(pl.nome_projeto, 'SEDE - GD') AS nome_lotacao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_projetos pl ON u.id_lotacao = pl.id_projeto WHERE 1=1 AND u.ativo = 1 ORDER BY f.data_solicitacao DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "listar: o próprio colaborador": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_ferias": 3,
+        "id_usuario": 5,
+        "nome_completo": "Maria Souza",
+        "status": "PENDENTE",
+        "data_inicio": "2026-01-10",
+        "data_fim": "2026-01-12",
+        "nome_lotacao": "SEDE - GD"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT f.*, u.nome_completo, u.cpf, u.matricula, u.setor, u.funcao, u.data_nascimento, u.data_admissao, ISNULL(pl.nome_projeto, 'SEDE - GD') AS nome_lotacao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_projetos pl ON u.id_lotacao = pl.id_projeto WHERE 1=1 AND f.id_usuario = @idUsuario ORDER BY f.data_solicitacao DESC",
+        "entradas": {
+          "idUsuario": 7
+        }
+      }
+    ],
+    "externos": []
+  },
+  "listar: outro colaborador da lotação": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_ferias": 3,
+        "id_usuario": 5,
+        "nome_completo": "Maria Souza",
+        "status": "PENDENTE",
+        "data_inicio": "2026-01-10",
+        "data_fim": "2026-01-12",
+        "nome_lotacao": "SEDE - GD"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS ok FROM tab_usuarios WHERE id_usuario = @alvo AND ( id_lotacao IN (@pv0) OR id_usuario IN (SELECT id_usuario FROM tab_usuario_lotacoes WHERE id_projeto IN (@pv0)) )",
+        "entradas": {
+          "alvo": 9,
+          "pv0": 2
+        }
+      },
+      {
+        "texto": "SELECT f.*, u.nome_completo, u.cpf, u.matricula, u.setor, u.funcao, u.data_nascimento, u.data_admissao, ISNULL(pl.nome_projeto, 'SEDE - GD') AS nome_lotacao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_projetos pl ON u.id_lotacao = pl.id_projeto WHERE 1=1 AND f.id_usuario = @idUsuario ORDER BY f.data_solicitacao DESC",
+        "entradas": {
+          "idUsuario": 9
+        }
+      }
+    ],
+    "externos": []
+  },
+  "listar: outro colaborador fora do escopo": {
+    "status": 403,
+    "corpo": {
+      "erro": "Colaborador fora do seu escopo."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS ok FROM tab_usuarios WHERE id_usuario = @alvo AND ( id_lotacao IN (@pv0) OR id_usuario IN (SELECT id_usuario FROM tab_usuario_lotacoes WHERE id_projeto IN (@pv0)) )",
+        "entradas": {
+          "alvo": 9,
+          "pv0": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "listar: gestor sem filtro isola pela lotação": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_ferias": 3,
+        "id_usuario": 5,
+        "nome_completo": "Maria Souza",
+        "status": "PENDENTE",
+        "data_inicio": "2026-01-10",
+        "data_fim": "2026-01-12",
+        "nome_lotacao": "SEDE - GD"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Gestor"
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_ferias WHERE status = 'PENDENTE' AND id_usuario IN (SELECT id_usuario FROM tab_usuarios WHERE ativo = 0)",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT f.*, u.nome_completo, u.cpf, u.matricula, u.setor, u.funcao, u.data_nascimento, u.data_admissao, ISNULL(pl.nome_projeto, 'SEDE - GD') AS nome_lotacao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_projetos pl ON u.id_lotacao = pl.id_projeto WHERE 1=1 AND u.ativo = 1 AND u.id_lotacao IN (@esc0) ORDER BY f.data_solicitacao DESC",
+        "entradas": {
+          "esc0": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "listar: gestor filtro SEDE sem visão global": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_ferias": 3,
+        "id_usuario": 5,
+        "nome_completo": "Maria Souza",
+        "status": "PENDENTE",
+        "data_inicio": "2026-01-10",
+        "data_fim": "2026-01-12",
+        "nome_lotacao": "SEDE - GD"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "DELETE FROM tab_ferias WHERE status = 'PENDENTE' AND id_usuario IN (SELECT id_usuario FROM tab_usuarios WHERE ativo = 0)",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT f.*, u.nome_completo, u.cpf, u.matricula, u.setor, u.funcao, u.data_nascimento, u.data_admissao, ISNULL(pl.nome_projeto, 'SEDE - GD') AS nome_lotacao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_projetos pl ON u.id_lotacao = pl.id_projeto WHERE 1=1 AND u.ativo = 1 AND (UPPER(u.funcao) LIKE '%IMPLANTADOR%') AND 1=0 ORDER BY f.data_solicitacao DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "listar: gestor lotação do escopo": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_ferias": 3,
+        "id_usuario": 5,
+        "nome_completo": "Maria Souza",
+        "status": "PENDENTE",
+        "data_inicio": "2026-01-10",
+        "data_fim": "2026-01-12",
+        "nome_lotacao": "SEDE - GD"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "DELETE FROM tab_ferias WHERE status = 'PENDENTE' AND id_usuario IN (SELECT id_usuario FROM tab_usuarios WHERE ativo = 0)",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT f.*, u.nome_completo, u.cpf, u.matricula, u.setor, u.funcao, u.data_nascimento, u.data_admissao, ISNULL(pl.nome_projeto, 'SEDE - GD') AS nome_lotacao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_projetos pl ON u.id_lotacao = pl.id_projeto WHERE 1=1 AND u.ativo = 1 AND u.id_lotacao = @lot ORDER BY f.data_solicitacao DESC",
+        "entradas": {
+          "lot": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "listar: gestor lotação fora do escopo": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_ferias": 3,
+        "id_usuario": 5,
+        "nome_completo": "Maria Souza",
+        "status": "PENDENTE",
+        "data_inicio": "2026-01-10",
+        "data_fim": "2026-01-12",
+        "nome_lotacao": "SEDE - GD"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "DELETE FROM tab_ferias WHERE status = 'PENDENTE' AND id_usuario IN (SELECT id_usuario FROM tab_usuarios WHERE ativo = 0)",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT f.*, u.nome_completo, u.cpf, u.matricula, u.setor, u.funcao, u.data_nascimento, u.data_admissao, ISNULL(pl.nome_projeto, 'SEDE - GD') AS nome_lotacao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_projetos pl ON u.id_lotacao = pl.id_projeto WHERE 1=1 AND u.ativo = 1 AND u.id_lotacao = @lot AND 1=0 ORDER BY f.data_solicitacao DESC",
+        "entradas": {
+          "lot": 9
+        }
+      }
+    ],
+    "externos": []
+  },
+  "relatorio-prazos: gestão": {
+    "status": 200,
+    "corpo": [],
+    "consultas": [
+      {
+        "texto": "SELECT f.id_usuario, f.periodo_aquisitivo, f.tipo_solicitacao, f.data_inicio, f.data_fim, f.status FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE u.ativo = 1 AND f.status <> 'RECUSADO' AND (fn.nome_funcao LIKE '%IMPLANTADOR%' OR u.funcao LIKE '%IMPLANTADOR%')",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "relatorio-prazos: perfil comum": {
+    "status": 200,
+    "corpo": [],
+    "consultas": [
+      {
+        "texto": "SELECT f.id_usuario, f.periodo_aquisitivo, f.tipo_solicitacao, f.data_inicio, f.data_fim, f.status FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE u.ativo = 1 AND f.status <> 'RECUSADO' AND (fn.nome_funcao LIKE '%IMPLANTADOR%' OR u.funcao LIKE '%IMPLANTADOR%') AND u.id_usuario IN ( SELECT id_usuario FROM tab_usuarios WHERE id_lotacao IN (@__ulot_u_id_usuario_0) UNION SELECT id_usuario FROM tab_usuario_lotacoes WHERE id_projeto IN (@__ulot_u_id_usuario_0) )",
+        "entradas": {
+          "__ulot_u_id_usuario_0": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "status: valor inválido": {
+    "status": 400,
+    "corpo": {
+      "erro": "Status inválido."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "status: sem valor": {
+    "status": 400,
+    "corpo": {
+      "erro": "Status inválido."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "status: solicitação inexistente": {
+    "status": 404,
+    "corpo": {
+      "erro": "Solicitação não encontrada."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": "99"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "status: sem permissão para a função": {
+    "status": 403,
+    "corpo": {
+      "erro": "Você não tem permissão para aprovar/recusar férias desta função."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": "3"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "status: aprovar": {
+    "status": 200,
+    "corpo": {
+      "ok": true
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": "3"
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "UPDATE tab_ferias SET status = @st WHERE id_ferias = @id",
+        "entradas": {
+          "id": "3",
+          "st": "APROVADO"
+        }
+      },
+      {
+        "texto": "SELECT * FROM tab_ferias WHERE id_ferias = @id",
+        "entradas": {
+          "id": "3"
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_escala_produtos WHERE id_escala IN (SELECT id_escala FROM tab_escalas WHERE id_usuario=@u AND data_escala=@d); DELETE FROM tab_escalas WHERE id_usuario=@u AND data_escala=@d; INSERT INTO tab_escalas (id_usuario, data_escala, tipo) VALUES (@u, @d, @tp);",
+        "entradas": {
+          "u": 5,
+          "d": "2026-01-10",
+          "tp": "FERIAS"
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_escala_produtos WHERE id_escala IN (SELECT id_escala FROM tab_escalas WHERE id_usuario=@u AND data_escala=@d); DELETE FROM tab_escalas WHERE id_usuario=@u AND data_escala=@d; INSERT INTO tab_escalas (id_usuario, data_escala, tipo) VALUES (@u, @d, @tp);",
+        "entradas": {
+          "u": 5,
+          "d": "2026-01-11",
+          "tp": "FERIAS"
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_escala_produtos WHERE id_escala IN (SELECT id_escala FROM tab_escalas WHERE id_usuario=@u AND data_escala=@d); DELETE FROM tab_escalas WHERE id_usuario=@u AND data_escala=@d; INSERT INTO tab_escalas (id_usuario, data_escala, tipo) VALUES (@u, @d, @tp);",
+        "entradas": {
+          "u": 5,
+          "d": "2026-01-12",
+          "tp": "FERIAS"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      },
+      {
+        "texto": "SELECT id_ferias, tipo_solicitacao FROM tab_ferias WHERE id_usuario = @u AND periodo_aquisitivo = @pa AND status <> 'RECUSADO' AND (tipo_solicitacao LIKE '%1º Período%' OR tipo_solicitacao LIKE '%2º Período%') ORDER BY data_inicio ASC",
+        "entradas": {
+          "u": 5,
+          "pa": 2025
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.lerConfig",
+        "argumentos": [
+          {
+            "connected": true
+          }
+        ]
+      }
+    ]
+  },
+  "status: recusar": {
+    "status": 200,
+    "corpo": {
+      "ok": true
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": "3"
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "UPDATE tab_ferias SET status = @st WHERE id_ferias = @id",
+        "entradas": {
+          "id": "3",
+          "st": "RECUSADO"
+        }
+      },
+      {
+        "texto": "SELECT * FROM tab_ferias WHERE id_ferias = @id",
+        "entradas": {
+          "id": "3"
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_escala_produtos WHERE id_escala IN (SELECT id_escala FROM tab_escalas WHERE id_usuario=@u AND data_escala BETWEEN @di AND @df AND tipo='FERIAS'); DELETE FROM tab_escalas WHERE id_usuario=@u AND data_escala BETWEEN @di AND @df AND tipo='FERIAS';",
+        "entradas": {
+          "u": 5,
+          "di": "2026-01-10",
+          "df": "2026-01-12"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      },
+      {
+        "texto": "SELECT id_ferias, tipo_solicitacao FROM tab_ferias WHERE id_usuario = @u AND periodo_aquisitivo = @pa AND status <> 'RECUSADO' AND (tipo_solicitacao LIKE '%1º Período%' OR tipo_solicitacao LIKE '%2º Período%') ORDER BY data_inicio ASC",
+        "entradas": {
+          "u": 5,
+          "pa": 2025
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET tipo_solicitacao = '1º Período (15 Dias)' WHERE id_ferias = @id",
+        "entradas": {
+          "id": 10
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET tipo_solicitacao = '2º Período (15 Dias)' WHERE id_ferias = @id",
+        "entradas": {
+          "id": 11
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.lerConfig",
+        "argumentos": [
+          {
+            "connected": true
+          }
+        ]
+      }
+    ]
+  },
+  "status: voltar para pendente": {
+    "status": 200,
+    "corpo": {
+      "ok": true
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": "3"
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "UPDATE tab_ferias SET status = @st WHERE id_ferias = @id",
+        "entradas": {
+          "id": "3",
+          "st": "PENDENTE"
+        }
+      },
+      {
+        "texto": "SELECT * FROM tab_ferias WHERE id_ferias = @id",
+        "entradas": {
+          "id": "3"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      },
+      {
+        "texto": "SELECT id_ferias, tipo_solicitacao FROM tab_ferias WHERE id_usuario = @u AND periodo_aquisitivo = @pa AND status <> 'RECUSADO' AND (tipo_solicitacao LIKE '%1º Período%' OR tipo_solicitacao LIKE '%2º Período%') ORDER BY data_inicio ASC",
+        "entradas": {
+          "u": 5,
+          "pa": 2025
+        }
+      }
+    ],
+    "externos": []
+  },
+  "status: registro some depois da atualização": {
+    "status": 200,
+    "corpo": {
+      "ok": true
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": "3"
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "UPDATE tab_ferias SET status = @st WHERE id_ferias = @id",
+        "entradas": {
+          "id": "3",
+          "st": "APROVADO"
+        }
+      },
+      {
+        "texto": "SELECT * FROM tab_ferias WHERE id_ferias = @id",
+        "entradas": {
+          "id": "3"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": []
+  },
+  "status: aprovação com período absurdo desfaz a transação": {
+    "status": 400,
+    "corpo": {
+      "erro": "Período de férias inválido."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": "3"
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "UPDATE tab_ferias SET status = @st WHERE id_ferias = @id",
+        "entradas": {
+          "id": "3",
+          "st": "APROVADO"
+        }
+      },
+      {
+        "texto": "SELECT * FROM tab_ferias WHERE id_ferias = @id",
+        "entradas": {
+          "id": "3"
+        }
+      },
+      {
+        "texto": "ROLLBACK"
+      }
+    ],
+    "externos": []
+  },
+  "sem módulo: conflitos": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Visitante"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "sem módulo: salvar": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "sem módulo: editar": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "sem módulo: listar outro colaborador": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "sem módulo: listar visão gerencial": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "sem módulo: listar a própria visão": {
+    "status": 200,
+    "corpo": [
+      {
+        "linha": "padrao"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT f.*, u.nome_completo, u.cpf, u.matricula, u.setor, u.funcao, u.data_nascimento, u.data_admissao, ISNULL(pl.nome_projeto, 'SEDE - GD') AS nome_lotacao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_projetos pl ON u.id_lotacao = pl.id_projeto WHERE 1=1 AND f.id_usuario = @idUsuario ORDER BY f.data_solicitacao DESC",
+        "entradas": {
+          "idUsuario": 7
+        }
+      }
+    ],
+    "externos": []
+  },
+  "sem módulo: relatório de prazos": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "sem módulo: status": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "saldo: acima do disponível": {
+    "status": 400,
+    "corpo": {
+      "erro": "A solicitação consome 15 dias e o saldo do período é de 10 dias."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT data_admissao FROM tab_usuarios WHERE id_usuario = @u",
+        "entradas": {
+          "u": 5
+        }
+      },
+      {
+        "texto": "SELECT id_ferias, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim FROM tab_ferias WHERE id_usuario = @id AND status <> 'RECUSADO'",
+        "entradas": {
+          "id": 5
+        }
+      }
+    ],
+    "externos": []
+  },
+  "saldo: venda de dias consome os 30": {
+    "status": 400,
+    "corpo": {
+      "erro": "A solicitação consome 15 dias e o saldo do período é de 0 dias."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT data_admissao FROM tab_usuarios WHERE id_usuario = @u",
+        "entradas": {
+          "u": 5
+        }
+      },
+      {
+        "texto": "SELECT id_ferias, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim FROM tab_ferias WHERE id_usuario = @id AND status <> 'RECUSADO'",
+        "entradas": {
+          "id": 5
+        }
+      }
+    ],
+    "externos": []
+  },
+  "saldo: outro período aquisitivo não conta": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "OK"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT data_admissao FROM tab_usuarios WHERE id_usuario = @u",
+        "entradas": {
+          "u": 5
+        }
+      },
+      {
+        "texto": "SELECT id_ferias, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim FROM tab_ferias WHERE id_usuario = @id AND status <> 'RECUSADO'",
+        "entradas": {
+          "id": 5
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "INSERT INTO tab_ferias (id_usuario, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim, dias_restantes, status, data_solicitacao) VALUES (@id_u, @pa, @tipo, @di, @df, @dr, 'PENDENTE', GETDATE())",
+        "entradas": {
+          "id_u": 5,
+          "pa": 2025,
+          "tipo": "1º Período (15 Dias)",
+          "di": "2026-02-01",
+          "df": "2026-02-15",
+          "dr": 30
+        }
+      },
+      {
+        "texto": "COMMIT"
+      },
+      {
+        "texto": "SELECT id_ferias, tipo_solicitacao FROM tab_ferias WHERE id_usuario = @u AND periodo_aquisitivo = @pa AND status <> 'RECUSADO' AND (tipo_solicitacao LIKE '%1º Período%' OR tipo_solicitacao LIKE '%2º Período%') ORDER BY data_inicio ASC",
+        "entradas": {
+          "u": 5,
+          "pa": 2025
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET tipo_solicitacao = '1º Período (15 Dias)' WHERE id_ferias = @id",
+        "entradas": {
+          "id": 10
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET tipo_solicitacao = '2º Período (15 Dias)' WHERE id_ferias = @id",
+        "entradas": {
+          "id": 11
+        }
+      }
+    ],
+    "externos": []
+  },
+  "saldo: grava o valor calculado no servidor": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "OK"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT data_admissao FROM tab_usuarios WHERE id_usuario = @u",
+        "entradas": {
+          "u": 5
+        }
+      },
+      {
+        "texto": "SELECT id_ferias, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim FROM tab_ferias WHERE id_usuario = @id AND status <> 'RECUSADO'",
+        "entradas": {
+          "id": 5
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "INSERT INTO tab_ferias (id_usuario, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim, dias_restantes, status, data_solicitacao) VALUES (@id_u, @pa, @tipo, @di, @df, @dr, 'PENDENTE', GETDATE())",
+        "entradas": {
+          "id_u": 5,
+          "pa": 2025,
+          "tipo": "1º Período (15 Dias)",
+          "di": "2026-02-01",
+          "df": "2026-02-15",
+          "dr": 20
+        }
+      },
+      {
+        "texto": "COMMIT"
+      },
+      {
+        "texto": "SELECT id_ferias, tipo_solicitacao FROM tab_ferias WHERE id_usuario = @u AND periodo_aquisitivo = @pa AND status <> 'RECUSADO' AND (tipo_solicitacao LIKE '%1º Período%' OR tipo_solicitacao LIKE '%2º Período%') ORDER BY data_inicio ASC",
+        "entradas": {
+          "u": 5,
+          "pa": 2025
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET tipo_solicitacao = '1º Período (15 Dias)' WHERE id_ferias = @id",
+        "entradas": {
+          "id": 10
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET tipo_solicitacao = '2º Período (15 Dias)' WHERE id_ferias = @id",
+        "entradas": {
+          "id": 11
+        }
+      }
+    ],
+    "externos": []
+  },
+  "saldo: férias sobrepostas às próprias": {
+    "status": 400,
+    "corpo": {
+      "erro": "O colaborador já tem férias solicitadas ou aprovadas neste período."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT data_admissao FROM tab_usuarios WHERE id_usuario = @u",
+        "entradas": {
+          "u": 5
+        }
+      },
+      {
+        "texto": "SELECT id_ferias, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim FROM tab_ferias WHERE id_usuario = @id AND status <> 'RECUSADO'",
+        "entradas": {
+          "id": 5
+        }
+      }
+    ],
+    "externos": []
+  },
+  "saldo: edição ignora o próprio registro": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Atualizado e sincronizado com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT f.id_usuario, f.status, u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "SELECT id_ferias, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim FROM tab_ferias WHERE id_usuario = @id AND status <> 'RECUSADO'",
+        "entradas": {
+          "id": 5
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT * FROM tab_ferias WHERE id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "SELECT data_admissao FROM tab_usuarios WHERE id_usuario = @u",
+        "entradas": {
+          "u": 5
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET periodo_aquisitivo=@pa, tipo_solicitacao=@tipo, data_inicio=@di, data_fim=@df WHERE id_ferias=@id",
+        "entradas": {
+          "id": 3,
+          "pa": "2025",
+          "tipo": "2º Período (15 Dias)",
+          "di": "2026-03-02",
+          "df": "2026-03-04"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      },
+      {
+        "texto": "SELECT id_ferias, tipo_solicitacao FROM tab_ferias WHERE id_usuario = @u AND periodo_aquisitivo = @pa AND status <> 'RECUSADO' AND (tipo_solicitacao LIKE '%1º Período%' OR tipo_solicitacao LIKE '%2º Período%') ORDER BY data_inicio ASC",
+        "entradas": {
+          "u": 5,
+          "pa": "2025"
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET tipo_solicitacao = '1º Período (15 Dias)' WHERE id_ferias = @id",
+        "entradas": {
+          "id": 10
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET tipo_solicitacao = '2º Período (15 Dias)' WHERE id_ferias = @id",
+        "entradas": {
+          "id": 11
+        }
+      }
+    ],
+    "externos": []
+  },
+  "saldo: edição com histórico acima do saldo sem aumentar dias": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Atualizado e sincronizado com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT f.id_usuario, f.status, u.funcao AS funcao_txt, fn.nome_funcao FROM tab_ferias f INNER JOIN tab_usuarios u ON f.id_usuario = u.id_usuario LEFT JOIN tab_funcoes fn ON u.id_funcao = fn.id_funcao WHERE f.id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "SELECT id_ferias, periodo_aquisitivo, tipo_solicitacao, data_inicio, data_fim FROM tab_ferias WHERE id_usuario = @id AND status <> 'RECUSADO'",
+        "entradas": {
+          "id": 5
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT * FROM tab_ferias WHERE id_ferias = @id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "SELECT data_admissao FROM tab_usuarios WHERE id_usuario = @u",
+        "entradas": {
+          "u": 5
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET periodo_aquisitivo=@pa, tipo_solicitacao=@tipo, data_inicio=@di, data_fim=@df WHERE id_ferias=@id",
+        "entradas": {
+          "id": 3,
+          "pa": "2025",
+          "tipo": "2º Período (15 Dias)",
+          "di": "2026-03-02",
+          "df": "2026-03-04"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      },
+      {
+        "texto": "SELECT id_ferias, tipo_solicitacao FROM tab_ferias WHERE id_usuario = @u AND periodo_aquisitivo = @pa AND status <> 'RECUSADO' AND (tipo_solicitacao LIKE '%1º Período%' OR tipo_solicitacao LIKE '%2º Período%') ORDER BY data_inicio ASC",
+        "entradas": {
+          "u": 5,
+          "pa": "2025"
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET tipo_solicitacao = '1º Período (15 Dias)' WHERE id_ferias = @id",
+        "entradas": {
+          "id": 10
+        }
+      },
+      {
+        "texto": "UPDATE tab_ferias SET tipo_solicitacao = '2º Período (15 Dias)' WHERE id_ferias = @id",
+        "entradas": {
+          "id": 11
+        }
+      }
+    ],
+    "externos": []
+  }
+}

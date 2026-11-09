@@ -1,0 +1,393 @@
+{
+  "app: versão anônimo": {
+    "status": 200,
+    "corpo": {
+      "versao_atual": "2026.12.01",
+      "versao_pwa": "2026.12.01",
+      "link_download": "https://operaecho.com/download/opera-echo-mobile.apk",
+      "obrigatorio": true,
+      "mensagem": "Uma nova versão obrigatória do Opera Echo está disponível. Por favor, atualize para continuar."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "app: versão autenticado": {
+    "status": 200,
+    "corpo": {
+      "versao_atual": "2026.12.01",
+      "versao_pwa": "2026.12.01",
+      "link_download": "https://operaecho.com/download/opera-echo-mobile.apk",
+      "obrigatorio": true,
+      "mensagem": "Uma nova versão obrigatória do Opera Echo está disponível. Por favor, atualize para continuar."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "sistema: informações anônimo": {
+    "status": 200,
+    "corpo": {
+      "ip": "127.0.0.1",
+      "versao_api": "2.0.0"
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "sistema: informações autenticado": {
+    "status": 200,
+    "corpo": {
+      "ip": "127.0.0.1",
+      "versao_api": "2.0.0"
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "rastreio: anônimo": {
+    "status": 401,
+    "corpo": {
+      "erro": "Não autenticado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "rastreio: com coordenadas": {
+    "status": 200,
+    "corpo": {
+      "ok": true
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_rastreamento_app (usuario, latitude, longitude, tipo_registro, data_hora, detalhes_registro) VALUES (@user, @lat, @lng, @tipo, DATEADD(hour, -3, GETUTCDATE()), @detalhes)",
+        "entradas": {
+          "user": "Maria da Silva",
+          "lat": -7.1195,
+          "lng": -34.845,
+          "tipo": "SEGUNDO_PLANO",
+          "detalhes": "Bateria 80%"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "rastreio: usuário sem nome cadastrado usa o login": {
+    "status": 200,
+    "corpo": {
+      "ok": true
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_rastreamento_app (usuario, latitude, longitude, tipo_registro, data_hora, detalhes_registro) VALUES (@user, @lat, @lng, @tipo, DATEADD(hour, -3, GETUTCDATE()), @detalhes)",
+        "entradas": {
+          "user": "undefined",
+          "lat": -7.1195,
+          "lng": -34.845,
+          "tipo": "SEGUNDO_PLANO",
+          "detalhes": "Bateria 80%"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "rastreio: coordenadas em texto": {
+    "status": 400,
+    "corpo": {
+      "erro": "Coordenadas inválidas"
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "rastreio: coordenadas em texto com ponto": {
+    "status": 200,
+    "corpo": {
+      "ok": true
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_rastreamento_app (usuario, latitude, longitude, tipo_registro, data_hora, detalhes_registro) VALUES (@user, @lat, @lng, @tipo, DATEADD(hour, -3, GETUTCDATE()), @detalhes)",
+        "entradas": {
+          "user": "Maria da Silva",
+          "lat": -7.5,
+          "lng": -34.8,
+          "tipo": "SEGUNDO_PLANO",
+          "detalhes": "Bateria 80%"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "rastreio: sem tipo nem detalhes": {
+    "status": 200,
+    "corpo": {
+      "ok": true
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_rastreamento_app (usuario, latitude, longitude, tipo_registro, data_hora, detalhes_registro) VALUES (@user, @lat, @lng, @tipo, DATEADD(hour, -3, GETUTCDATE()), @detalhes)",
+        "entradas": {
+          "user": "Maria da Silva",
+          "lat": 1,
+          "lng": 2,
+          "tipo": "SEGUNDO_PLANO",
+          "detalhes": ""
+        }
+      }
+    ],
+    "externos": []
+  },
+  "rastreio: tipo e detalhes muito longos": {
+    "status": 200,
+    "corpo": {
+      "ok": true
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_rastreamento_app (usuario, latitude, longitude, tipo_registro, data_hora, detalhes_registro) VALUES (@user, @lat, @lng, @tipo, DATEADD(hour, -3, GETUTCDATE()), @detalhes)",
+        "entradas": {
+          "user": "Maria da Silva",
+          "lat": -7.1195,
+          "lng": -34.845,
+          "tipo": "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT",
+          "detalhes": "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "rastreio: tipo e detalhes nulos": {
+    "status": 200,
+    "corpo": {
+      "ok": true
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_rastreamento_app (usuario, latitude, longitude, tipo_registro, data_hora, detalhes_registro) VALUES (@user, @lat, @lng, @tipo, DATEADD(hour, -3, GETUTCDATE()), @detalhes)",
+        "entradas": {
+          "user": "Maria da Silva",
+          "lat": -7.1195,
+          "lng": -34.845,
+          "tipo": "SEGUNDO_PLANO",
+          "detalhes": ""
+        }
+      }
+    ],
+    "externos": []
+  },
+  "rastreio: latitude e longitude zero": {
+    "status": 200,
+    "corpo": {
+      "ok": true
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_rastreamento_app (usuario, latitude, longitude, tipo_registro, data_hora, detalhes_registro) VALUES (@user, @lat, @lng, @tipo, DATEADD(hour, -3, GETUTCDATE()), @detalhes)",
+        "entradas": {
+          "user": "Maria da Silva",
+          "lat": 0,
+          "lng": 0,
+          "tipo": "SEGUNDO_PLANO",
+          "detalhes": "Bateria 80%"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "rastreio: exclusão de atividade sem coordenadas": {
+    "status": 400,
+    "corpo": {
+      "erro": "Coordenadas inválidas"
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "rastreio: sem coordenadas": {
+    "status": 400,
+    "corpo": {
+      "erro": "Coordenadas inválidas"
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "rastreio: corpo vazio": {
+    "status": 400,
+    "corpo": {
+      "erro": "Coordenadas inválidas"
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "rastreio: latitude fora da faixa": {
+    "status": 400,
+    "corpo": {
+      "erro": "Coordenadas inválidas"
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "rastreio: longitude fora da faixa": {
+    "status": 400,
+    "corpo": {
+      "erro": "Coordenadas inválidas"
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "rastreio: latitude não numérica": {
+    "status": 400,
+    "corpo": {
+      "erro": "Coordenadas inválidas"
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "rastreio: longitude infinita": {
+    "status": 400,
+    "corpo": {
+      "erro": "Coordenadas inválidas"
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "cnes: cadastrado com produto": {
+    "status": 200,
+    "corpo": {
+      "cadastrado": true,
+      "produtoValido": true,
+      "nomeUnidade": "UBS Centro"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.nome_unidade, CASE WHEN EXISTS ( SELECT 1 FROM tab_unidade_produtos up WHERE up.id_unidade = u.id_unidade AND up.id_produto IN (4, 17) ) THEN 1 ELSE 0 END as possui_produto FROM tab_unidades u WHERE u.cnes = @cnes AND u.ativo = 1",
+        "entradas": {
+          "cnes": "2345678"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "cnes: cadastrado sem produto": {
+    "status": 200,
+    "corpo": {
+      "cadastrado": true,
+      "produtoValido": false,
+      "nomeUnidade": "UBS Centro"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.nome_unidade, CASE WHEN EXISTS ( SELECT 1 FROM tab_unidade_produtos up WHERE up.id_unidade = u.id_unidade AND up.id_produto IN (4, 17) ) THEN 1 ELSE 0 END as possui_produto FROM tab_unidades u WHERE u.cnes = @cnes AND u.ativo = 1",
+        "entradas": {
+          "cnes": "2345678"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "cnes: com pontuação": {
+    "status": 200,
+    "corpo": {
+      "cadastrado": true,
+      "produtoValido": true,
+      "nomeUnidade": "UBS Centro"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.nome_unidade, CASE WHEN EXISTS ( SELECT 1 FROM tab_unidade_produtos up WHERE up.id_unidade = u.id_unidade AND up.id_produto IN (4, 17) ) THEN 1 ELSE 0 END as possui_produto FROM tab_unidades u WHERE u.cnes = @cnes AND u.ativo = 1",
+        "entradas": {
+          "cnes": "2345678"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "cnes: não cadastrado": {
+    "status": 200,
+    "corpo": {
+      "cadastrado": false,
+      "produtoValido": false
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.nome_unidade, CASE WHEN EXISTS ( SELECT 1 FROM tab_unidade_produtos up WHERE up.id_unidade = u.id_unidade AND up.id_produto IN (4, 17) ) THEN 1 ELSE 0 END as possui_produto FROM tab_unidades u WHERE u.cnes = @cnes AND u.ativo = 1",
+        "entradas": {
+          "cnes": "2345678"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "cnes: sem dígitos": {
+    "status": 200,
+    "corpo": {
+      "cadastrado": false,
+      "produtoValido": false
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "cnes: longo demais": {
+    "status": 200,
+    "corpo": {
+      "cadastrado": false,
+      "produtoValido": false
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "cnes: autenticado": {
+    "status": 200,
+    "corpo": {
+      "cadastrado": true,
+      "produtoValido": true,
+      "nomeUnidade": "UBS Centro"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.nome_unidade, CASE WHEN EXISTS ( SELECT 1 FROM tab_unidade_produtos up WHERE up.id_unidade = u.id_unidade AND up.id_produto IN (4, 17) ) THEN 1 ELSE 0 END as possui_produto FROM tab_unidades u WHERE u.cnes = @cnes AND u.ativo = 1",
+        "entradas": {
+          "cnes": "2345678"
+        }
+      }
+    ],
+    "externos": []
+  }
+}

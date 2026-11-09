@@ -1,70 +1,43 @@
-# Getting Started with Create React App
+# OperaEcho: site
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React 19, TypeScript, Tailwind 4 e Vite. Cada página tem URL própria e carrega sob demanda.
 
-## Available Scripts
+## Comandos
 
-In the project directory, you can run:
+| Comando | O que faz |
+|---|---|
+| `npm run dev` | Sobe o site em `http://localhost:3000` |
+| `npm run build` | Gera o site em `build/`, sem source maps |
+| `npm run typecheck` | Confere os tipos |
+| `npm run lint` | Roda o ESLint |
+| `npm run test:e2e` | Roda os fluxos críticos no navegador |
 
-### `npm start`
+## Estrutura
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```text
+src/
+├── app/                 # rotas, proteção de acesso, menu e layout
+├── features/<dominio>/  # telas de cada domínio
+│   ├── *Page.tsx        # layout da tela
+│   ├── hooks.ts         # lógica e estado
+│   └── api.ts           # chamadas à API e tipos
+├── shared/
+│   ├── ui/              # componentes compartilhados
+│   ├── auth/            # sessão e permissões
+│   ├── exportacao.ts    # captura para JPG e PDF
+│   └── pdfRelatorio.ts  # PDF padrão dos relatórios
+└── styles/tailwind.css  # paleta, fontes e padrões de elementos
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Convenções
 
-### `npm test`
+- **Layout e lógica:** ficam separados. O visual reutilizável vai para `shared/ui`.
+- **Estilo:** só Tailwind, com as cores definidas em `styles/tailwind.css`. Não há outro CSS.
+- **API:** as chamadas usam `shared/api.ts`, que aponta para `/api/v1`.
+- **Diálogos:** confirmações e alertas usam `shared/feedback`. Formulários longos têm página própria.
+- **Ajuda:** as regras da tela ficam em um balão ao lado do título, não em legendas.
+- **Relatórios:** o PDF usa `gerarPdf`, em `features/relatorios/exportacao.ts`, e o JPG usa a captura da tela.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Testes no navegador
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Exigem o site e a API no ar e o Microsoft Edge instalado. Sem as variáveis `E2E_USUARIO` e `E2E_SENHA`, os fluxos com sessão são ignorados. Use um usuário de teste do seu ambiente local.

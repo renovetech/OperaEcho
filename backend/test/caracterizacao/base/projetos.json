@@ -1,0 +1,814 @@
+{
+  "lotações: visão global do administrador": {
+    "status": 200,
+    "corpo": {
+      "global": true,
+      "lotacoes": [
+        {
+          "id_projeto": 2,
+          "nome_projeto": "Projeto Dois",
+          "visao_global": false
+        },
+        {
+          "id_projeto": 3,
+          "nome_projeto": "Projeto Três",
+          "visao_global": true
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_projeto, nome_projeto, visao_global FROM tab_projetos WHERE gera_lotacao = 1 AND ativo = 1 ORDER BY nome_projeto",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "lotações: anônimo": {
+    "status": 401,
+    "corpo": {
+      "erro": "Não autenticado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "lotações: implantador com uma lotação": {
+    "status": 200,
+    "corpo": {
+      "global": false,
+      "lotacoes": [
+        {
+          "id_projeto": 2,
+          "nome_projeto": "Projeto Dois",
+          "visao_global": false
+        },
+        {
+          "id_projeto": 3,
+          "nome_projeto": "Projeto Três",
+          "visao_global": true
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_projeto, nome_projeto, visao_global FROM tab_projetos WHERE id_projeto IN (@l0) ORDER BY nome_projeto",
+        "entradas": {
+          "l0": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "lotações: líder com duas lotações": {
+    "status": 200,
+    "corpo": {
+      "global": false,
+      "lotacoes": [
+        {
+          "id_projeto": 2,
+          "nome_projeto": "Projeto Dois",
+          "visao_global": false
+        },
+        {
+          "id_projeto": 3,
+          "nome_projeto": "Projeto Três",
+          "visao_global": true
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_projeto, nome_projeto, visao_global FROM tab_projetos WHERE id_projeto IN (@l0,@l1) ORDER BY nome_projeto",
+        "entradas": {
+          "l0": 2,
+          "l1": 9
+        }
+      }
+    ],
+    "externos": []
+  },
+  "lotações: função de visão global": {
+    "status": 200,
+    "corpo": {
+      "global": true,
+      "lotacoes": [
+        {
+          "id_projeto": 2,
+          "nome_projeto": "Projeto Dois",
+          "visao_global": false
+        },
+        {
+          "id_projeto": 3,
+          "nome_projeto": "Projeto Três",
+          "visao_global": true
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_projeto, nome_projeto, visao_global FROM tab_projetos WHERE gera_lotacao = 1 AND ativo = 1 ORDER BY nome_projeto",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "lotações: sem lotação": {
+    "status": 200,
+    "corpo": {
+      "global": false,
+      "lotacoes": []
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "painel: completo": {
+    "status": 200,
+    "corpo": {
+      "projeto": {
+        "nome": "Projeto Paraíba",
+        "slug": "paraiba",
+        "uf": "PB"
+      },
+      "gerado_em": "<data>",
+      "regioes": [
+        {
+          "id_macro": 1,
+          "nome_macro": "Leste",
+          "sigla": "LES",
+          "cor": "#112233",
+          "ordem": 1,
+          "micros": [
+            {
+              "id_micro": 7,
+              "id_macro": 1,
+              "nome_micro": "Litoral",
+              "sigla": "LIT",
+              "cor": null,
+              "ordem": 1
+            }
+          ]
+        }
+      ],
+      "produtos": [
+        {
+          "id_produto": 4,
+          "nome_produto": "Prontuário"
+        },
+        {
+          "id_produto": 17,
+          "nome_produto": "Agenda"
+        }
+      ],
+      "tipos": [
+        {
+          "id_tipo_unidade": 3,
+          "nome_tipo": "UBS",
+          "sigla": "UBS",
+          "grupo": "APS",
+          "ordem": 1
+        }
+      ],
+      "unidades": [
+        {
+          "id_unidade": 5,
+          "nome_unidade": "UBS Centro",
+          "cnes": "2345678",
+          "id_cidade": 10,
+          "nome_cidade": "João Pessoa",
+          "uf": "PB",
+          "latitude": -7.12,
+          "longitude": -34.86,
+          "id_macro": 1,
+          "id_micro": 7,
+          "id_tipo_unidade": 3,
+          "aproximada": false,
+          "produtos": [
+            4,
+            17
+          ]
+        },
+        {
+          "id_unidade": 6,
+          "nome_unidade": "UBS Norte",
+          "cnes": "2345678",
+          "id_cidade": 10,
+          "nome_cidade": "João Pessoa",
+          "uf": "PB",
+          "latitude": -7.1,
+          "longitude": -34.8,
+          "id_macro": 1,
+          "id_micro": 7,
+          "id_tipo_unidade": 3,
+          "aproximada": true,
+          "produtos": []
+        },
+        {
+          "id_unidade": 7,
+          "nome_unidade": "UPA",
+          "cnes": "2345678",
+          "id_cidade": 10,
+          "nome_cidade": "João Pessoa",
+          "uf": "PE",
+          "latitude": null,
+          "longitude": null,
+          "id_macro": 1,
+          "id_micro": 7,
+          "id_tipo_unidade": 4,
+          "aproximada": true,
+          "produtos": [
+            4
+          ]
+        },
+        {
+          "id_unidade": 8,
+          "nome_unidade": "Sem estado",
+          "cnes": "2345678",
+          "id_cidade": 10,
+          "nome_cidade": "João Pessoa",
+          "uf": null,
+          "latitude": -7.12,
+          "longitude": -34.86,
+          "id_macro": 1,
+          "id_micro": 7,
+          "id_tipo_unidade": 3,
+          "aproximada": false,
+          "produtos": [
+            4,
+            17
+          ]
+        }
+      ],
+      "atividades": [
+        [
+          5,
+          "2026-10-05",
+          "2026-10-06",
+          0,
+          [
+            "Treinamento",
+            "Visita"
+          ],
+          [
+            "Prontuário",
+            "Agenda"
+          ],
+          150
+        ],
+        [
+          6,
+          "2026-10-07",
+          null,
+          1,
+          [],
+          [],
+          0
+        ],
+        [
+          7,
+          null,
+          "2026-10-09",
+          0,
+          [
+            "Treinamento",
+            "Visita"
+          ],
+          [
+            "Prontuário",
+            "Agenda"
+          ],
+          7245
+        ]
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_projeto, nome_projeto FROM tab_projetos WHERE slug_publico = @s AND painel_publico = 1 AND ativo = 1",
+        "entradas": {
+          "s": "paraiba"
+        }
+      },
+      {
+        "texto": "SELECT id_macro, nome_macro, sigla, cor, ordem FROM tab_macro_regioes WHERE id_projeto = @p AND ativo = 1 ORDER BY ordem, nome_macro; SELECT mi.id_micro, mi.id_macro, mi.nome_micro, mi.sigla, mi.cor, mi.ordem FROM tab_micro_regioes mi JOIN tab_macro_regioes m ON m.id_macro = mi.id_macro WHERE m.id_projeto = @p AND m.ativo = 1 AND mi.ativo = 1 ORDER BY mi.ordem, mi.nome_micro;",
+        "entradas": {
+          "p": 2
+        }
+      },
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_cidade, c.nome_cidade, e.sigla AS uf, u.latitude, u.longitude, c.latitude AS lat_cidade, c.longitude AS lng_cidade, u.id_macro, u.id_micro, u.id_tipo_unidade, (SELECT STRING_AGG(CAST(pr.id_produto AS VARCHAR(10)), ',') FROM tab_unidade_produtos up JOIN tab_produtos pr ON pr.id_produto = up.id_produto WHERE up.id_unidade = u.id_unidade AND pr.ativo = 1) AS ids_produtos FROM tab_unidades u LEFT JOIN tab_cidades c ON c.id_cidade = u.id_cidade LEFT JOIN tab_estados e ON e.id_estado = c.id_estado WHERE u.id_projeto = @p AND u.ativo = 1 ORDER BY c.nome_cidade, u.nome_unidade; SELECT DISTINCT pr.id_produto, pr.nome_produto FROM tab_unidade_produtos up JOIN tab_unidades u ON u.id_unidade = up.id_unidade AND u.ativo = 1 AND u.id_projeto = @p JOIN tab_produtos pr ON pr.id_produto = up.id_produto AND pr.ativo = 1 ORDER BY pr.nome_produto; SELECT id_tipo_unidade, nome_tipo, sigla, grupo, ordem FROM tab_tipos_unidade WHERE ativo = 1 ORDER BY ordem, nome_tipo;",
+        "entradas": {
+          "p": 2
+        }
+      },
+      {
+        "texto": "SELECT 'implantacao' AS origem, a.id_unidade, ISNULL(a.data_inicio, a.data_atividade) AS di, ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)) AS df, a.motivos, a.produtos_trabalhados, a.tempo_gasto FROM tab_atividades a WHERE a.id_projeto = @p UNION ALL SELECT 'projetos', a.id_unidade, ISNULL(a.data_inicio, a.data_atividade), ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)), a.motivos, a.produtos_trabalhados, a.tempo_gasto FROM tab_proj_atividades a WHERE a.id_projeto = @p",
+        "entradas": {
+          "p": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "painel: autenticado": {
+    "status": 200,
+    "corpo": {
+      "projeto": {
+        "nome": "Projeto Paraíba",
+        "slug": "paraiba",
+        "uf": "PB"
+      },
+      "gerado_em": "<data>",
+      "regioes": [
+        {
+          "id_macro": 1,
+          "nome_macro": "Leste",
+          "sigla": "LES",
+          "cor": "#112233",
+          "ordem": 1,
+          "micros": [
+            {
+              "id_micro": 7,
+              "id_macro": 1,
+              "nome_micro": "Litoral",
+              "sigla": "LIT",
+              "cor": null,
+              "ordem": 1
+            }
+          ]
+        }
+      ],
+      "produtos": [
+        {
+          "id_produto": 4,
+          "nome_produto": "Prontuário"
+        },
+        {
+          "id_produto": 17,
+          "nome_produto": "Agenda"
+        }
+      ],
+      "tipos": [
+        {
+          "id_tipo_unidade": 3,
+          "nome_tipo": "UBS",
+          "sigla": "UBS",
+          "grupo": "APS",
+          "ordem": 1
+        }
+      ],
+      "unidades": [
+        {
+          "id_unidade": 5,
+          "nome_unidade": "UBS Centro",
+          "cnes": "2345678",
+          "id_cidade": 10,
+          "nome_cidade": "João Pessoa",
+          "uf": "PB",
+          "latitude": -7.12,
+          "longitude": -34.86,
+          "id_macro": 1,
+          "id_micro": 7,
+          "id_tipo_unidade": 3,
+          "aproximada": false,
+          "produtos": [
+            4,
+            17
+          ]
+        },
+        {
+          "id_unidade": 6,
+          "nome_unidade": "UBS Norte",
+          "cnes": "2345678",
+          "id_cidade": 10,
+          "nome_cidade": "João Pessoa",
+          "uf": "PB",
+          "latitude": -7.1,
+          "longitude": -34.8,
+          "id_macro": 1,
+          "id_micro": 7,
+          "id_tipo_unidade": 3,
+          "aproximada": true,
+          "produtos": []
+        },
+        {
+          "id_unidade": 7,
+          "nome_unidade": "UPA",
+          "cnes": "2345678",
+          "id_cidade": 10,
+          "nome_cidade": "João Pessoa",
+          "uf": "PE",
+          "latitude": null,
+          "longitude": null,
+          "id_macro": 1,
+          "id_micro": 7,
+          "id_tipo_unidade": 4,
+          "aproximada": true,
+          "produtos": [
+            4
+          ]
+        },
+        {
+          "id_unidade": 8,
+          "nome_unidade": "Sem estado",
+          "cnes": "2345678",
+          "id_cidade": 10,
+          "nome_cidade": "João Pessoa",
+          "uf": null,
+          "latitude": -7.12,
+          "longitude": -34.86,
+          "id_macro": 1,
+          "id_micro": 7,
+          "id_tipo_unidade": 3,
+          "aproximada": false,
+          "produtos": [
+            4,
+            17
+          ]
+        }
+      ],
+      "atividades": [
+        [
+          5,
+          "2026-10-05",
+          "2026-10-06",
+          0,
+          [
+            "Treinamento",
+            "Visita"
+          ],
+          [
+            "Prontuário",
+            "Agenda"
+          ],
+          150
+        ],
+        [
+          6,
+          "2026-10-07",
+          null,
+          1,
+          [],
+          [],
+          0
+        ],
+        [
+          7,
+          null,
+          "2026-10-09",
+          0,
+          [
+            "Treinamento",
+            "Visita"
+          ],
+          [
+            "Prontuário",
+            "Agenda"
+          ],
+          7245
+        ]
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_projeto, nome_projeto FROM tab_projetos WHERE slug_publico = @s AND painel_publico = 1 AND ativo = 1",
+        "entradas": {
+          "s": "paraiba"
+        }
+      },
+      {
+        "texto": "SELECT id_macro, nome_macro, sigla, cor, ordem FROM tab_macro_regioes WHERE id_projeto = @p AND ativo = 1 ORDER BY ordem, nome_macro; SELECT mi.id_micro, mi.id_macro, mi.nome_micro, mi.sigla, mi.cor, mi.ordem FROM tab_micro_regioes mi JOIN tab_macro_regioes m ON m.id_macro = mi.id_macro WHERE m.id_projeto = @p AND m.ativo = 1 AND mi.ativo = 1 ORDER BY mi.ordem, mi.nome_micro;",
+        "entradas": {
+          "p": 2
+        }
+      },
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_cidade, c.nome_cidade, e.sigla AS uf, u.latitude, u.longitude, c.latitude AS lat_cidade, c.longitude AS lng_cidade, u.id_macro, u.id_micro, u.id_tipo_unidade, (SELECT STRING_AGG(CAST(pr.id_produto AS VARCHAR(10)), ',') FROM tab_unidade_produtos up JOIN tab_produtos pr ON pr.id_produto = up.id_produto WHERE up.id_unidade = u.id_unidade AND pr.ativo = 1) AS ids_produtos FROM tab_unidades u LEFT JOIN tab_cidades c ON c.id_cidade = u.id_cidade LEFT JOIN tab_estados e ON e.id_estado = c.id_estado WHERE u.id_projeto = @p AND u.ativo = 1 ORDER BY c.nome_cidade, u.nome_unidade; SELECT DISTINCT pr.id_produto, pr.nome_produto FROM tab_unidade_produtos up JOIN tab_unidades u ON u.id_unidade = up.id_unidade AND u.ativo = 1 AND u.id_projeto = @p JOIN tab_produtos pr ON pr.id_produto = up.id_produto AND pr.ativo = 1 ORDER BY pr.nome_produto; SELECT id_tipo_unidade, nome_tipo, sigla, grupo, ordem FROM tab_tipos_unidade WHERE ativo = 1 ORDER BY ordem, nome_tipo;",
+        "entradas": {
+          "p": 2
+        }
+      },
+      {
+        "texto": "SELECT 'implantacao' AS origem, a.id_unidade, ISNULL(a.data_inicio, a.data_atividade) AS di, ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)) AS df, a.motivos, a.produtos_trabalhados, a.tempo_gasto FROM tab_atividades a WHERE a.id_projeto = @p UNION ALL SELECT 'projetos', a.id_unidade, ISNULL(a.data_inicio, a.data_atividade), ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)), a.motivos, a.produtos_trabalhados, a.tempo_gasto FROM tab_proj_atividades a WHERE a.id_projeto = @p",
+        "entradas": {
+          "p": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "painel: endereço em maiúsculas": {
+    "status": 200,
+    "corpo": {
+      "projeto": {
+        "nome": "Projeto Paraíba",
+        "slug": "paraiba",
+        "uf": "PB"
+      },
+      "gerado_em": "<data>",
+      "regioes": [
+        {
+          "id_macro": 1,
+          "nome_macro": "Leste",
+          "sigla": "LES",
+          "cor": "#112233",
+          "ordem": 1,
+          "micros": [
+            {
+              "id_micro": 7,
+              "id_macro": 1,
+              "nome_micro": "Litoral",
+              "sigla": "LIT",
+              "cor": null,
+              "ordem": 1
+            }
+          ]
+        }
+      ],
+      "produtos": [
+        {
+          "id_produto": 4,
+          "nome_produto": "Prontuário"
+        },
+        {
+          "id_produto": 17,
+          "nome_produto": "Agenda"
+        }
+      ],
+      "tipos": [
+        {
+          "id_tipo_unidade": 3,
+          "nome_tipo": "UBS",
+          "sigla": "UBS",
+          "grupo": "APS",
+          "ordem": 1
+        }
+      ],
+      "unidades": [
+        {
+          "id_unidade": 5,
+          "nome_unidade": "UBS Centro",
+          "cnes": "2345678",
+          "id_cidade": 10,
+          "nome_cidade": "João Pessoa",
+          "uf": "PB",
+          "latitude": -7.12,
+          "longitude": -34.86,
+          "id_macro": 1,
+          "id_micro": 7,
+          "id_tipo_unidade": 3,
+          "aproximada": false,
+          "produtos": [
+            4,
+            17
+          ]
+        },
+        {
+          "id_unidade": 6,
+          "nome_unidade": "UBS Norte",
+          "cnes": "2345678",
+          "id_cidade": 10,
+          "nome_cidade": "João Pessoa",
+          "uf": "PB",
+          "latitude": -7.1,
+          "longitude": -34.8,
+          "id_macro": 1,
+          "id_micro": 7,
+          "id_tipo_unidade": 3,
+          "aproximada": true,
+          "produtos": []
+        },
+        {
+          "id_unidade": 7,
+          "nome_unidade": "UPA",
+          "cnes": "2345678",
+          "id_cidade": 10,
+          "nome_cidade": "João Pessoa",
+          "uf": "PE",
+          "latitude": null,
+          "longitude": null,
+          "id_macro": 1,
+          "id_micro": 7,
+          "id_tipo_unidade": 4,
+          "aproximada": true,
+          "produtos": [
+            4
+          ]
+        },
+        {
+          "id_unidade": 8,
+          "nome_unidade": "Sem estado",
+          "cnes": "2345678",
+          "id_cidade": 10,
+          "nome_cidade": "João Pessoa",
+          "uf": null,
+          "latitude": -7.12,
+          "longitude": -34.86,
+          "id_macro": 1,
+          "id_micro": 7,
+          "id_tipo_unidade": 3,
+          "aproximada": false,
+          "produtos": [
+            4,
+            17
+          ]
+        }
+      ],
+      "atividades": [
+        [
+          5,
+          "2026-10-05",
+          "2026-10-06",
+          0,
+          [
+            "Treinamento",
+            "Visita"
+          ],
+          [
+            "Prontuário",
+            "Agenda"
+          ],
+          150
+        ],
+        [
+          6,
+          "2026-10-07",
+          null,
+          1,
+          [],
+          [],
+          0
+        ],
+        [
+          7,
+          null,
+          "2026-10-09",
+          0,
+          [
+            "Treinamento",
+            "Visita"
+          ],
+          [
+            "Prontuário",
+            "Agenda"
+          ],
+          7245
+        ]
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_projeto, nome_projeto FROM tab_projetos WHERE slug_publico = @s AND painel_publico = 1 AND ativo = 1",
+        "entradas": {
+          "s": "paraiba"
+        }
+      },
+      {
+        "texto": "SELECT id_macro, nome_macro, sigla, cor, ordem FROM tab_macro_regioes WHERE id_projeto = @p AND ativo = 1 ORDER BY ordem, nome_macro; SELECT mi.id_micro, mi.id_macro, mi.nome_micro, mi.sigla, mi.cor, mi.ordem FROM tab_micro_regioes mi JOIN tab_macro_regioes m ON m.id_macro = mi.id_macro WHERE m.id_projeto = @p AND m.ativo = 1 AND mi.ativo = 1 ORDER BY mi.ordem, mi.nome_micro;",
+        "entradas": {
+          "p": 2
+        }
+      },
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_cidade, c.nome_cidade, e.sigla AS uf, u.latitude, u.longitude, c.latitude AS lat_cidade, c.longitude AS lng_cidade, u.id_macro, u.id_micro, u.id_tipo_unidade, (SELECT STRING_AGG(CAST(pr.id_produto AS VARCHAR(10)), ',') FROM tab_unidade_produtos up JOIN tab_produtos pr ON pr.id_produto = up.id_produto WHERE up.id_unidade = u.id_unidade AND pr.ativo = 1) AS ids_produtos FROM tab_unidades u LEFT JOIN tab_cidades c ON c.id_cidade = u.id_cidade LEFT JOIN tab_estados e ON e.id_estado = c.id_estado WHERE u.id_projeto = @p AND u.ativo = 1 ORDER BY c.nome_cidade, u.nome_unidade; SELECT DISTINCT pr.id_produto, pr.nome_produto FROM tab_unidade_produtos up JOIN tab_unidades u ON u.id_unidade = up.id_unidade AND u.ativo = 1 AND u.id_projeto = @p JOIN tab_produtos pr ON pr.id_produto = up.id_produto AND pr.ativo = 1 ORDER BY pr.nome_produto; SELECT id_tipo_unidade, nome_tipo, sigla, grupo, ordem FROM tab_tipos_unidade WHERE ativo = 1 ORDER BY ordem, nome_tipo;",
+        "entradas": {
+          "p": 2
+        }
+      },
+      {
+        "texto": "SELECT 'implantacao' AS origem, a.id_unidade, ISNULL(a.data_inicio, a.data_atividade) AS di, ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)) AS df, a.motivos, a.produtos_trabalhados, a.tempo_gasto FROM tab_atividades a WHERE a.id_projeto = @p UNION ALL SELECT 'projetos', a.id_unidade, ISNULL(a.data_inicio, a.data_atividade), ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)), a.motivos, a.produtos_trabalhados, a.tempo_gasto FROM tab_proj_atividades a WHERE a.id_projeto = @p",
+        "entradas": {
+          "p": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "painel: projeto sem dados": {
+    "status": 200,
+    "corpo": {
+      "projeto": {
+        "nome": "Projeto Paraíba",
+        "slug": "paraiba",
+        "uf": null
+      },
+      "gerado_em": "<data>",
+      "regioes": [],
+      "produtos": [],
+      "tipos": [],
+      "unidades": [],
+      "atividades": []
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_projeto, nome_projeto FROM tab_projetos WHERE slug_publico = @s AND painel_publico = 1 AND ativo = 1",
+        "entradas": {
+          "s": "paraiba"
+        }
+      },
+      {
+        "texto": "SELECT id_macro, nome_macro, sigla, cor, ordem FROM tab_macro_regioes WHERE id_projeto = @p AND ativo = 1 ORDER BY ordem, nome_macro; SELECT mi.id_micro, mi.id_macro, mi.nome_micro, mi.sigla, mi.cor, mi.ordem FROM tab_micro_regioes mi JOIN tab_macro_regioes m ON m.id_macro = mi.id_macro WHERE m.id_projeto = @p AND m.ativo = 1 AND mi.ativo = 1 ORDER BY mi.ordem, mi.nome_micro;",
+        "entradas": {
+          "p": 2
+        }
+      },
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_cidade, c.nome_cidade, e.sigla AS uf, u.latitude, u.longitude, c.latitude AS lat_cidade, c.longitude AS lng_cidade, u.id_macro, u.id_micro, u.id_tipo_unidade, (SELECT STRING_AGG(CAST(pr.id_produto AS VARCHAR(10)), ',') FROM tab_unidade_produtos up JOIN tab_produtos pr ON pr.id_produto = up.id_produto WHERE up.id_unidade = u.id_unidade AND pr.ativo = 1) AS ids_produtos FROM tab_unidades u LEFT JOIN tab_cidades c ON c.id_cidade = u.id_cidade LEFT JOIN tab_estados e ON e.id_estado = c.id_estado WHERE u.id_projeto = @p AND u.ativo = 1 ORDER BY c.nome_cidade, u.nome_unidade; SELECT DISTINCT pr.id_produto, pr.nome_produto FROM tab_unidade_produtos up JOIN tab_unidades u ON u.id_unidade = up.id_unidade AND u.ativo = 1 AND u.id_projeto = @p JOIN tab_produtos pr ON pr.id_produto = up.id_produto AND pr.ativo = 1 ORDER BY pr.nome_produto; SELECT id_tipo_unidade, nome_tipo, sigla, grupo, ordem FROM tab_tipos_unidade WHERE ativo = 1 ORDER BY ordem, nome_tipo;",
+        "entradas": {
+          "p": 2
+        }
+      },
+      {
+        "texto": "SELECT 'implantacao' AS origem, a.id_unidade, ISNULL(a.data_inicio, a.data_atividade) AS di, ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)) AS df, a.motivos, a.produtos_trabalhados, a.tempo_gasto FROM tab_atividades a WHERE a.id_projeto = @p UNION ALL SELECT 'projetos', a.id_unidade, ISNULL(a.data_inicio, a.data_atividade), ISNULL(a.data_fim, ISNULL(a.data_inicio, a.data_atividade)), a.motivos, a.produtos_trabalhados, a.tempo_gasto FROM tab_proj_atividades a WHERE a.id_projeto = @p",
+        "entradas": {
+          "p": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "painel: não encontrado ou não público": {
+    "status": 404,
+    "corpo": {
+      "erro": "Painel não encontrado ou não está público."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_projeto, nome_projeto FROM tab_projetos WHERE slug_publico = @s AND painel_publico = 1 AND ativo = 1",
+        "entradas": {
+          "s": "paraiba"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "painel: endereço inválido": {
+    "status": 404,
+    "corpo": {
+      "erro": "Painel não encontrado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "painel: endereço com hífen nas pontas": {
+    "status": 404,
+    "corpo": {
+      "erro": "Painel não encontrado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "painel: endereço longo demais": {
+    "status": 404,
+    "corpo": {
+      "erro": "Painel não encontrado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "painel: listar endereços publicados": {
+    "status": 200,
+    "corpo": [
+      {
+        "slug": "paraiba",
+        "nome": "Projeto Paraíba"
+      },
+      {
+        "slug": "bahia",
+        "nome": "Projeto Bahia"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT slug_publico AS slug, nome_projeto AS nome FROM tab_projetos WHERE painel_publico = 1 AND ativo = 1 AND slug_publico IS NOT NULL ORDER BY nome_projeto",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "painel: listar endereços sem nenhum": {
+    "status": 200,
+    "corpo": [],
+    "consultas": [
+      {
+        "texto": "SELECT slug_publico AS slug, nome_projeto AS nome FROM tab_projetos WHERE painel_publico = 1 AND ativo = 1 AND slug_publico IS NOT NULL ORDER BY nome_projeto",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "painel: listar endereços autenticado": {
+    "status": 200,
+    "corpo": [
+      {
+        "slug": "paraiba",
+        "nome": "Projeto Paraíba"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT slug_publico AS slug, nome_projeto AS nome FROM tab_projetos WHERE painel_publico = 1 AND ativo = 1 AND slug_publico IS NOT NULL ORDER BY nome_projeto",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  }
+}

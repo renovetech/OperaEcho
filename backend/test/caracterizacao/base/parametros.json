@@ -1,0 +1,844 @@
+{
+  "parâmetros: ler com a tabela preenchida": {
+    "status": 200,
+    "corpo": {
+      "anexo_obrigatorio_implantacao": "0",
+      "anexo_obrigatorio_projetos": "1",
+      "horas_obrigatorias_implantacao": "1",
+      "horas_obrigatorias_projetos": "1",
+      "equipe_apoio_obrigatoria_implantacao": "1",
+      "equipe_apoio_obrigatoria_projetos": "true"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT chave, valor FROM tab_parametros",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "parâmetros: ler com a tabela vazia": {
+    "status": 200,
+    "corpo": {
+      "anexo_obrigatorio_implantacao": "1",
+      "anexo_obrigatorio_projetos": "1",
+      "horas_obrigatorias_implantacao": "1",
+      "horas_obrigatorias_projetos": "1",
+      "equipe_apoio_obrigatoria_implantacao": "1",
+      "equipe_apoio_obrigatoria_projetos": "1"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT chave, valor FROM tab_parametros",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "parâmetros: ler anônimo": {
+    "status": 401,
+    "corpo": {
+      "erro": "Não autenticado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "parâmetros: ler como restrito": {
+    "status": 200,
+    "corpo": {
+      "anexo_obrigatorio_implantacao": "0",
+      "anexo_obrigatorio_projetos": "1",
+      "horas_obrigatorias_implantacao": "1",
+      "horas_obrigatorias_projetos": "1",
+      "equipe_apoio_obrigatoria_implantacao": "1",
+      "equipe_apoio_obrigatoria_projetos": "true"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT chave, valor FROM tab_parametros",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "parâmetros: detalhes": {
+    "status": 200,
+    "corpo": [
+      {
+        "chave": "anexo_obrigatorio_implantacao",
+        "valor": "1",
+        "modulo": "implantacao",
+        "descricao": "Exige anexo",
+        "usuario_alteracao": "Maria",
+        "data_alteracao": "05/10/2026 10:30"
+      },
+      {
+        "chave": "horas_obrigatorias_projetos",
+        "valor": "0",
+        "modulo": "projetos",
+        "descricao": "Exige horas",
+        "usuario_alteracao": null,
+        "data_alteracao": null
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT chave, valor, modulo, descricao, usuario_alteracao, FORMAT(data_alteracao, 'dd/MM/yyyy HH:mm') AS data_alteracao FROM tab_parametros",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "parâmetros: detalhes anônimo": {
+    "status": 401,
+    "corpo": {
+      "erro": "Não autenticado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "parâmetros: detalhes sem regra de acesso": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Restrito"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "parâmetros: detalhes com acesso": {
+    "status": 200,
+    "corpo": [
+      {
+        "chave": "anexo_obrigatorio_implantacao",
+        "valor": "1",
+        "modulo": "implantacao",
+        "descricao": "Exige anexo",
+        "usuario_alteracao": "Maria",
+        "data_alteracao": "05/10/2026 10:30"
+      },
+      {
+        "chave": "horas_obrigatorias_projetos",
+        "valor": "0",
+        "modulo": "projetos",
+        "descricao": "Exige horas",
+        "usuario_alteracao": null,
+        "data_alteracao": null
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Restrito"
+        }
+      },
+      {
+        "texto": "SELECT chave, valor, modulo, descricao, usuario_alteracao, FORMAT(data_alteracao, 'dd/MM/yyyy HH:mm') AS data_alteracao FROM tab_parametros",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "parâmetros: salvar anônimo": {
+    "status": 401,
+    "corpo": {
+      "erro": "Não autenticado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "parâmetros: salvar sem regra de acesso": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Restrito"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "parâmetros: salvar só com acesso": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Restrito"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "parâmetros: salvar com permissão de editar": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Parâmetros salvos.",
+      "parametros": {
+        "anexo_obrigatorio_implantacao": "0",
+        "anexo_obrigatorio_projetos": "1",
+        "horas_obrigatorias_implantacao": "1",
+        "horas_obrigatorias_projetos": "1",
+        "equipe_apoio_obrigatoria_implantacao": "1",
+        "equipe_apoio_obrigatoria_projetos": "true"
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Restrito"
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "UPDATE tab_parametros SET valor = @v, data_alteracao = DATEADD(hour, -3, GETUTCDATE()), usuario_alteracao = @u WHERE chave = @c; IF @@ROWCOUNT = 0 INSERT INTO tab_parametros (chave, valor, data_alteracao, usuario_alteracao) VALUES (@c, @v, DATEADD(hour, -3, GETUTCDATE()), @u);",
+        "entradas": {
+          "c": "anexo_obrigatorio_implantacao",
+          "v": "0",
+          "u": "Teste"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      },
+      {
+        "texto": "SELECT chave, valor FROM tab_parametros",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "parâmetros: corpo vazio": {
+    "status": 400,
+    "corpo": {
+      "erro": "Nenhum parâmetro válido informado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "parâmetros: parâmetros que não são lista": {
+    "status": 400,
+    "corpo": {
+      "erro": "Nenhum parâmetro válido informado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "parâmetros: lista vazia": {
+    "status": 400,
+    "corpo": {
+      "erro": "Nenhum parâmetro válido informado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "parâmetros: só chaves desconhecidas": {
+    "status": 400,
+    "corpo": {
+      "erro": "Nenhum parâmetro válido informado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "parâmetros: todos os formatos de valor": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Parâmetros salvos.",
+      "parametros": {
+        "anexo_obrigatorio_implantacao": "0",
+        "anexo_obrigatorio_projetos": "1",
+        "horas_obrigatorias_implantacao": "1",
+        "horas_obrigatorias_projetos": "1",
+        "equipe_apoio_obrigatoria_implantacao": "1",
+        "equipe_apoio_obrigatoria_projetos": "true"
+      }
+    },
+    "consultas": [
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "UPDATE tab_parametros SET valor = @v, data_alteracao = DATEADD(hour, -3, GETUTCDATE()), usuario_alteracao = @u WHERE chave = @c; IF @@ROWCOUNT = 0 INSERT INTO tab_parametros (chave, valor, data_alteracao, usuario_alteracao) VALUES (@c, @v, DATEADD(hour, -3, GETUTCDATE()), @u);",
+        "entradas": {
+          "c": "anexo_obrigatorio_implantacao",
+          "v": "1",
+          "u": "Teste"
+        }
+      },
+      {
+        "texto": "UPDATE tab_parametros SET valor = @v, data_alteracao = DATEADD(hour, -3, GETUTCDATE()), usuario_alteracao = @u WHERE chave = @c; IF @@ROWCOUNT = 0 INSERT INTO tab_parametros (chave, valor, data_alteracao, usuario_alteracao) VALUES (@c, @v, DATEADD(hour, -3, GETUTCDATE()), @u);",
+        "entradas": {
+          "c": "anexo_obrigatorio_projetos",
+          "v": "0",
+          "u": "Teste"
+        }
+      },
+      {
+        "texto": "UPDATE tab_parametros SET valor = @v, data_alteracao = DATEADD(hour, -3, GETUTCDATE()), usuario_alteracao = @u WHERE chave = @c; IF @@ROWCOUNT = 0 INSERT INTO tab_parametros (chave, valor, data_alteracao, usuario_alteracao) VALUES (@c, @v, DATEADD(hour, -3, GETUTCDATE()), @u);",
+        "entradas": {
+          "c": "horas_obrigatorias_implantacao",
+          "v": "1",
+          "u": "Teste"
+        }
+      },
+      {
+        "texto": "UPDATE tab_parametros SET valor = @v, data_alteracao = DATEADD(hour, -3, GETUTCDATE()), usuario_alteracao = @u WHERE chave = @c; IF @@ROWCOUNT = 0 INSERT INTO tab_parametros (chave, valor, data_alteracao, usuario_alteracao) VALUES (@c, @v, DATEADD(hour, -3, GETUTCDATE()), @u);",
+        "entradas": {
+          "c": "horas_obrigatorias_projetos",
+          "v": "0",
+          "u": "Teste"
+        }
+      },
+      {
+        "texto": "UPDATE tab_parametros SET valor = @v, data_alteracao = DATEADD(hour, -3, GETUTCDATE()), usuario_alteracao = @u WHERE chave = @c; IF @@ROWCOUNT = 0 INSERT INTO tab_parametros (chave, valor, data_alteracao, usuario_alteracao) VALUES (@c, @v, DATEADD(hour, -3, GETUTCDATE()), @u);",
+        "entradas": {
+          "c": "equipe_apoio_obrigatoria_implantacao",
+          "v": "0",
+          "u": "Teste"
+        }
+      },
+      {
+        "texto": "UPDATE tab_parametros SET valor = @v, data_alteracao = DATEADD(hour, -3, GETUTCDATE()), usuario_alteracao = @u WHERE chave = @c; IF @@ROWCOUNT = 0 INSERT INTO tab_parametros (chave, valor, data_alteracao, usuario_alteracao) VALUES (@c, @v, DATEADD(hour, -3, GETUTCDATE()), @u);",
+        "entradas": {
+          "c": "equipe_apoio_obrigatoria_projetos",
+          "v": "1",
+          "u": "Teste"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      },
+      {
+        "texto": "SELECT chave, valor FROM tab_parametros",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "parâmetros: valor em texto, nulo e longo": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Parâmetros salvos.",
+      "parametros": {
+        "anexo_obrigatorio_implantacao": "0",
+        "anexo_obrigatorio_projetos": "1",
+        "horas_obrigatorias_implantacao": "1",
+        "horas_obrigatorias_projetos": "1",
+        "equipe_apoio_obrigatoria_implantacao": "1",
+        "equipe_apoio_obrigatoria_projetos": "true"
+      }
+    },
+    "consultas": [
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "UPDATE tab_parametros SET valor = @v, data_alteracao = DATEADD(hour, -3, GETUTCDATE()), usuario_alteracao = @u WHERE chave = @c; IF @@ROWCOUNT = 0 INSERT INTO tab_parametros (chave, valor, data_alteracao, usuario_alteracao) VALUES (@c, @v, DATEADD(hour, -3, GETUTCDATE()), @u);",
+        "entradas": {
+          "c": "anexo_obrigatorio_implantacao",
+          "v": "talvez",
+          "u": "Teste"
+        }
+      },
+      {
+        "texto": "UPDATE tab_parametros SET valor = @v, data_alteracao = DATEADD(hour, -3, GETUTCDATE()), usuario_alteracao = @u WHERE chave = @c; IF @@ROWCOUNT = 0 INSERT INTO tab_parametros (chave, valor, data_alteracao, usuario_alteracao) VALUES (@c, @v, DATEADD(hour, -3, GETUTCDATE()), @u);",
+        "entradas": {
+          "c": "anexo_obrigatorio_projetos",
+          "v": "",
+          "u": "Teste"
+        }
+      },
+      {
+        "texto": "UPDATE tab_parametros SET valor = @v, data_alteracao = DATEADD(hour, -3, GETUTCDATE()), usuario_alteracao = @u WHERE chave = @c; IF @@ROWCOUNT = 0 INSERT INTO tab_parametros (chave, valor, data_alteracao, usuario_alteracao) VALUES (@c, @v, DATEADD(hour, -3, GETUTCDATE()), @u);",
+        "entradas": {
+          "c": "horas_obrigatorias_implantacao",
+          "v": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "u": "Teste"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      },
+      {
+        "texto": "SELECT chave, valor FROM tab_parametros",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "parâmetros: mistura de chaves válidas e inválidas": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Parâmetros salvos.",
+      "parametros": {
+        "anexo_obrigatorio_implantacao": "0",
+        "anexo_obrigatorio_projetos": "1",
+        "horas_obrigatorias_implantacao": "1",
+        "horas_obrigatorias_projetos": "1",
+        "equipe_apoio_obrigatoria_implantacao": "1",
+        "equipe_apoio_obrigatoria_projetos": "true"
+      }
+    },
+    "consultas": [
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "UPDATE tab_parametros SET valor = @v, data_alteracao = DATEADD(hour, -3, GETUTCDATE()), usuario_alteracao = @u WHERE chave = @c; IF @@ROWCOUNT = 0 INSERT INTO tab_parametros (chave, valor, data_alteracao, usuario_alteracao) VALUES (@c, @v, DATEADD(hour, -3, GETUTCDATE()), @u);",
+        "entradas": {
+          "c": "anexo_obrigatorio_projetos",
+          "v": "1",
+          "u": "Teste"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      },
+      {
+        "texto": "SELECT chave, valor FROM tab_parametros",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "links: listar": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_link": 1,
+        "id_produto": 4,
+        "nome_produto": "Prontuário",
+        "url": "https://exemplo.com/manual"
+      },
+      {
+        "id_link": 2,
+        "id_produto": 17,
+        "nome_produto": "Agenda",
+        "url": "agenda.exemplo.com"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT l.id_link, l.id_produto, p.nome_produto, l.url FROM tab_links_externos l INNER JOIN tab_produtos p ON l.id_produto = p.id_produto ORDER BY p.nome_produto, l.id_link",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "links: listar anônimo": {
+    "status": 401,
+    "corpo": {
+      "erro": "Não autenticado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "links: criar anônimo": {
+    "status": 401,
+    "corpo": {
+      "erro": "Não autenticado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "links: criar sem regra de acesso": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Restrito"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "links: criar só com permissão de editar": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Restrito"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "links: criar com permissão de novo": {
+    "status": 200,
+    "corpo": {
+      "id_link": 9,
+      "mensagem": "Criado"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Restrito"
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_links_externos (id_produto, url) OUTPUT INSERTED.id_link VALUES (@p, @u)",
+        "entradas": {
+          "p": 4,
+          "u": "https://exemplo.com"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "links: criar sem produto": {
+    "status": 400,
+    "corpo": {
+      "erro": "Produto e link são obrigatórios."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "links: criar sem endereço": {
+    "status": 400,
+    "corpo": {
+      "erro": "Produto e link são obrigatórios."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "links: criar endereço que não é texto": {
+    "status": 400,
+    "corpo": {
+      "erro": "Produto e link são obrigatórios."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "links: criar endereço vazio": {
+    "status": 400,
+    "corpo": {
+      "erro": "Produto e link são obrigatórios."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "links: criar http": {
+    "status": 200,
+    "corpo": {
+      "id_link": 9,
+      "mensagem": "Criado"
+    },
+    "consultas": [
+      {
+        "texto": "INSERT INTO tab_links_externos (id_produto, url) OUTPUT INSERTED.id_link VALUES (@p, @u)",
+        "entradas": {
+          "p": 4,
+          "u": "http://exemplo.com/a?b=1"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "links: criar domínio simples": {
+    "status": 200,
+    "corpo": {
+      "id_link": 9,
+      "mensagem": "Criado"
+    },
+    "consultas": [
+      {
+        "texto": "INSERT INTO tab_links_externos (id_produto, url) OUTPUT INSERTED.id_link VALUES (@p, @u)",
+        "entradas": {
+          "p": 4,
+          "u": "exemplo.com"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "links: criar endereço com espaços nas pontas": {
+    "status": 200,
+    "corpo": {
+      "id_link": 9,
+      "mensagem": "Criado"
+    },
+    "consultas": [
+      {
+        "texto": "INSERT INTO tab_links_externos (id_produto, url) OUTPUT INSERTED.id_link VALUES (@p, @u)",
+        "entradas": {
+          "p": 4,
+          "u": "HTTPS://Exemplo.com"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "links: criar endereço javascript": {
+    "status": 400,
+    "corpo": {
+      "erro": "Link inválido: use um endereço http:// ou https://."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "links: criar endereço ftp": {
+    "status": 400,
+    "corpo": {
+      "erro": "Link inválido: use um endereço http:// ou https://."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "links: criar endereço com espaço": {
+    "status": 400,
+    "corpo": {
+      "erro": "Link inválido: use um endereço http:// ou https://."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "links: criar endereço com aspas": {
+    "status": 400,
+    "corpo": {
+      "erro": "Link inválido: use um endereço http:// ou https://."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "links: criar endereço longa demais": {
+    "status": 400,
+    "corpo": {
+      "erro": "Link inválido: use um endereço http:// ou https://."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "links: criar endereço só espaços": {
+    "status": 400,
+    "corpo": {
+      "erro": "Produto e link são obrigatórios."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "links: editar anônimo": {
+    "status": 401,
+    "corpo": {
+      "erro": "Não autenticado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "links: editar sem regra de acesso": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Restrito"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "links: editar só com permissão de novo": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Restrito"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "links: editar com permissão de editar": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Atualizado"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Restrito"
+        }
+      },
+      {
+        "texto": "UPDATE tab_links_externos SET id_produto = @p, url = @u WHERE id_link = @id",
+        "entradas": {
+          "id": 2,
+          "p": 4,
+          "u": "https://exemplo.com"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "links: editar sem produto": {
+    "status": 400,
+    "corpo": {
+      "erro": "Produto e link são obrigatórios."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "links: editar sem endereço": {
+    "status": 400,
+    "corpo": {
+      "erro": "Produto e link são obrigatórios."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "links: editar endereço que não é texto": {
+    "status": 400,
+    "corpo": {
+      "erro": "Produto e link são obrigatórios."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "links: editar endereço inválido": {
+    "status": 400,
+    "corpo": {
+      "erro": "Link inválido: use um endereço http:// ou https://."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "links: editar endereço válido": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Atualizado"
+    },
+    "consultas": [
+      {
+        "texto": "UPDATE tab_links_externos SET id_produto = @p, url = @u WHERE id_link = @id",
+        "entradas": {
+          "id": 2,
+          "p": 17,
+          "u": "https://novo.exemplo.com"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "links: excluir anônimo": {
+    "status": 401,
+    "corpo": {
+      "erro": "Não autenticado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "links: excluir sem regra de acesso": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Restrito"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "links: excluir só com permissão de novo": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Restrito"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "links: excluir com permissão de editar": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Excluído"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Restrito"
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_links_externos WHERE id_link = @id",
+        "entradas": {
+          "id": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "links: excluir": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Excluído"
+    },
+    "consultas": [
+      {
+        "texto": "DELETE FROM tab_links_externos WHERE id_link = @id",
+        "entradas": {
+          "id": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "links: excluir com id inválido": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Excluído"
+    },
+    "consultas": [
+      {
+        "texto": "DELETE FROM tab_links_externos WHERE id_link = @id",
+        "entradas": {
+          "id": null
+        }
+      }
+    ],
+    "externos": []
+  }
+}

@@ -1,0 +1,2578 @@
+{
+  "salvar: anônimo cria solicitação": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "joao.lima",
+          "id": 0
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT id_usuario FROM tab_usuarios WHERE cpf = @cpf OR matricula = @mat",
+        "entradas": {
+          "cpf": "98765432100",
+          "mat": "M200"
+        }
+      },
+      {
+        "texto": "SELECT nome_setor FROM tab_setores WHERE id_setor = @ids",
+        "entradas": {
+          "ids": 3
+        }
+      },
+      {
+        "texto": "SELECT nome_funcao FROM tab_funcoes WHERE id_funcao = @idf",
+        "entradas": {
+          "idf": 4
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuarios ( nome_completo, cpf, data_nascimento, data_admissao, sexo, celular, celular_whatsapp, email, matricula, id_setor, setor, id_funcao, funcao, id_lotacao, usuario, senha_hash, perfil_acesso, ativo ) OUTPUT INSERTED.id_usuario VALUES ( @n, @c, @dt, @dadm, @s, @cel, @cw, @em, @m, @ids, @txtSetor, @idf, @txtFuncao, @idl, @u, @pwd, @p, @a )",
+        "entradas": {
+          "n": "João Lima",
+          "c": "98765432100",
+          "dt": null,
+          "dadm": "2026-02-01",
+          "s": "",
+          "cel": "21987654321",
+          "cw": 1,
+          "em": null,
+          "m": "M200",
+          "ids": 3,
+          "idf": 4,
+          "idl": 2,
+          "txtSetor": "Tecnologia",
+          "txtFuncao": "Analista",
+          "u": "joao.lima",
+          "p": "Solicitante",
+          "a": 0,
+          "pwd": "<hash>"
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_lotacoes WHERE id_usuario = @idu",
+        "entradas": {
+          "idu": 55
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: anônimo não escala perfil nem lotações": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "joao.dois",
+          "id": 0
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT id_usuario FROM tab_usuarios WHERE cpf = @cpf OR matricula = @mat",
+        "entradas": {
+          "cpf": "98765432100",
+          "mat": "M201"
+        }
+      },
+      {
+        "texto": "SELECT nome_setor FROM tab_setores WHERE id_setor = @ids",
+        "entradas": {
+          "ids": 3
+        }
+      },
+      {
+        "texto": "SELECT nome_funcao FROM tab_funcoes WHERE id_funcao = @idf",
+        "entradas": {
+          "idf": 4
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuarios ( nome_completo, cpf, data_nascimento, data_admissao, sexo, celular, celular_whatsapp, email, matricula, id_setor, setor, id_funcao, funcao, id_lotacao, usuario, senha_hash, perfil_acesso, ativo ) OUTPUT INSERTED.id_usuario VALUES ( @n, @c, @dt, @dadm, @s, @cel, @cw, @em, @m, @ids, @txtSetor, @idf, @txtFuncao, @idl, @u, @pwd, @p, @a )",
+        "entradas": {
+          "n": "João Lima",
+          "c": "98765432100",
+          "dt": null,
+          "dadm": "2026-02-01",
+          "s": "",
+          "cel": "21987654321",
+          "cw": 1,
+          "em": null,
+          "m": "M201",
+          "ids": 3,
+          "idf": 4,
+          "idl": 2,
+          "txtSetor": "Tecnologia",
+          "txtFuncao": "Analista",
+          "u": "joao.dois",
+          "p": "Solicitante",
+          "a": 0,
+          "pwd": "<hash>"
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_lotacoes WHERE id_usuario = @idu",
+        "entradas": {
+          "idu": 55
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: anônimo campo que não é texto": {
+    "status": 400,
+    "corpo": {
+      "erro": "Campo nome_completo inválido."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: anônimo sem campos obrigatórios": {
+    "status": 400,
+    "corpo": {
+      "erro": "Preencha os campos obrigatórios."
+    },
+    "consultas": [],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: anônimo não edita usuário existente": {
+    "status": 401,
+    "corpo": {
+      "erro": "Não autenticado."
+    },
+    "consultas": [],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: novo como administrador": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "maria.souza",
+          "id": 0
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT id_usuario FROM tab_usuarios WHERE cpf = @cpf OR matricula = @mat",
+        "entradas": {
+          "cpf": "12345678901",
+          "mat": "M100"
+        }
+      },
+      {
+        "texto": "SELECT nome_setor FROM tab_setores WHERE id_setor = @ids",
+        "entradas": {
+          "ids": 3
+        }
+      },
+      {
+        "texto": "SELECT nome_funcao FROM tab_funcoes WHERE id_funcao = @idf",
+        "entradas": {
+          "idf": 4
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuarios ( nome_completo, cpf, data_nascimento, data_admissao, sexo, celular, celular_whatsapp, email, matricula, id_setor, setor, id_funcao, funcao, id_lotacao, usuario, senha_hash, perfil_acesso, ativo ) OUTPUT INSERTED.id_usuario VALUES ( @n, @c, @dt, @dadm, @s, @cel, @cw, @em, @m, @ids, @txtSetor, @idf, @txtFuncao, @idl, @u, @pwd, @p, @a )",
+        "entradas": {
+          "n": "Maria Souza",
+          "c": "12345678901",
+          "dt": "1990-05-10",
+          "dadm": "2026-01-02",
+          "s": "F",
+          "cel": "21987654321",
+          "cw": 1,
+          "em": "maria@exemplo.com",
+          "m": "M100",
+          "ids": 3,
+          "idf": 4,
+          "idl": 2,
+          "txtSetor": "Tecnologia",
+          "txtFuncao": "Analista",
+          "u": "maria.souza",
+          "p": "Analista",
+          "a": 1,
+          "pwd": "<hash>"
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 55,
+          "idp": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 55,
+          "idp": 2
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_lotacoes WHERE id_usuario = @idu",
+        "entradas": {
+          "idu": 55
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_lotacoes (id_usuario, id_projeto) VALUES (@idu, @idl)",
+        "entradas": {
+          "idu": 55,
+          "idl": 5
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: novo sem lotação nem listas": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "maria.souza",
+          "id": 0
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT id_usuario FROM tab_usuarios WHERE cpf = @cpf OR matricula = @mat",
+        "entradas": {
+          "cpf": "12345678901",
+          "mat": "M100"
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuarios ( nome_completo, cpf, data_nascimento, data_admissao, sexo, celular, celular_whatsapp, email, matricula, id_setor, setor, id_funcao, funcao, id_lotacao, usuario, senha_hash, perfil_acesso, ativo ) OUTPUT INSERTED.id_usuario VALUES ( @n, @c, @dt, @dadm, @s, @cel, @cw, @em, @m, @ids, @txtSetor, @idf, @txtFuncao, @idl, @u, @pwd, @p, @a )",
+        "entradas": {
+          "n": "Maria Souza",
+          "c": "12345678901",
+          "dt": null,
+          "dadm": "2026-01-02",
+          "s": "F",
+          "cel": "21987654321",
+          "cw": 1,
+          "em": null,
+          "m": "M100",
+          "ids": null,
+          "idf": null,
+          "idl": null,
+          "txtSetor": null,
+          "txtFuncao": null,
+          "u": "maria.souza",
+          "p": "Analista",
+          "a": 0,
+          "pwd": "<hash>"
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_lotacoes WHERE id_usuario = @idu",
+        "entradas": {
+          "idu": 55
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: login em formato inválido": {
+    "status": 400,
+    "corpo": {
+      "erro": "Login inválido: use de 3 a 60 caracteres (letras, números, ponto, hífen, _ ou @)."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: campo comprido demais": {
+    "status": 400,
+    "corpo": {
+      "erro": "Campo sexo muito longo."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: sem celular": {
+    "status": 400,
+    "corpo": {
+      "erro": "Informe o celular com WhatsApp (obrigatório)."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "salvar: celular com código do país": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "maria.dois",
+          "id": 0
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT id_usuario FROM tab_usuarios WHERE cpf = @cpf OR matricula = @mat",
+        "entradas": {
+          "cpf": "12345678901",
+          "mat": "M101"
+        }
+      },
+      {
+        "texto": "SELECT nome_setor FROM tab_setores WHERE id_setor = @ids",
+        "entradas": {
+          "ids": 3
+        }
+      },
+      {
+        "texto": "SELECT nome_funcao FROM tab_funcoes WHERE id_funcao = @idf",
+        "entradas": {
+          "idf": 4
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuarios ( nome_completo, cpf, data_nascimento, data_admissao, sexo, celular, celular_whatsapp, email, matricula, id_setor, setor, id_funcao, funcao, id_lotacao, usuario, senha_hash, perfil_acesso, ativo ) OUTPUT INSERTED.id_usuario VALUES ( @n, @c, @dt, @dadm, @s, @cel, @cw, @em, @m, @ids, @txtSetor, @idf, @txtFuncao, @idl, @u, @pwd, @p, @a )",
+        "entradas": {
+          "n": "Maria Souza",
+          "c": "12345678901",
+          "dt": "1990-05-10",
+          "dadm": "2026-01-02",
+          "s": "F",
+          "cel": "21987654321",
+          "cw": 1,
+          "em": "maria@exemplo.com",
+          "m": "M101",
+          "ids": 3,
+          "idf": 4,
+          "idl": 2,
+          "txtSetor": "Tecnologia",
+          "txtFuncao": "Analista",
+          "u": "maria.dois",
+          "p": "Analista",
+          "a": 1,
+          "pwd": "<hash>"
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 55,
+          "idp": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 55,
+          "idp": 2
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_lotacoes WHERE id_usuario = @idu",
+        "entradas": {
+          "idu": 55
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_lotacoes (id_usuario, id_projeto) VALUES (@idu, @idl)",
+        "entradas": {
+          "idu": 55,
+          "idl": 5
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: e-mail inválido": {
+    "status": 400,
+    "corpo": {
+      "erro": "E-mail inválido."
+    },
+    "consultas": [],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: senha fraca": {
+    "status": 400,
+    "corpo": {
+      "erro": "A senha não atende aos requisitos de segurança (mín 7 chars, maiúscula, minúscula, número, especial)."
+    },
+    "consultas": [],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: senha forte definida pelo gestor": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "maria.tres",
+          "id": 0
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT id_usuario FROM tab_usuarios WHERE cpf = @cpf OR matricula = @mat",
+        "entradas": {
+          "cpf": "12345678901",
+          "mat": "M100"
+        }
+      },
+      {
+        "texto": "SELECT nome_setor FROM tab_setores WHERE id_setor = @ids",
+        "entradas": {
+          "ids": 3
+        }
+      },
+      {
+        "texto": "SELECT nome_funcao FROM tab_funcoes WHERE id_funcao = @idf",
+        "entradas": {
+          "idf": 4
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuarios ( nome_completo, cpf, data_nascimento, data_admissao, sexo, celular, celular_whatsapp, email, matricula, id_setor, setor, id_funcao, funcao, id_lotacao, usuario, senha_hash, perfil_acesso, ativo ) OUTPUT INSERTED.id_usuario VALUES ( @n, @c, @dt, @dadm, @s, @cel, @cw, @em, @m, @ids, @txtSetor, @idf, @txtFuncao, @idl, @u, @pwd, @p, @a )",
+        "entradas": {
+          "n": "Maria Souza",
+          "c": "12345678901",
+          "dt": "1990-05-10",
+          "dadm": "2026-01-02",
+          "s": "F",
+          "cel": "21987654321",
+          "cw": 1,
+          "em": "maria@exemplo.com",
+          "m": "M100",
+          "ids": 3,
+          "idf": 4,
+          "idl": 2,
+          "txtSetor": "Tecnologia",
+          "txtFuncao": "Analista",
+          "u": "maria.tres",
+          "p": "Analista",
+          "a": 1,
+          "pwd": "<hash>"
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 55,
+          "idp": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 55,
+          "idp": 2
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_lotacoes WHERE id_usuario = @idu",
+        "entradas": {
+          "idu": 55
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_lotacoes (id_usuario, id_projeto) VALUES (@idu, @idl)",
+        "entradas": {
+          "idu": 55,
+          "idl": 5
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: login já em uso": {
+    "status": 409,
+    "corpo": {
+      "erro": "Este login já está em uso."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "maria.souza",
+          "id": 0
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: CPF ou matrícula já cadastrados": {
+    "status": 409,
+    "corpo": {
+      "erro": "CPF ou Matrícula já cadastrados."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "maria.souza",
+          "id": 0
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT id_usuario FROM tab_usuarios WHERE cpf = @cpf OR matricula = @mat",
+        "entradas": {
+          "cpf": "12345678901",
+          "mat": "M100"
+        }
+      },
+      {
+        "texto": "ROLLBACK"
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: perfil Administrador por quem não é o admin": {
+    "status": 403,
+    "corpo": {
+      "erro": "Apenas o usuário \"admin\" pode atribuir o perfil Administrador."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "maria.souza",
+          "id": 0
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: edita e ativa quem estava inativo": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "maria.souza",
+          "id": 9
+        }
+      },
+      {
+        "texto": "SELECT perfil_acesso FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT nome_setor FROM tab_setores WHERE id_setor = @ids",
+        "entradas": {
+          "ids": 3
+        }
+      },
+      {
+        "texto": "SELECT nome_funcao FROM tab_funcoes WHERE id_funcao = @idf",
+        "entradas": {
+          "idf": 4
+        }
+      },
+      {
+        "texto": "SELECT ativo, data_ativacao FROM tab_usuarios WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "UPDATE tab_usuarios SET nome_completo=@n, cpf=@c, data_nascimento=@dt, data_admissao=@dadm, sexo=@s, celular=@cel, celular_whatsapp=@cw, email=@em, matricula=@m, id_setor=@ids, setor=@txtSetor, id_funcao=@idf, funcao=@txtFuncao, id_lotacao=@idl, usuario=@u, perfil_acesso=@p, ativo=@a, data_inativacao=NULL, data_ativacao=CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS DATE), senha_hash=@pwd WHERE id_usuario=@id",
+        "entradas": {
+          "pwd": "<hash>",
+          "id": 9,
+          "n": "Maria Souza",
+          "c": "12345678901",
+          "dt": "1990-05-10",
+          "dadm": "2026-01-02",
+          "s": "F",
+          "cel": "21987654321",
+          "cw": 1,
+          "em": "maria@exemplo.com",
+          "m": "M100",
+          "ids": 3,
+          "idf": 4,
+          "idl": 2,
+          "txtSetor": "Tecnologia",
+          "txtFuncao": "Analista",
+          "u": "maria.souza",
+          "p": "Analista",
+          "a": 1
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_produtos WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 9,
+          "idp": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 9,
+          "idp": 2
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_lotacoes WHERE id_usuario = @idu",
+        "entradas": {
+          "idu": 9
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_lotacoes (id_usuario, id_projeto) VALUES (@idu, @idl)",
+        "entradas": {
+          "idu": 9,
+          "idl": 5
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: edita e inativa quem estava ativo": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "maria.souza",
+          "id": 9
+        }
+      },
+      {
+        "texto": "SELECT perfil_acesso FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT nome_setor FROM tab_setores WHERE id_setor = @ids",
+        "entradas": {
+          "ids": 3
+        }
+      },
+      {
+        "texto": "SELECT nome_funcao FROM tab_funcoes WHERE id_funcao = @idf",
+        "entradas": {
+          "idf": 4
+        }
+      },
+      {
+        "texto": "SELECT ativo, data_ativacao FROM tab_usuarios WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "UPDATE tab_usuarios SET nome_completo=@n, cpf=@c, data_nascimento=@dt, data_admissao=@dadm, sexo=@s, celular=@cel, celular_whatsapp=@cw, email=@em, matricula=@m, id_setor=@ids, setor=@txtSetor, id_funcao=@idf, funcao=@txtFuncao, id_lotacao=@idl, usuario=@u, perfil_acesso=@p, ativo=@a, data_inativacao=CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS DATE) WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9,
+          "n": "Maria Souza",
+          "c": "12345678901",
+          "dt": "1990-05-10",
+          "dadm": "2026-01-02",
+          "s": "F",
+          "cel": "21987654321",
+          "cw": 1,
+          "em": "maria@exemplo.com",
+          "m": "M100",
+          "ids": 3,
+          "idf": 4,
+          "idl": 2,
+          "txtSetor": "Tecnologia",
+          "txtFuncao": "Analista",
+          "u": "maria.souza",
+          "p": "Analista",
+          "a": 0
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_produtos WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 9,
+          "idp": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 9,
+          "idp": 2
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_lotacoes WHERE id_usuario = @idu",
+        "entradas": {
+          "idu": 9
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_lotacoes (id_usuario, id_projeto) VALUES (@idu, @idl)",
+        "entradas": {
+          "idu": 9,
+          "idl": 5
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: edita ativo que já tinha ativação": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "maria.souza",
+          "id": 9
+        }
+      },
+      {
+        "texto": "SELECT perfil_acesso FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT nome_setor FROM tab_setores WHERE id_setor = @ids",
+        "entradas": {
+          "ids": 3
+        }
+      },
+      {
+        "texto": "SELECT nome_funcao FROM tab_funcoes WHERE id_funcao = @idf",
+        "entradas": {
+          "idf": 4
+        }
+      },
+      {
+        "texto": "SELECT ativo, data_ativacao FROM tab_usuarios WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "UPDATE tab_usuarios SET nome_completo=@n, cpf=@c, data_nascimento=@dt, data_admissao=@dadm, sexo=@s, celular=@cel, celular_whatsapp=@cw, email=@em, matricula=@m, id_setor=@ids, setor=@txtSetor, id_funcao=@idf, funcao=@txtFuncao, id_lotacao=@idl, usuario=@u, perfil_acesso=@p, ativo=@a, data_inativacao=NULL WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9,
+          "n": "Maria Souza",
+          "c": "12345678901",
+          "dt": "1990-05-10",
+          "dadm": "2026-01-02",
+          "s": "F",
+          "cel": "21987654321",
+          "cw": 1,
+          "em": "maria@exemplo.com",
+          "m": "M100",
+          "ids": 3,
+          "idf": 4,
+          "idl": 2,
+          "txtSetor": "Tecnologia",
+          "txtFuncao": "Analista",
+          "u": "maria.souza",
+          "p": "Analista",
+          "a": 1
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_produtos WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 9,
+          "idp": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 9,
+          "idp": 2
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_lotacoes WHERE id_usuario = @idu",
+        "entradas": {
+          "idu": 9
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_lotacoes (id_usuario, id_projeto) VALUES (@idu, @idl)",
+        "entradas": {
+          "idu": 9,
+          "idl": 5
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: edita inativo que continua inativo": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "maria.souza",
+          "id": 9
+        }
+      },
+      {
+        "texto": "SELECT perfil_acesso FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT nome_setor FROM tab_setores WHERE id_setor = @ids",
+        "entradas": {
+          "ids": 3
+        }
+      },
+      {
+        "texto": "SELECT nome_funcao FROM tab_funcoes WHERE id_funcao = @idf",
+        "entradas": {
+          "idf": 4
+        }
+      },
+      {
+        "texto": "SELECT ativo, data_ativacao FROM tab_usuarios WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "UPDATE tab_usuarios SET nome_completo=@n, cpf=@c, data_nascimento=@dt, data_admissao=@dadm, sexo=@s, celular=@cel, celular_whatsapp=@cw, email=@em, matricula=@m, id_setor=@ids, setor=@txtSetor, id_funcao=@idf, funcao=@txtFuncao, id_lotacao=@idl, usuario=@u, perfil_acesso=@p, ativo=@a WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9,
+          "n": "Maria Souza",
+          "c": "12345678901",
+          "dt": "1990-05-10",
+          "dadm": "2026-01-02",
+          "s": "F",
+          "cel": "21987654321",
+          "cw": 1,
+          "em": "maria@exemplo.com",
+          "m": "M100",
+          "ids": 3,
+          "idf": 4,
+          "idl": 2,
+          "txtSetor": "Tecnologia",
+          "txtFuncao": "Analista",
+          "u": "maria.souza",
+          "p": "Analista",
+          "a": 0
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_produtos WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 9,
+          "idp": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 9,
+          "idp": 2
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_lotacoes WHERE id_usuario = @idu",
+        "entradas": {
+          "idu": 9
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_lotacoes (id_usuario, id_projeto) VALUES (@idu, @idl)",
+        "entradas": {
+          "idu": 9,
+          "idl": 5
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: edita sem registro anterior": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "maria.souza",
+          "id": 9
+        }
+      },
+      {
+        "texto": "SELECT perfil_acesso FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT nome_setor FROM tab_setores WHERE id_setor = @ids",
+        "entradas": {
+          "ids": 3
+        }
+      },
+      {
+        "texto": "SELECT nome_funcao FROM tab_funcoes WHERE id_funcao = @idf",
+        "entradas": {
+          "idf": 4
+        }
+      },
+      {
+        "texto": "SELECT ativo, data_ativacao FROM tab_usuarios WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "UPDATE tab_usuarios SET nome_completo=@n, cpf=@c, data_nascimento=@dt, data_admissao=@dadm, sexo=@s, celular=@cel, celular_whatsapp=@cw, email=@em, matricula=@m, id_setor=@ids, setor=@txtSetor, id_funcao=@idf, funcao=@txtFuncao, id_lotacao=@idl, usuario=@u, perfil_acesso=@p, ativo=@a, data_inativacao=NULL, data_ativacao=CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS DATE) WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9,
+          "n": "Maria Souza",
+          "c": "12345678901",
+          "dt": "1990-05-10",
+          "dadm": "2026-01-02",
+          "s": "F",
+          "cel": "21987654321",
+          "cw": 1,
+          "em": "maria@exemplo.com",
+          "m": "M100",
+          "ids": 3,
+          "idf": 4,
+          "idl": 2,
+          "txtSetor": "Tecnologia",
+          "txtFuncao": "Analista",
+          "u": "maria.souza",
+          "p": "Analista",
+          "a": 1
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_produtos WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 9,
+          "idp": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 9,
+          "idp": 2
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_lotacoes WHERE id_usuario = @idu",
+        "entradas": {
+          "idu": 9
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_lotacoes (id_usuario, id_projeto) VALUES (@idu, @idl)",
+        "entradas": {
+          "idu": 9,
+          "idl": 5
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: login antigo fora do formato segue editável": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "ab",
+          "id": 9
+        }
+      },
+      {
+        "texto": "SELECT perfil_acesso FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT nome_setor FROM tab_setores WHERE id_setor = @ids",
+        "entradas": {
+          "ids": 3
+        }
+      },
+      {
+        "texto": "SELECT nome_funcao FROM tab_funcoes WHERE id_funcao = @idf",
+        "entradas": {
+          "idf": 4
+        }
+      },
+      {
+        "texto": "SELECT ativo, data_ativacao FROM tab_usuarios WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "UPDATE tab_usuarios SET nome_completo=@n, cpf=@c, data_nascimento=@dt, data_admissao=@dadm, sexo=@s, celular=@cel, celular_whatsapp=@cw, email=@em, matricula=@m, id_setor=@ids, setor=@txtSetor, id_funcao=@idf, funcao=@txtFuncao, id_lotacao=@idl, usuario=@u, perfil_acesso=@p, ativo=@a, data_inativacao=NULL WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9,
+          "n": "Maria Souza",
+          "c": "12345678901",
+          "dt": "1990-05-10",
+          "dadm": "2026-01-02",
+          "s": "F",
+          "cel": "21987654321",
+          "cw": 1,
+          "em": "maria@exemplo.com",
+          "m": "M100",
+          "ids": 3,
+          "idf": 4,
+          "idl": 2,
+          "txtSetor": "Tecnologia",
+          "txtFuncao": "Analista",
+          "u": "ab",
+          "p": "Analista",
+          "a": 1
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_produtos WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 9,
+          "idp": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 9,
+          "idp": 2
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_lotacoes WHERE id_usuario = @idu",
+        "entradas": {
+          "idu": 9
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_lotacoes (id_usuario, id_projeto) VALUES (@idu, @idl)",
+        "entradas": {
+          "idu": 9,
+          "idl": 5
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: não edita um Administrador": {
+    "status": 403,
+    "corpo": {
+      "erro": "Apenas o usuário \"admin\" pode editar um usuário com perfil Administrador."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "maria.souza",
+          "id": 9
+        }
+      },
+      {
+        "texto": "SELECT perfil_acesso FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: sem permissão para novo": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Operador"
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: perfil com permissão só de novo cria": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Apoio"
+        }
+      },
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "maria.souza",
+          "id": 0
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT id_usuario FROM tab_usuarios WHERE cpf = @cpf OR matricula = @mat",
+        "entradas": {
+          "cpf": "12345678901",
+          "mat": "M100"
+        }
+      },
+      {
+        "texto": "SELECT nome_setor FROM tab_setores WHERE id_setor = @ids",
+        "entradas": {
+          "ids": 3
+        }
+      },
+      {
+        "texto": "SELECT nome_funcao FROM tab_funcoes WHERE id_funcao = @idf",
+        "entradas": {
+          "idf": 4
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuarios ( nome_completo, cpf, data_nascimento, data_admissao, sexo, celular, celular_whatsapp, email, matricula, id_setor, setor, id_funcao, funcao, id_lotacao, usuario, senha_hash, perfil_acesso, ativo ) OUTPUT INSERTED.id_usuario VALUES ( @n, @c, @dt, @dadm, @s, @cel, @cw, @em, @m, @ids, @txtSetor, @idf, @txtFuncao, @idl, @u, @pwd, @p, @a )",
+        "entradas": {
+          "n": "Maria Souza",
+          "c": "12345678901",
+          "dt": "1990-05-10",
+          "dadm": "2026-01-02",
+          "s": "F",
+          "cel": "21987654321",
+          "cw": 1,
+          "em": "maria@exemplo.com",
+          "m": "M100",
+          "ids": 3,
+          "idf": 4,
+          "idl": 2,
+          "txtSetor": "Tecnologia",
+          "txtFuncao": "Analista",
+          "u": "maria.souza",
+          "p": "Analista",
+          "a": 1,
+          "pwd": "<hash>"
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 55,
+          "idp": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 55,
+          "idp": 2
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_lotacoes WHERE id_usuario = @idu",
+        "entradas": {
+          "idu": 55
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: perfil com permissão só de novo não edita": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: gestor cria na própria lotação": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Gestor"
+        }
+      },
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "maria.souza",
+          "id": 0
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT id_usuario FROM tab_usuarios WHERE cpf = @cpf OR matricula = @mat",
+        "entradas": {
+          "cpf": "12345678901",
+          "mat": "M100"
+        }
+      },
+      {
+        "texto": "SELECT nome_setor FROM tab_setores WHERE id_setor = @ids",
+        "entradas": {
+          "ids": 3
+        }
+      },
+      {
+        "texto": "SELECT nome_funcao FROM tab_funcoes WHERE id_funcao = @idf",
+        "entradas": {
+          "idf": 4
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuarios ( nome_completo, cpf, data_nascimento, data_admissao, sexo, celular, celular_whatsapp, email, matricula, id_setor, setor, id_funcao, funcao, id_lotacao, usuario, senha_hash, perfil_acesso, ativo ) OUTPUT INSERTED.id_usuario VALUES ( @n, @c, @dt, @dadm, @s, @cel, @cw, @em, @m, @ids, @txtSetor, @idf, @txtFuncao, @idl, @u, @pwd, @p, @a )",
+        "entradas": {
+          "n": "Maria Souza",
+          "c": "12345678901",
+          "dt": "1990-05-10",
+          "dadm": "2026-01-02",
+          "s": "F",
+          "cel": "21987654321",
+          "cw": 1,
+          "em": "maria@exemplo.com",
+          "m": "M100",
+          "ids": 3,
+          "idf": 4,
+          "idl": 2,
+          "txtSetor": "Tecnologia",
+          "txtFuncao": "Analista",
+          "u": "maria.souza",
+          "p": "Analista",
+          "a": 1,
+          "pwd": "<hash>"
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 55,
+          "idp": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 55,
+          "idp": 2
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_lotacoes WHERE id_usuario = @idu",
+        "entradas": {
+          "idu": 55
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: gestor sem lotação informada": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "maria.souza",
+          "id": 0
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT id_usuario FROM tab_usuarios WHERE cpf = @cpf OR matricula = @mat",
+        "entradas": {
+          "cpf": "12345678901",
+          "mat": "M100"
+        }
+      },
+      {
+        "texto": "SELECT nome_setor FROM tab_setores WHERE id_setor = @ids",
+        "entradas": {
+          "ids": 3
+        }
+      },
+      {
+        "texto": "SELECT nome_funcao FROM tab_funcoes WHERE id_funcao = @idf",
+        "entradas": {
+          "idf": 4
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuarios ( nome_completo, cpf, data_nascimento, data_admissao, sexo, celular, celular_whatsapp, email, matricula, id_setor, setor, id_funcao, funcao, id_lotacao, usuario, senha_hash, perfil_acesso, ativo ) OUTPUT INSERTED.id_usuario VALUES ( @n, @c, @dt, @dadm, @s, @cel, @cw, @em, @m, @ids, @txtSetor, @idf, @txtFuncao, @idl, @u, @pwd, @p, @a )",
+        "entradas": {
+          "n": "Maria Souza",
+          "c": "12345678901",
+          "dt": "1990-05-10",
+          "dadm": "2026-01-02",
+          "s": "F",
+          "cel": "21987654321",
+          "cw": 1,
+          "em": "maria@exemplo.com",
+          "m": "M100",
+          "ids": 3,
+          "idf": 4,
+          "idl": null,
+          "txtSetor": "Tecnologia",
+          "txtFuncao": "Analista",
+          "u": "maria.souza",
+          "p": "Analista",
+          "a": 1,
+          "pwd": "<hash>"
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 55,
+          "idp": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 55,
+          "idp": 2
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_lotacoes WHERE id_usuario = @idu",
+        "entradas": {
+          "idu": 55
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: gestor em lotação fora do escopo": {
+    "status": 403,
+    "corpo": {
+      "erro": "Lotação fora do seu escopo."
+    },
+    "consultas": [],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: gestor com lotação extra fora do escopo": {
+    "status": 403,
+    "corpo": {
+      "erro": "Lotação extra fora do seu escopo."
+    },
+    "consultas": [],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: gestor edita usuário de outra lotação": {
+    "status": 403,
+    "corpo": {
+      "erro": "Usuário fora do seu escopo."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_lotacao FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "salvar: gestor edita usuário da própria lotação": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_lotacao FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "SELECT 1 AS x FROM tab_usuarios WHERE usuario = @u AND id_usuario <> @id",
+        "entradas": {
+          "u": "maria.souza",
+          "id": 9
+        }
+      },
+      {
+        "texto": "SELECT perfil_acesso FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "SELECT nome_setor FROM tab_setores WHERE id_setor = @ids",
+        "entradas": {
+          "ids": 3
+        }
+      },
+      {
+        "texto": "SELECT nome_funcao FROM tab_funcoes WHERE id_funcao = @idf",
+        "entradas": {
+          "idf": 4
+        }
+      },
+      {
+        "texto": "SELECT ativo, data_ativacao FROM tab_usuarios WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "UPDATE tab_usuarios SET nome_completo=@n, cpf=@c, data_nascimento=@dt, data_admissao=@dadm, sexo=@s, celular=@cel, celular_whatsapp=@cw, email=@em, matricula=@m, id_setor=@ids, setor=@txtSetor, id_funcao=@idf, funcao=@txtFuncao, id_lotacao=@idl, usuario=@u, perfil_acesso=@p, ativo=@a, data_inativacao=NULL WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9,
+          "n": "Maria Souza",
+          "c": "12345678901",
+          "dt": "1990-05-10",
+          "dadm": "2026-01-02",
+          "s": "F",
+          "cel": "21987654321",
+          "cw": 1,
+          "em": "maria@exemplo.com",
+          "m": "M100",
+          "ids": 3,
+          "idf": 4,
+          "idl": 2,
+          "txtSetor": "Tecnologia",
+          "txtFuncao": "Analista",
+          "u": "maria.souza",
+          "p": "Analista",
+          "a": 1
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_produtos WHERE id_usuario=@id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 9,
+          "idp": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_usuario_produtos (id_usuario, id_produto) VALUES (@idu, @idp)",
+        "entradas": {
+          "idu": 9,
+          "idp": 2
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_lotacoes WHERE id_usuario = @idu",
+        "entradas": {
+          "idu": 9
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "ativar: sem identificação": {
+    "status": 400,
+    "corpo": {
+      "erro": "ID e perfil são obrigatórios."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "ativar: perfil que não é texto": {
+    "status": 400,
+    "corpo": {
+      "erro": "ID e perfil são obrigatórios."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "ativar: sem permissão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para aprovar acessos."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "ativar: perfil Administrador por quem não é o admin": {
+    "status": 403,
+    "corpo": {
+      "erro": "Apenas o usuário \"admin\" pode atribuir o perfil Administrador."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "ativar: perfil inexistente": {
+    "status": 400,
+    "corpo": {
+      "erro": "Perfil inexistente."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_perfis WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Fantasma"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "ativar: usuário não encontrado": {
+    "status": 404,
+    "corpo": {
+      "erro": "Usuário não encontrado."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_perfis WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Analista"
+        }
+      },
+      {
+        "texto": "SELECT id_lotacao, perfil_acesso FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      }
+    ],
+    "externos": []
+  },
+  "ativar: o próprio acesso": {
+    "status": 403,
+    "corpo": {
+      "erro": "Não é possível aprovar/alterar o próprio acesso."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_perfis WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Analista"
+        }
+      },
+      {
+        "texto": "SELECT id_lotacao, perfil_acesso FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      }
+    ],
+    "externos": []
+  },
+  "ativar: alterar um Administrador": {
+    "status": 403,
+    "corpo": {
+      "erro": "Apenas o usuário \"admin\" pode alterar um Administrador."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_perfis WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Analista"
+        }
+      },
+      {
+        "texto": "SELECT id_lotacao, perfil_acesso FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      }
+    ],
+    "externos": []
+  },
+  "ativar: lotação fora do escopo": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para aprovar acessos desta lotação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_perfis WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Analista"
+        }
+      },
+      {
+        "texto": "SELECT id_lotacao, perfil_acesso FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      }
+    ],
+    "externos": []
+  },
+  "ativar: gestor aprova na própria lotação": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Ativado"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_perfis WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Analista"
+        }
+      },
+      {
+        "texto": "SELECT id_lotacao, perfil_acesso FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "UPDATE tab_usuarios SET ativo = 1, perfil_acesso = @p, data_ativacao = CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS DATE), data_inativacao = NULL WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9,
+          "p": "Analista"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "ativar: administrador aprova usando id": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Ativado"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT 1 AS x FROM tab_perfis WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Analista"
+        }
+      },
+      {
+        "texto": "SELECT id_lotacao, perfil_acesso FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "UPDATE tab_usuarios SET ativo = 1, perfil_acesso = @p, data_ativacao = CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'E. South America Standard Time' AS DATE), data_inativacao = NULL WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9,
+          "p": "Analista"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "excluir: sem permissão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "excluir: id inválido": {
+    "status": 400,
+    "corpo": {
+      "erro": "ID inválido."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "excluir: o próprio usuário": {
+    "status": 403,
+    "corpo": {
+      "erro": "Não é possível excluir o próprio usuário."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "excluir: usuário não encontrado": {
+    "status": 404,
+    "corpo": {
+      "erro": "Usuário não encontrado."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_lotacao, perfil_acesso FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      }
+    ],
+    "externos": []
+  },
+  "excluir: um Administrador": {
+    "status": 403,
+    "corpo": {
+      "erro": "Apenas o usuário \"admin\" pode excluir um Administrador."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_lotacao, perfil_acesso FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      }
+    ],
+    "externos": []
+  },
+  "excluir: fora do escopo": {
+    "status": 403,
+    "corpo": {
+      "erro": "Usuário fora do seu escopo."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_lotacao, perfil_acesso FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      }
+    ],
+    "externos": []
+  },
+  "excluir: gestor exclui na própria lotação": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Usuário excluído com sucesso."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_lotacao, perfil_acesso FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_produtos WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_lotacoes WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": []
+  },
+  "excluir: administrador exclui": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Usuário excluído com sucesso."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_lotacao, perfil_acesso FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_produtos WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuario_lotacoes WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": []
+  },
+  "buscar: administrador sem filtro": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 3,
+        "nome_completo": "Ana Lima",
+        "cpf": "11122233344",
+        "nome_setor": "TI",
+        "nome_funcao": "Analista",
+        "id_lotacao": 2
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.*, s.nome_setor, f.nome_funcao FROM tab_usuarios u LEFT JOIN tab_setores s ON u.id_setor = s.id_setor LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE (u.nome_completo LIKE @t OR u.cpf LIKE @t) ORDER BY u.nome_completo",
+        "entradas": {
+          "t": "%%"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "buscar: por termo e id": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 3,
+        "nome_completo": "Ana Lima",
+        "cpf": "11122233344",
+        "nome_setor": "TI",
+        "nome_funcao": "Analista",
+        "id_lotacao": 2
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.*, s.nome_setor, f.nome_funcao FROM tab_usuarios u LEFT JOIN tab_setores s ON u.id_setor = s.id_setor LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE (u.nome_completo LIKE @t OR u.cpf LIKE @t) AND u.id_usuario = @idBusca ORDER BY u.nome_completo",
+        "entradas": {
+          "t": "%Ana%",
+          "idBusca": 3
+        }
+      }
+    ],
+    "externos": []
+  },
+  "buscar: lotação informada pelo administrador": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 3,
+        "nome_completo": "Ana Lima",
+        "cpf": "11122233344",
+        "nome_setor": "TI",
+        "nome_funcao": "Analista",
+        "id_lotacao": 2
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.*, s.nome_setor, f.nome_funcao FROM tab_usuarios u LEFT JOIN tab_setores s ON u.id_setor = s.id_setor LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE (u.nome_completo LIKE @t OR u.cpf LIKE @t) AND u.id_lotacao = @pLotacaoBusca ORDER BY u.nome_completo",
+        "entradas": {
+          "t": "%%",
+          "pLotacaoBusca": 9
+        }
+      }
+    ],
+    "externos": []
+  },
+  "buscar: lotação Todos": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 3,
+        "nome_completo": "Ana Lima",
+        "cpf": "11122233344",
+        "nome_setor": "TI",
+        "nome_funcao": "Analista",
+        "id_lotacao": 2
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.*, s.nome_setor, f.nome_funcao FROM tab_usuarios u LEFT JOIN tab_setores s ON u.id_setor = s.id_setor LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE (u.nome_completo LIKE @t OR u.cpf LIKE @t) AND u.id_lotacao IN (@__lot_u_id_lotacao_0) ORDER BY u.nome_completo",
+        "entradas": {
+          "t": "%%",
+          "__lot_u_id_lotacao_0": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "buscar: gestor sem filtro fica nas suas lotações": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 3,
+        "nome_completo": "Ana Lima",
+        "cpf": "11122233344",
+        "nome_setor": "TI",
+        "nome_funcao": "Analista",
+        "id_lotacao": 2
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.*, s.nome_setor, f.nome_funcao FROM tab_usuarios u LEFT JOIN tab_setores s ON u.id_setor = s.id_setor LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE (u.nome_completo LIKE @t OR u.cpf LIKE @t) AND u.id_lotacao IN (@__lot_u_id_lotacao_0) ORDER BY u.nome_completo",
+        "entradas": {
+          "t": "%a%",
+          "__lot_u_id_lotacao_0": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "buscar: gestor em lotação do escopo": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_usuario": 3,
+        "nome_completo": "Ana Lima",
+        "cpf": "11122233344",
+        "nome_setor": "TI",
+        "nome_funcao": "Analista",
+        "id_lotacao": 2
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT u.*, s.nome_setor, f.nome_funcao FROM tab_usuarios u LEFT JOIN tab_setores s ON u.id_setor = s.id_setor LEFT JOIN tab_funcoes f ON u.id_funcao = f.id_funcao WHERE (u.nome_completo LIKE @t OR u.cpf LIKE @t) AND u.id_lotacao = @pLotacaoBusca ORDER BY u.nome_completo",
+        "entradas": {
+          "t": "%%",
+          "pLotacaoBusca": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "buscar: gestor em lotação fora do escopo": {
+    "status": 403,
+    "corpo": {
+      "erro": "Lotação fora do seu escopo."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "produtos: sem o módulo": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Visitante"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "produtos: os próprios sem o módulo": {
+    "status": 200,
+    "corpo": [
+      1
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT id_produto FROM tab_usuario_produtos WHERE id_usuario = @id",
+        "entradas": {
+          "id": "7"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "lotações: sem o módulo": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "produtos do usuário": {
+    "status": 200,
+    "corpo": [
+      1,
+      4
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT id_produto FROM tab_usuario_produtos WHERE id_usuario = @id",
+        "entradas": {
+          "id": "9"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "perfis": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_perfil": 1,
+        "nome_perfil": "Analista"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT id_perfil, nome_perfil FROM tab_perfis ORDER BY nome_perfil",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "setores sem login": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_setor": 3,
+        "nome_setor": "Tecnologia"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_setores ORDER BY nome_setor",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "funções sem login": {
+    "status": 200,
+    "corpo": [
+      {
+        "id_funcao": 4,
+        "nome_funcao": "Analista"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_funcoes ORDER BY nome_funcao",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "meu contato": {
+    "status": 200,
+    "corpo": {
+      "celular": "21987654321",
+      "celular_whatsapp": true,
+      "email": "maria@exemplo.com",
+      "completo": true
+    },
+    "consultas": [
+      {
+        "texto": "SELECT celular, celular_whatsapp, email FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "meu contato sem cadastro": {
+    "status": 200,
+    "corpo": {
+      "celular": "",
+      "celular_whatsapp": false,
+      "email": "",
+      "completo": true
+    },
+    "consultas": [
+      {
+        "texto": "SELECT celular, celular_whatsapp, email FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          null
+        ]
+      }
+    ]
+  },
+  "atualiza meu contato": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Contato atualizado.",
+      "celular": "21987654321",
+      "celular_whatsapp": true,
+      "email": "maria@exemplo.com"
+    },
+    "consultas": [
+      {
+        "texto": "UPDATE tab_usuarios SET celular = @cel, celular_whatsapp = 1, email = @em WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1,
+          "cel": "21987654321",
+          "em": "maria@exemplo.com"
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "atualiza meu contato sem e-mail": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Contato atualizado.",
+      "celular": "21987654321",
+      "celular_whatsapp": true,
+      "email": ""
+    },
+    "consultas": [
+      {
+        "texto": "UPDATE tab_usuarios SET celular = @cel, celular_whatsapp = 1, email = @em WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1,
+          "cel": "21987654321",
+          "em": null
+        }
+      }
+    ],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "meu contato sem celular": {
+    "status": 400,
+    "corpo": {
+      "erro": "Informe o celular com WhatsApp (obrigatório)."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "meu contato com e-mail inválido": {
+    "status": 400,
+    "corpo": {
+      "erro": "E-mail inválido."
+    },
+    "consultas": [],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  },
+  "meu contato com e-mail comprido demais": {
+    "status": 400,
+    "corpo": {
+      "erro": "E-mail inválido."
+    },
+    "consultas": [],
+    "externos": [
+      {
+        "nome": "whatsapp.formatarNumeroBR",
+        "argumentos": [
+          "21987654321"
+        ]
+      }
+    ]
+  }
+}

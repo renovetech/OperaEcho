@@ -1,0 +1,2045 @@
+{
+  "tabelas: lista pública": {
+    "status": 200,
+    "corpo": [
+      {
+        "chave": "grupo",
+        "titulo": "Grupos"
+      },
+      {
+        "chave": "sub_grupo",
+        "titulo": "Subgrupos"
+      },
+      {
+        "chave": "forma_organizacao",
+        "titulo": "Formas de Organização"
+      },
+      {
+        "chave": "financiamento",
+        "titulo": "Financiamentos"
+      },
+      {
+        "chave": "rubrica",
+        "titulo": "Rubricas"
+      },
+      {
+        "chave": "modalidade",
+        "titulo": "Modalidades de Atendimento"
+      },
+      {
+        "chave": "registro",
+        "titulo": "Instrumentos de Registro"
+      },
+      {
+        "chave": "ocupacao",
+        "titulo": "CBO - Ocupações"
+      },
+      {
+        "chave": "cid",
+        "titulo": "CID-10"
+      },
+      {
+        "chave": "habilitacao",
+        "titulo": "Habilitações"
+      },
+      {
+        "chave": "grupo_habilitacao",
+        "titulo": "Grupos de Habilitação"
+      },
+      {
+        "chave": "servico",
+        "titulo": "Serviços / Classificações"
+      },
+      {
+        "chave": "tipo_leito",
+        "titulo": "Tipos de Leito"
+      },
+      {
+        "chave": "detalhe",
+        "titulo": "Atributos Complementares (Detalhes)"
+      },
+      {
+        "chave": "rede",
+        "titulo": "Redes de Atenção"
+      },
+      {
+        "chave": "regra",
+        "titulo": "Regras Condicionadas"
+      },
+      {
+        "chave": "renases",
+        "titulo": "RENASES"
+      },
+      {
+        "chave": "tuss",
+        "titulo": "TUSS"
+      },
+      {
+        "chave": "sia_sih",
+        "titulo": "Procedimentos SIA/SIH (tabela antiga)"
+      }
+    ],
+    "consultas": [],
+    "externos": []
+  },
+  "competencias: pública": {
+    "status": 200,
+    "corpo": [
+      {
+        "competencia": "202610",
+        "qt_procedimentos": 4500,
+        "data_importacao": "15/10/2026"
+      },
+      {
+        "competencia": "202609",
+        "qt_procedimentos": 4400,
+        "data_importacao": "15/09/2026"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "competencias: nenhuma importada": {
+    "status": 200,
+    "corpo": [],
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "filtros: competência pedida": {
+    "status": 200,
+    "corpo": {
+      "competencia": "202610",
+      "grupos": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "subgrupos": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "formas": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "financiamentos": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "registros": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "modalidades": [
+        {
+          "linha": "padrao"
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT co_grupo AS codigo, no_grupo AS nome FROM tab_sigtap_tb_grupo WHERE competencia = @c ORDER BY co_grupo",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "SELECT co_grupo + co_sub_grupo AS codigo, no_sub_grupo AS nome FROM tab_sigtap_tb_sub_grupo WHERE competencia = @c ORDER BY 1",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "SELECT co_grupo + co_sub_grupo + co_forma_organizacao AS codigo, no_forma_organizacao AS nome FROM tab_sigtap_tb_forma_organizacao WHERE competencia = @c ORDER BY 1",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "SELECT co_financiamento AS codigo, no_financiamento AS nome FROM tab_sigtap_tb_financiamento WHERE competencia = @c ORDER BY 1",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "SELECT co_registro AS codigo, no_registro AS nome FROM tab_sigtap_tb_registro WHERE competencia = @c ORDER BY 1",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "SELECT co_modalidade AS codigo, no_modalidade AS nome FROM tab_sigtap_tb_modalidade WHERE competencia = @c ORDER BY 1",
+        "entradas": {
+          "c": "202610"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "filtros: competência inexistente cai na mais recente": {
+    "status": 200,
+    "corpo": {
+      "competencia": "202610",
+      "grupos": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "subgrupos": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "formas": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "financiamentos": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "registros": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "modalidades": [
+        {
+          "linha": "padrao"
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT co_grupo AS codigo, no_grupo AS nome FROM tab_sigtap_tb_grupo WHERE competencia = @c ORDER BY co_grupo",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "SELECT co_grupo + co_sub_grupo AS codigo, no_sub_grupo AS nome FROM tab_sigtap_tb_sub_grupo WHERE competencia = @c ORDER BY 1",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "SELECT co_grupo + co_sub_grupo + co_forma_organizacao AS codigo, no_forma_organizacao AS nome FROM tab_sigtap_tb_forma_organizacao WHERE competencia = @c ORDER BY 1",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "SELECT co_financiamento AS codigo, no_financiamento AS nome FROM tab_sigtap_tb_financiamento WHERE competencia = @c ORDER BY 1",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "SELECT co_registro AS codigo, no_registro AS nome FROM tab_sigtap_tb_registro WHERE competencia = @c ORDER BY 1",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "SELECT co_modalidade AS codigo, no_modalidade AS nome FROM tab_sigtap_tb_modalidade WHERE competencia = @c ORDER BY 1",
+        "entradas": {
+          "c": "202610"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "filtros: sem importação": {
+    "status": 200,
+    "corpo": {
+      "competencia": null
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "procedimentos: padrão": {
+    "status": 200,
+    "corpo": {
+      "competencia": "202610",
+      "pagina": 1,
+      "tamanho": 20,
+      "total": 42,
+      "itens": [
+        {
+          "co_procedimento": "0101010010",
+          "no_procedimento": "ATIVIDADE EDUCATIVA",
+          "tp_complexidade": "0",
+          "tp_sexo": "I",
+          "co_financiamento": "01",
+          "no_financiamento": "PAB",
+          "vl_sa": 1.5,
+          "vl_sh": 0,
+          "vl_sp": 0,
+          "registros": "01,02"
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH pagina AS ( SELECT p.co_procedimento, COUNT(*) OVER() AS total_geral, ROW_NUMBER() OVER (ORDER BY p.co_procedimento) AS ordem FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c ORDER BY p.co_procedimento OFFSET @off ROWS FETCH NEXT @tam ROWS ONLY ) SELECT p.co_procedimento, p.no_procedimento, p.tp_complexidade, p.tp_sexo, p.co_financiamento, f.no_financiamento, p.vl_sa, p.vl_sh, p.vl_sp, pg.total_geral, STUFF((SELECT ',' + rr.co_registro FROM tab_sigtap_rl_procedimento_registro rr WHERE rr.competencia = p.competencia AND rr.co_procedimento = p.co_procedimento ORDER BY rr.co_registro FOR XML PATH('')), 1, 1, '') AS registros FROM pagina pg JOIN tab_sigtap_tb_procedimento p ON p.competencia = @c AND p.co_procedimento = pg.co_procedimento LEFT JOIN tab_sigtap_tb_financiamento f ON f.competencia = p.competencia AND f.co_financiamento = p.co_financiamento ORDER BY pg.ordem",
+        "entradas": {
+          "c": "202610",
+          "off": 0,
+          "tam": 20
+        }
+      }
+    ],
+    "externos": []
+  },
+  "procedimentos: busca por palavras e ordem": {
+    "status": 200,
+    "corpo": {
+      "competencia": "202610",
+      "pagina": 2,
+      "tamanho": 10,
+      "total": 42,
+      "itens": [
+        {
+          "co_procedimento": "0101010010",
+          "no_procedimento": "ATIVIDADE EDUCATIVA",
+          "tp_complexidade": "0",
+          "tp_sexo": "I",
+          "co_financiamento": "01",
+          "no_financiamento": "PAB",
+          "vl_sa": 1.5,
+          "vl_sh": 0,
+          "vl_sp": 0,
+          "registros": "01,02"
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH pagina AS ( SELECT p.co_procedimento, COUNT(*) OVER() AS total_geral, ROW_NUMBER() OVER (ORDER BY p.no_procedimento, p.co_procedimento) AS ordem FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND ((p.no_procedimento) COLLATE Latin1_General_CI_AI LIKE @t0 OR p.co_procedimento LIKE @t0) AND ((p.no_procedimento) COLLATE Latin1_General_CI_AI LIKE @t1 OR p.co_procedimento LIKE @t1) ORDER BY p.no_procedimento, p.co_procedimento OFFSET @off ROWS FETCH NEXT @tam ROWS ONLY ) SELECT p.co_procedimento, p.no_procedimento, p.tp_complexidade, p.tp_sexo, p.co_financiamento, f.no_financiamento, p.vl_sa, p.vl_sh, p.vl_sp, pg.total_geral, STUFF((SELECT ',' + rr.co_registro FROM tab_sigtap_rl_procedimento_registro rr WHERE rr.competencia = p.competencia AND rr.co_procedimento = p.co_procedimento ORDER BY rr.co_registro FOR XML PATH('')), 1, 1, '') AS registros FROM pagina pg JOIN tab_sigtap_tb_procedimento p ON p.competencia = @c AND p.co_procedimento = pg.co_procedimento LEFT JOIN tab_sigtap_tb_financiamento f ON f.competencia = p.competencia AND f.co_financiamento = p.co_financiamento ORDER BY pg.ordem",
+        "entradas": {
+          "c": "202610",
+          "off": 10,
+          "tam": 10,
+          "t0": "%atividade%",
+          "t1": "%educativa%"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "procedimentos: busca por código": {
+    "status": 200,
+    "corpo": {
+      "competencia": "202610",
+      "pagina": 1,
+      "tamanho": 20,
+      "total": 42,
+      "itens": [
+        {
+          "co_procedimento": "0101010010",
+          "no_procedimento": "ATIVIDADE EDUCATIVA",
+          "tp_complexidade": "0",
+          "tp_sexo": "I",
+          "co_financiamento": "01",
+          "no_financiamento": "PAB",
+          "vl_sa": 1.5,
+          "vl_sh": 0,
+          "vl_sp": 0,
+          "registros": "01,02"
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH pagina AS ( SELECT p.co_procedimento, COUNT(*) OVER() AS total_geral, ROW_NUMBER() OVER (ORDER BY p.vl_sa DESC, p.co_procedimento) AS ordem FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento LIKE @tc AND (p.vl_sa >= @vmin OR p.vl_sh + p.vl_sp >= @vmin) ORDER BY p.vl_sa DESC, p.co_procedimento OFFSET @off ROWS FETCH NEXT @tam ROWS ONLY ) SELECT p.co_procedimento, p.no_procedimento, p.tp_complexidade, p.tp_sexo, p.co_financiamento, f.no_financiamento, p.vl_sa, p.vl_sh, p.vl_sp, pg.total_geral, STUFF((SELECT ',' + rr.co_registro FROM tab_sigtap_rl_procedimento_registro rr WHERE rr.competencia = p.competencia AND rr.co_procedimento = p.co_procedimento ORDER BY rr.co_registro FOR XML PATH('')), 1, 1, '') AS registros FROM pagina pg JOIN tab_sigtap_tb_procedimento p ON p.competencia = @c AND p.co_procedimento = pg.co_procedimento LEFT JOIN tab_sigtap_tb_financiamento f ON f.competencia = p.competencia AND f.co_financiamento = p.co_financiamento ORDER BY pg.ordem",
+        "entradas": {
+          "c": "202610",
+          "off": 0,
+          "tam": 20,
+          "tc": "010101%",
+          "vmin": 10.5
+        }
+      }
+    ],
+    "externos": []
+  },
+  "procedimentos: filtros combinados": {
+    "status": 200,
+    "corpo": {
+      "competencia": "202610",
+      "pagina": 1,
+      "tamanho": 100,
+      "total": 42,
+      "itens": [
+        {
+          "co_procedimento": "0101010010",
+          "no_procedimento": "ATIVIDADE EDUCATIVA",
+          "tp_complexidade": "0",
+          "tp_sexo": "I",
+          "co_financiamento": "01",
+          "no_financiamento": "PAB",
+          "vl_sa": 1.5,
+          "vl_sh": 0,
+          "vl_sp": 0,
+          "registros": "01,02"
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH pagina AS ( SELECT p.co_procedimento, COUNT(*) OVER() AS total_geral, ROW_NUMBER() OVER (ORDER BY (p.vl_sh + p.vl_sp) DESC, p.co_procedimento) AS ordem FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento LIKE @pre AND p.co_financiamento = @financiamento AND p.tp_complexidade = @complexidade AND p.tp_sexo = @sexo AND EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_registro v WHERE v.competencia = p.competencia AND v.co_procedimento = p.co_procedimento AND v.co_registro = @registro) AND EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_modalidade v WHERE v.competencia = p.competencia AND v.co_procedimento = p.co_procedimento AND v.co_modalidade = @modalidade) AND EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_cid v WHERE v.competencia = p.competencia AND v.co_procedimento = p.co_procedimento AND v.co_cid = @vc) ORDER BY (p.vl_sh + p.vl_sp) DESC, p.co_procedimento OFFSET @off ROWS FETCH NEXT @tam ROWS ONLY ) SELECT p.co_procedimento, p.no_procedimento, p.tp_complexidade, p.tp_sexo, p.co_financiamento, f.no_financiamento, p.vl_sa, p.vl_sh, p.vl_sp, pg.total_geral, STUFF((SELECT ',' + rr.co_registro FROM tab_sigtap_rl_procedimento_registro rr WHERE rr.competencia = p.competencia AND rr.co_procedimento = p.co_procedimento ORDER BY rr.co_registro FOR XML PATH('')), 1, 1, '') AS registros FROM pagina pg JOIN tab_sigtap_tb_procedimento p ON p.competencia = @c AND p.co_procedimento = pg.co_procedimento LEFT JOIN tab_sigtap_tb_financiamento f ON f.competencia = p.competencia AND f.co_financiamento = p.co_financiamento ORDER BY pg.ordem",
+        "entradas": {
+          "c": "202610",
+          "off": 0,
+          "tam": 100,
+          "pre": "010101%",
+          "financiamento": "01",
+          "complexidade": "1",
+          "sexo": "M",
+          "registro": "01",
+          "modalidade": "02",
+          "vc": "A00"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "procedimentos: vínculo desconhecido é ignorado": {
+    "status": 200,
+    "corpo": {
+      "competencia": "202610",
+      "pagina": 1,
+      "tamanho": 20,
+      "total": 42,
+      "itens": [
+        {
+          "co_procedimento": "0101010010",
+          "no_procedimento": "ATIVIDADE EDUCATIVA",
+          "tp_complexidade": "0",
+          "tp_sexo": "I",
+          "co_financiamento": "01",
+          "no_financiamento": "PAB",
+          "vl_sa": 1.5,
+          "vl_sh": 0,
+          "vl_sp": 0,
+          "registros": "01,02"
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH pagina AS ( SELECT p.co_procedimento, COUNT(*) OVER() AS total_geral, ROW_NUMBER() OVER (ORDER BY p.co_procedimento) AS ordem FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento LIKE @pre ORDER BY p.co_procedimento OFFSET @off ROWS FETCH NEXT @tam ROWS ONLY ) SELECT p.co_procedimento, p.no_procedimento, p.tp_complexidade, p.tp_sexo, p.co_financiamento, f.no_financiamento, p.vl_sa, p.vl_sh, p.vl_sp, pg.total_geral, STUFF((SELECT ',' + rr.co_registro FROM tab_sigtap_rl_procedimento_registro rr WHERE rr.competencia = p.competencia AND rr.co_procedimento = p.co_procedimento ORDER BY rr.co_registro FOR XML PATH('')), 1, 1, '') AS registros FROM pagina pg JOIN tab_sigtap_tb_procedimento p ON p.competencia = @c AND p.co_procedimento = pg.co_procedimento LEFT JOIN tab_sigtap_tb_financiamento f ON f.competencia = p.competencia AND f.co_financiamento = p.co_financiamento ORDER BY pg.ordem",
+        "entradas": {
+          "c": "202610",
+          "off": 0,
+          "tam": 20,
+          "pre": "01%"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "procedimentos: sem importação": {
+    "status": 200,
+    "corpo": {
+      "competencia": null,
+      "total": 0,
+      "itens": []
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "ficha: procedimento": {
+    "status": 200,
+    "corpo": {
+      "competencia": "202610",
+      "procedimento": {
+        "co_procedimento": "0101010010",
+        "no_procedimento": "ATIVIDADE EDUCATIVA",
+        "no_grupo": "ACOES",
+        "ds_procedimento": "Descricao"
+      },
+      "modalidades": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "registros": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "detalhes": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "cids": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "cbos": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "leitos": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "servicos": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "habilitacoes": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "incrementos": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "redes": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "origens": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "regras": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "renases": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "tuss": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "siaSih": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "compatibilidades": {
+        "comoPrincipal": [
+          {
+            "linha": "padrao"
+          }
+        ],
+        "comoSecundario": [
+          {
+            "linha": "padrao"
+          }
+        ],
+        "excecoes": [
+          {
+            "linha": "padrao"
+          }
+        ]
+      },
+      "historico": [
+        {
+          "linha": "padrao"
+        }
+      ],
+      "nomesRegistro": {
+        "01": "BPA"
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT p.*, g.no_grupo, sg.no_sub_grupo, fo.no_forma_organizacao, f.no_financiamento, rb.no_rubrica, d.ds_procedimento FROM tab_sigtap_tb_procedimento p LEFT JOIN tab_sigtap_tb_grupo g ON g.competencia = p.competencia AND g.co_grupo = LEFT(p.co_procedimento, 2) LEFT JOIN tab_sigtap_tb_sub_grupo sg ON sg.competencia = p.competencia AND sg.co_grupo + sg.co_sub_grupo = LEFT(p.co_procedimento, 4) LEFT JOIN tab_sigtap_tb_forma_organizacao fo ON fo.competencia = p.competencia AND fo.co_grupo + fo.co_sub_grupo + fo.co_forma_organizacao = LEFT(p.co_procedimento, 6) LEFT JOIN tab_sigtap_tb_financiamento f ON f.competencia = p.competencia AND f.co_financiamento = p.co_financiamento LEFT JOIN tab_sigtap_tb_rubrica rb ON rb.competencia = p.competencia AND rb.co_rubrica = p.co_rubrica LEFT JOIN tab_sigtap_tb_descricao d ON d.competencia = p.competencia AND d.co_procedimento = p.co_procedimento WHERE p.competencia = @c AND p.co_procedimento = @p",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT x.co_modalidade AS codigo, m.no_modalidade AS nome FROM tab_sigtap_rl_procedimento_modalidade x LEFT JOIN tab_sigtap_tb_modalidade m ON m.competencia = x.competencia AND m.co_modalidade = x.co_modalidade WHERE x.competencia = @c AND x.co_procedimento = @p ORDER BY 1",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT x.co_registro AS codigo, r.no_registro AS nome FROM tab_sigtap_rl_procedimento_registro x LEFT JOIN tab_sigtap_tb_registro r ON r.competencia = x.competencia AND r.co_registro = x.co_registro WHERE x.competencia = @c AND x.co_procedimento = @p ORDER BY 1",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT x.co_detalhe AS codigo, d.no_detalhe AS nome, dd.ds_detalhe AS descricao FROM tab_sigtap_rl_procedimento_detalhe x LEFT JOIN tab_sigtap_tb_detalhe d ON d.competencia = x.competencia AND d.co_detalhe = x.co_detalhe LEFT JOIN tab_sigtap_tb_descricao_detalhe dd ON dd.competencia = x.competencia AND dd.co_detalhe = x.co_detalhe WHERE x.competencia = @c AND x.co_procedimento = @p ORDER BY 1",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT x.co_cid AS codigo, t.no_cid AS nome, x.st_principal AS principal, t.tp_sexo AS sexo, t.tp_agravo AS agravo FROM tab_sigtap_rl_procedimento_cid x LEFT JOIN tab_sigtap_tb_cid t ON t.competencia = x.competencia AND t.co_cid = x.co_cid WHERE x.competencia = @c AND x.co_procedimento = @p ORDER BY 1",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT x.co_ocupacao AS codigo, o.no_ocupacao AS nome FROM tab_sigtap_rl_procedimento_ocupacao x LEFT JOIN tab_sigtap_tb_ocupacao o ON o.competencia = x.competencia AND o.co_ocupacao = x.co_ocupacao WHERE x.competencia = @c AND x.co_procedimento = @p ORDER BY 1",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT x.co_tipo_leito AS codigo, l.no_tipo_leito AS nome FROM tab_sigtap_rl_procedimento_leito x LEFT JOIN tab_sigtap_tb_tipo_leito l ON l.competencia = x.competencia AND l.co_tipo_leito = x.co_tipo_leito WHERE x.competencia = @c AND x.co_procedimento = @p ORDER BY 1",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT x.co_servico AS servico, s.no_servico AS nome_servico, x.co_classificacao AS classificacao, sc.no_classificacao AS nome_classificacao FROM tab_sigtap_rl_procedimento_servico x LEFT JOIN tab_sigtap_tb_servico s ON s.competencia = x.competencia AND s.co_servico = x.co_servico LEFT JOIN tab_sigtap_tb_servico_classificacao sc ON sc.competencia = x.competencia AND sc.co_servico = x.co_servico AND sc.co_classificacao = x.co_classificacao WHERE x.competencia = @c AND x.co_procedimento = @p ORDER BY 1, 3",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT x.co_habilitacao AS codigo, h.no_habilitacao AS nome, NULLIF(x.nu_grupo_habilitacao, '') AS grupo, gh.no_grupo_habilitacao AS nome_grupo, gh.ds_grupo_habilitacao AS descricao_grupo FROM tab_sigtap_rl_procedimento_habilitacao x LEFT JOIN tab_sigtap_tb_habilitacao h ON h.competencia = x.competencia AND h.co_habilitacao = x.co_habilitacao LEFT JOIN tab_sigtap_tb_grupo_habilitacao gh ON gh.competencia = x.competencia AND gh.nu_grupo_habilitacao = x.nu_grupo_habilitacao WHERE x.competencia = @c AND x.co_procedimento = @p ORDER BY 3, 1",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT x.co_habilitacao AS codigo, h.no_habilitacao AS nome, x.vl_percentual_sh AS sh, x.vl_percentual_sa AS sa, x.vl_percentual_sp AS sp FROM tab_sigtap_rl_procedimento_incremento x LEFT JOIN tab_sigtap_tb_habilitacao h ON h.competencia = x.competencia AND h.co_habilitacao = x.co_habilitacao WHERE x.competencia = @c AND x.co_procedimento = @p ORDER BY 1",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT x.co_componente_rede AS codigo, cr.no_componente_rede AS nome, ra.no_rede_atencao AS rede FROM tab_sigtap_rl_procedimento_comp_rede x LEFT JOIN tab_sigtap_tb_componente_rede cr ON cr.competencia = x.competencia AND cr.co_componente_rede = x.co_componente_rede LEFT JOIN tab_sigtap_tb_rede_atencao ra ON ra.competencia = x.competencia AND ra.co_rede_atencao = cr.co_rede_atencao WHERE x.competencia = @c AND x.co_procedimento = @p ORDER BY 1",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT x.co_procedimento_origem AS codigo, o.no_procedimento AS nome FROM tab_sigtap_rl_procedimento_origem x LEFT JOIN tab_sigtap_tb_procedimento o ON o.competencia = x.competencia AND o.co_procedimento = x.co_procedimento_origem WHERE x.competencia = @c AND x.co_procedimento = @p ORDER BY 1",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT x.co_regra_condicionada AS codigo, r.no_regra_condicionada AS nome, r.ds_regra_condicionada AS descricao FROM tab_sigtap_rl_procedimento_regra_cond x LEFT JOIN tab_sigtap_tb_regra_condicionada r ON r.competencia = x.competencia AND r.co_regra_condicionada = x.co_regra_condicionada WHERE x.competencia = @c AND x.co_procedimento = @p ORDER BY 1",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT x.co_renases AS codigo, r.no_renases AS nome FROM tab_sigtap_rl_procedimento_renases x LEFT JOIN tab_sigtap_tb_renases r ON r.competencia = x.competencia AND r.co_renases = x.co_renases WHERE x.competencia = @c AND x.co_procedimento = @p ORDER BY 1",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT x.co_tuss AS codigo, t.no_tuss AS nome FROM tab_sigtap_rl_procedimento_tuss x LEFT JOIN tab_sigtap_tb_tuss t ON t.competencia = x.competencia AND t.co_tuss = x.co_tuss WHERE x.competencia = @c AND x.co_procedimento = @p ORDER BY 1",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT x.co_procedimento_sia_sih AS codigo, s.no_procedimento_sia_sih AS nome, x.tp_procedimento AS tipo FROM tab_sigtap_rl_procedimento_sia_sih x LEFT JOIN tab_sigtap_tb_sia_sih s ON s.competencia = x.competencia AND s.co_procedimento_sia_sih = x.co_procedimento_sia_sih AND s.tp_procedimento = x.tp_procedimento WHERE x.competencia = @c AND x.co_procedimento = @p ORDER BY 1",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT TOP 3000 x.co_registro_principal AS reg_principal, x.co_procedimento_compativel AS codigo, o.no_procedimento AS nome, x.co_registro_compativel AS reg_compativel, x.tp_compatibilidade AS tipo, x.qt_permitida AS quantidade FROM tab_sigtap_rl_procedimento_compativel x LEFT JOIN tab_sigtap_tb_procedimento o ON o.competencia = x.competencia AND o.co_procedimento = x.co_procedimento_compativel WHERE x.competencia = @c AND x.co_procedimento_principal = @p ORDER BY x.tp_compatibilidade, x.co_procedimento_compativel",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT TOP 3000 x.co_registro_principal AS reg_principal, x.co_procedimento_principal AS codigo, o.no_procedimento AS nome, x.co_registro_compativel AS reg_compativel, x.tp_compatibilidade AS tipo, x.qt_permitida AS quantidade FROM tab_sigtap_rl_procedimento_compativel x LEFT JOIN tab_sigtap_tb_procedimento o ON o.competencia = x.competencia AND o.co_procedimento = x.co_procedimento_principal WHERE x.competencia = @c AND x.co_procedimento_compativel = @p ORDER BY x.tp_compatibilidade, x.co_procedimento_principal",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT x.co_procedimento_restricao AS restricao, r.no_procedimento AS nome_restricao, x.co_procedimento_principal AS principal, pp.no_procedimento AS nome_principal, x.co_registro_principal AS reg_principal, x.co_procedimento_compativel AS compativel, pc.no_procedimento AS nome_compativel, x.co_registro_compativel AS reg_compativel, x.tp_compatibilidade AS tipo FROM tab_sigtap_rl_excecao_compatibilidade x LEFT JOIN tab_sigtap_tb_procedimento r ON r.competencia = x.competencia AND r.co_procedimento = x.co_procedimento_restricao LEFT JOIN tab_sigtap_tb_procedimento pp ON pp.competencia = x.competencia AND pp.co_procedimento = x.co_procedimento_principal LEFT JOIN tab_sigtap_tb_procedimento pc ON pc.competencia = x.competencia AND pc.co_procedimento = x.co_procedimento_compativel WHERE x.competencia = @c AND (x.co_procedimento_restricao = @p OR x.co_procedimento_principal = @p OR x.co_procedimento_compativel = @p)",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT h.competencia, h.no_procedimento, h.vl_sa, h.vl_sh, h.vl_sp, h.tp_complexidade, h.co_financiamento, h.qt_maxima_execucao, h.vl_idade_minima, h.vl_idade_maxima FROM tab_sigtap_tb_procedimento h WHERE h.co_procedimento = @p AND h.competencia IN (SELECT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0) ORDER BY h.competencia DESC",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      },
+      {
+        "texto": "SELECT co_registro AS codigo, no_registro AS nome FROM tab_sigtap_tb_registro WHERE competencia = @c",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "ficha: código curto": {
+    "status": 404,
+    "corpo": {
+      "erro": "Procedimento não encontrado."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "ficha: sem importação": {
+    "status": 404,
+    "corpo": {
+      "erro": "Procedimento não encontrado."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "ficha: não encontrado na competência": {
+    "status": 404,
+    "corpo": {
+      "erro": "Procedimento não encontrado na competência 10/2026."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT p.*, g.no_grupo, sg.no_sub_grupo, fo.no_forma_organizacao, f.no_financiamento, rb.no_rubrica, d.ds_procedimento FROM tab_sigtap_tb_procedimento p LEFT JOIN tab_sigtap_tb_grupo g ON g.competencia = p.competencia AND g.co_grupo = LEFT(p.co_procedimento, 2) LEFT JOIN tab_sigtap_tb_sub_grupo sg ON sg.competencia = p.competencia AND sg.co_grupo + sg.co_sub_grupo = LEFT(p.co_procedimento, 4) LEFT JOIN tab_sigtap_tb_forma_organizacao fo ON fo.competencia = p.competencia AND fo.co_grupo + fo.co_sub_grupo + fo.co_forma_organizacao = LEFT(p.co_procedimento, 6) LEFT JOIN tab_sigtap_tb_financiamento f ON f.competencia = p.competencia AND f.co_financiamento = p.co_financiamento LEFT JOIN tab_sigtap_tb_rubrica rb ON rb.competencia = p.competencia AND rb.co_rubrica = p.co_rubrica LEFT JOIN tab_sigtap_tb_descricao d ON d.competencia = p.competencia AND d.co_procedimento = p.co_procedimento WHERE p.competencia = @c AND p.co_procedimento = @p",
+        "entradas": {
+          "c": "202610",
+          "p": "0101010010"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "compatibilidades/tipos": {
+    "status": 200,
+    "corpo": {
+      "competencia": "202610",
+      "tipos": [
+        {
+          "linha": "padrao"
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT x.co_registro_principal AS reg_principal, rp.no_registro AS nome_principal, x.co_registro_compativel AS reg_compativel, rc.no_registro AS nome_compativel, x.tp_compatibilidade AS tipo, COUNT(*) AS quantidade FROM tab_sigtap_rl_procedimento_compativel x LEFT JOIN tab_sigtap_tb_registro rp ON rp.competencia = x.competencia AND rp.co_registro = x.co_registro_principal LEFT JOIN tab_sigtap_tb_registro rc ON rc.competencia = x.competencia AND rc.co_registro = x.co_registro_compativel WHERE x.competencia = @c GROUP BY x.co_registro_principal, rp.no_registro, x.co_registro_compativel, rc.no_registro, x.tp_compatibilidade ORDER BY x.co_registro_principal, x.co_registro_compativel, x.tp_compatibilidade",
+        "entradas": {
+          "c": "202610"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "compatibilidades/tipos: sem importação": {
+    "status": 200,
+    "corpo": {
+      "competencia": null,
+      "tipos": []
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "compatibilidades: padrão": {
+    "status": 200,
+    "corpo": {
+      "competencia": "202610",
+      "pagina": 1,
+      "tamanho": 25,
+      "total": 7,
+      "itens": [
+        {
+          "principal": "0101010010",
+          "nome_principal": "A",
+          "reg_principal": "01",
+          "secundario": "0101010028",
+          "nome_secundario": "B",
+          "reg_compativel": "02",
+          "tipo": "1",
+          "quantidade": 1
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH pagina AS ( SELECT x.co_procedimento_principal, x.co_registro_principal, x.co_procedimento_compativel, x.co_registro_compativel, x.tp_compatibilidade, x.qt_permitida, COUNT(*) OVER() AS total_geral FROM tab_sigtap_rl_procedimento_compativel x LEFT JOIN tab_sigtap_tb_procedimento pp ON pp.competencia = x.competencia AND pp.co_procedimento = x.co_procedimento_principal LEFT JOIN tab_sigtap_tb_procedimento pc ON pc.competencia = x.competencia AND pc.co_procedimento = x.co_procedimento_compativel WHERE x.competencia = @c ORDER BY x.co_procedimento_principal, x.co_registro_principal, x.co_procedimento_compativel, x.co_registro_compativel OFFSET @off ROWS FETCH NEXT @tam ROWS ONLY ) SELECT g.co_procedimento_principal AS principal, pp.no_procedimento AS nome_principal, g.co_registro_principal AS reg_principal, g.co_procedimento_compativel AS secundario, pc.no_procedimento AS nome_secundario, g.co_registro_compativel AS reg_compativel, g.tp_compatibilidade AS tipo, g.qt_permitida AS quantidade, g.total_geral FROM pagina g LEFT JOIN tab_sigtap_tb_procedimento pp ON pp.competencia = @c AND pp.co_procedimento = g.co_procedimento_principal LEFT JOIN tab_sigtap_tb_procedimento pc ON pc.competencia = @c AND pc.co_procedimento = g.co_procedimento_compativel ORDER BY g.co_procedimento_principal, g.co_registro_principal, g.co_procedimento_compativel, g.co_registro_compativel",
+        "entradas": {
+          "c": "202610",
+          "off": 0,
+          "tam": 25
+        }
+      }
+    ],
+    "externos": []
+  },
+  "compatibilidades: filtros": {
+    "status": 200,
+    "corpo": {
+      "competencia": "202610",
+      "pagina": 2,
+      "tamanho": 5,
+      "total": 7,
+      "itens": [
+        {
+          "principal": "0101010010",
+          "nome_principal": "A",
+          "reg_principal": "01",
+          "secundario": "0101010028",
+          "nome_secundario": "B",
+          "reg_compativel": "02",
+          "tipo": "1",
+          "quantidade": 1
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH pagina AS ( SELECT x.co_procedimento_principal, x.co_registro_principal, x.co_procedimento_compativel, x.co_registro_compativel, x.tp_compatibilidade, x.qt_permitida, COUNT(*) OVER() AS total_geral FROM tab_sigtap_rl_procedimento_compativel x LEFT JOIN tab_sigtap_tb_procedimento pp ON pp.competencia = x.competencia AND pp.co_procedimento = x.co_procedimento_principal LEFT JOIN tab_sigtap_tb_procedimento pc ON pc.competencia = x.competencia AND pc.co_procedimento = x.co_procedimento_compativel WHERE x.competencia = @c AND x.co_registro_principal = @rp AND x.co_registro_compativel = @rc AND x.tp_compatibilidade = @tp AND ((pp.no_procedimento) COLLATE Latin1_General_CI_AI LIKE @a0 OR x.co_procedimento_principal LIKE @a0) AND x.co_procedimento_compativel LIKE @bc ORDER BY x.co_procedimento_principal, x.co_registro_principal, x.co_procedimento_compativel, x.co_registro_compativel OFFSET @off ROWS FETCH NEXT @tam ROWS ONLY ) SELECT g.co_procedimento_principal AS principal, pp.no_procedimento AS nome_principal, g.co_registro_principal AS reg_principal, g.co_procedimento_compativel AS secundario, pc.no_procedimento AS nome_secundario, g.co_registro_compativel AS reg_compativel, g.tp_compatibilidade AS tipo, g.qt_permitida AS quantidade, g.total_geral FROM pagina g LEFT JOIN tab_sigtap_tb_procedimento pp ON pp.competencia = @c AND pp.co_procedimento = g.co_procedimento_principal LEFT JOIN tab_sigtap_tb_procedimento pc ON pc.competencia = @c AND pc.co_procedimento = g.co_procedimento_compativel ORDER BY g.co_procedimento_principal, g.co_registro_principal, g.co_procedimento_compativel, g.co_registro_compativel",
+        "entradas": {
+          "c": "202610",
+          "off": 5,
+          "tam": 5,
+          "rp": "01",
+          "rc": "02",
+          "tp": "1",
+          "a0": "%consulta%",
+          "bc": "0101%"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "compatibilidades: tipo malformado é ignorado": {
+    "status": 200,
+    "corpo": {
+      "competencia": "202610",
+      "pagina": 1,
+      "tamanho": 25,
+      "total": 7,
+      "itens": [
+        {
+          "principal": "0101010010",
+          "nome_principal": "A",
+          "reg_principal": "01",
+          "secundario": "0101010028",
+          "nome_secundario": "B",
+          "reg_compativel": "02",
+          "tipo": "1",
+          "quantidade": 1
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH pagina AS ( SELECT x.co_procedimento_principal, x.co_registro_principal, x.co_procedimento_compativel, x.co_registro_compativel, x.tp_compatibilidade, x.qt_permitida, COUNT(*) OVER() AS total_geral FROM tab_sigtap_rl_procedimento_compativel x LEFT JOIN tab_sigtap_tb_procedimento pp ON pp.competencia = x.competencia AND pp.co_procedimento = x.co_procedimento_principal LEFT JOIN tab_sigtap_tb_procedimento pc ON pc.competencia = x.competencia AND pc.co_procedimento = x.co_procedimento_compativel WHERE x.competencia = @c ORDER BY x.co_procedimento_principal, x.co_registro_principal, x.co_procedimento_compativel, x.co_registro_compativel OFFSET @off ROWS FETCH NEXT @tam ROWS ONLY ) SELECT g.co_procedimento_principal AS principal, pp.no_procedimento AS nome_principal, g.co_registro_principal AS reg_principal, g.co_procedimento_compativel AS secundario, pc.no_procedimento AS nome_secundario, g.co_registro_compativel AS reg_compativel, g.tp_compatibilidade AS tipo, g.qt_permitida AS quantidade, g.total_geral FROM pagina g LEFT JOIN tab_sigtap_tb_procedimento pp ON pp.competencia = @c AND pp.co_procedimento = g.co_procedimento_principal LEFT JOIN tab_sigtap_tb_procedimento pc ON pc.competencia = @c AND pc.co_procedimento = g.co_procedimento_compativel ORDER BY g.co_procedimento_principal, g.co_registro_principal, g.co_procedimento_compativel, g.co_registro_compativel",
+        "entradas": {
+          "c": "202610",
+          "off": 0,
+          "tam": 25
+        }
+      }
+    ],
+    "externos": []
+  },
+  "compatibilidades: sem importação": {
+    "status": 200,
+    "corpo": {
+      "competencia": null,
+      "total": 0,
+      "itens": []
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "tabela auxiliar: grupo": {
+    "status": 200,
+    "corpo": {
+      "competencia": "202610",
+      "titulo": "Grupos",
+      "vinculo": "grupo",
+      "pagina": 1,
+      "tamanho": 25,
+      "total": 3,
+      "itens": [
+        {
+          "codigo": "01",
+          "nome": "Grupo",
+          "qt_procedimentos": 12
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH base AS ( SELECT t.co_grupo AS codigo, t.no_grupo AS nome , COUNT(*) OVER() AS total_geral FROM tab_sigtap_tb_grupo t WHERE t.competencia = @c ORDER BY 1 OFFSET @off ROWS FETCH NEXT @tam ROWS ONLY ) SELECT b.*, (SELECT COUNT(*) FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND LEFT(p.co_procedimento, 2) = b.codigo) AS qt_procedimentos FROM base b ORDER BY b.codigo",
+        "entradas": {
+          "c": "202610",
+          "off": 0,
+          "tam": 25
+        }
+      }
+    ],
+    "externos": []
+  },
+  "tabela auxiliar: servico com busca": {
+    "status": 200,
+    "corpo": {
+      "competencia": "202610",
+      "titulo": "Serviços / Classificações",
+      "vinculo": "servico",
+      "pagina": 2,
+      "tamanho": 25,
+      "total": 3,
+      "itens": [
+        {
+          "codigo": "01",
+          "nome": "Grupo",
+          "qt_procedimentos": 12
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH base AS ( SELECT t.co_servico + '.' + t.co_classificacao AS codigo, t.no_classificacao AS nome , s.no_servico AS servico, COUNT(*) OVER() AS total_geral FROM tab_sigtap_tb_servico_classificacao t LEFT JOIN tab_sigtap_tb_servico s ON s.competencia = t.competencia AND s.co_servico = t.co_servico WHERE t.competencia = @c AND ((t.no_classificacao) COLLATE Latin1_General_CI_AI LIKE @t0 OR t.co_servico + '.' + t.co_classificacao LIKE @t0) ORDER BY 1 OFFSET @off ROWS FETCH NEXT @tam ROWS ONLY ) SELECT b.*, (SELECT COUNT(*) FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_servico v WHERE v.competencia = p.competencia AND v.co_procedimento = p.co_procedimento AND v.co_servico + '.' + v.co_classificacao = b.codigo)) AS qt_procedimentos FROM base b ORDER BY b.codigo",
+        "entradas": {
+          "c": "202610",
+          "off": 25,
+          "tam": 25,
+          "t0": "%ambulatorial%"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "tabela auxiliar: cid com código": {
+    "status": 200,
+    "corpo": {
+      "competencia": "202610",
+      "titulo": "CID-10",
+      "vinculo": "cid",
+      "pagina": 1,
+      "tamanho": 5,
+      "total": 3,
+      "itens": [
+        {
+          "codigo": "01",
+          "nome": "Grupo",
+          "qt_procedimentos": 12
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "WITH base AS ( SELECT t.co_cid AS codigo, t.no_cid AS nome , t.tp_agravo AS agravo, t.tp_sexo AS sexo, t.tp_estadio AS estadio, t.vl_campos_irradiados AS campos_irradiados, COUNT(*) OVER() AS total_geral FROM tab_sigtap_tb_cid t WHERE t.competencia = @c AND ((t.no_cid) COLLATE Latin1_General_CI_AI LIKE @t0 OR t.co_cid LIKE @t0) ORDER BY 1 OFFSET @off ROWS FETCH NEXT @tam ROWS ONLY ) SELECT b.*, (SELECT COUNT(*) FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_cid v WHERE v.competencia = p.competencia AND v.co_procedimento = p.co_procedimento AND v.co_cid = b.codigo)) AS qt_procedimentos FROM base b ORDER BY b.codigo",
+        "entradas": {
+          "c": "202610",
+          "off": 0,
+          "tam": 5,
+          "t0": "%A00%"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "tabela auxiliar: inexistente": {
+    "status": 404,
+    "corpo": {
+      "erro": "Tabela não encontrada."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "tabela auxiliar: sem importação": {
+    "status": 200,
+    "corpo": {
+      "competencia": null,
+      "total": 0,
+      "itens": []
+    },
+    "consultas": [
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "resumo: administrador": {
+    "status": 200,
+    "corpo": {
+      "competenciaVigente": "202610",
+      "competencias": [
+        {
+          "competencia": "202610",
+          "usuario": "Ana",
+          "arquivo": "Tabela.zip",
+          "qt_procedimentos": 4500
+        },
+        {
+          "competencia": "202609",
+          "usuario": "Ana",
+          "arquivo": "Antiga.zip",
+          "qt_procedimentos": 4400
+        }
+      ],
+      "ultimaConcluida": {
+        "id_importacao": 5,
+        "arquivo": "Tabela.zip",
+        "competencia": "202610",
+        "situacao": "CONCLUIDA",
+        "usuario": "Ana",
+        "removida": false,
+        "mensagem": null,
+        "qt_procedimentos": 4500,
+        "qt_novos": 10,
+        "qt_compatibilidades": 100,
+        "qt_registros": 9000,
+        "inicio": "15/10/2026 10:00:00",
+        "fim": "15/10/2026 10:05:00",
+        "duracao_seg": 300
+      },
+      "emAndamento": {
+        "id_importacao": 6,
+        "arquivo": "Tabela.zip",
+        "competencia": "202610",
+        "situacao": "PROCESSANDO",
+        "usuario": "Ana",
+        "removida": false,
+        "mensagem": null,
+        "qt_procedimentos": 4500,
+        "qt_novos": 10,
+        "qt_compatibilidades": 100,
+        "qt_registros": 9000,
+        "inicio": "15/10/2026 10:00:00",
+        "fim": null,
+        "duracao_seg": 300
+      }
+    },
+    "consultas": [
+      {
+        "texto": "UPDATE tab_sigtap_importacao SET situacao = 'ERRO', dt_fim = DATEADD(hour, -3, GETUTCDATE()), mensagem = 'Importação interrompida (servidor reiniciado). Envie o arquivo novamente.' WHERE situacao = 'PROCESSANDO' AND id_importacao <> @id",
+        "entradas": {
+          "id": 0
+        }
+      },
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT TOP 1 id_importacao, arquivo, competencia, situacao, usuario, removida, mensagem, qt_procedimentos, qt_novos, qt_compatibilidades, qt_registros, FORMAT(dt_inicio, 'dd/MM/yyyy HH:mm:ss') AS inicio, FORMAT(dt_fim, 'dd/MM/yyyy HH:mm:ss') AS fim, DATEDIFF(second, dt_inicio, ISNULL(dt_fim, DATEADD(hour, -3, GETUTCDATE()))) AS duracao_seg FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' ORDER BY dt_fim DESC, id_importacao DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT TOP 1 id_importacao, arquivo, competencia, situacao, usuario, removida, mensagem, qt_procedimentos, qt_novos, qt_compatibilidades, qt_registros, FORMAT(dt_inicio, 'dd/MM/yyyy HH:mm:ss') AS inicio, FORMAT(dt_fim, 'dd/MM/yyyy HH:mm:ss') AS fim, DATEDIFF(second, dt_inicio, ISNULL(dt_fim, DATEADD(hour, -3, GETUTCDATE()))) AS duracao_seg FROM tab_sigtap_importacao WHERE situacao = 'PROCESSANDO' ORDER BY id_importacao DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "resumo: sem importações": {
+    "status": 200,
+    "corpo": {
+      "competenciaVigente": null,
+      "competencias": [],
+      "ultimaConcluida": null,
+      "emAndamento": null
+    },
+    "consultas": [
+      {
+        "texto": "UPDATE tab_sigtap_importacao SET situacao = 'ERRO', dt_fim = DATEADD(hour, -3, GETUTCDATE()), mensagem = 'Importação interrompida (servidor reiniciado). Envie o arquivo novamente.' WHERE situacao = 'PROCESSANDO' AND id_importacao <> @id",
+        "entradas": {
+          "id": 0
+        }
+      },
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT TOP 1 id_importacao, arquivo, competencia, situacao, usuario, removida, mensagem, qt_procedimentos, qt_novos, qt_compatibilidades, qt_registros, FORMAT(dt_inicio, 'dd/MM/yyyy HH:mm:ss') AS inicio, FORMAT(dt_fim, 'dd/MM/yyyy HH:mm:ss') AS fim, DATEDIFF(second, dt_inicio, ISNULL(dt_fim, DATEADD(hour, -3, GETUTCDATE()))) AS duracao_seg FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' ORDER BY dt_fim DESC, id_importacao DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT TOP 1 id_importacao, arquivo, competencia, situacao, usuario, removida, mensagem, qt_procedimentos, qt_novos, qt_compatibilidades, qt_registros, FORMAT(dt_inicio, 'dd/MM/yyyy HH:mm:ss') AS inicio, FORMAT(dt_fim, 'dd/MM/yyyy HH:mm:ss') AS fim, DATEDIFF(second, dt_inicio, ISNULL(dt_fim, DATEADD(hour, -3, GETUTCDATE()))) AS duracao_seg FROM tab_sigtap_importacao WHERE situacao = 'PROCESSANDO' ORDER BY id_importacao DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "resumo: perfil com leitura": {
+    "status": 200,
+    "corpo": {
+      "competenciaVigente": null,
+      "competencias": [],
+      "ultimaConcluida": {
+        "linha": "padrao"
+      },
+      "emAndamento": {}
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Leitor SIGTAP"
+        }
+      },
+      {
+        "texto": "UPDATE tab_sigtap_importacao SET situacao = 'ERRO', dt_fim = DATEADD(hour, -3, GETUTCDATE()), mensagem = 'Importação interrompida (servidor reiniciado). Envie o arquivo novamente.' WHERE situacao = 'PROCESSANDO' AND id_importacao <> @id",
+        "entradas": {
+          "id": 0
+        }
+      },
+      {
+        "texto": "SELECT i.competencia, i.dt_fim, i.usuario, i.arquivo, i.qt_procedimentos FROM tab_sigtap_importacao i WHERE i.situacao = 'CONCLUIDA' AND i.removida = 0 AND i.id_importacao = (SELECT MAX(x.id_importacao) FROM tab_sigtap_importacao x WHERE x.competencia = i.competencia AND x.situacao = 'CONCLUIDA' AND x.removida = 0) ORDER BY i.competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT TOP 1 id_importacao, arquivo, competencia, situacao, usuario, removida, mensagem, qt_procedimentos, qt_novos, qt_compatibilidades, qt_registros, FORMAT(dt_inicio, 'dd/MM/yyyy HH:mm:ss') AS inicio, FORMAT(dt_fim, 'dd/MM/yyyy HH:mm:ss') AS fim, DATEDIFF(second, dt_inicio, ISNULL(dt_fim, DATEADD(hour, -3, GETUTCDATE()))) AS duracao_seg FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' ORDER BY dt_fim DESC, id_importacao DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT TOP 1 id_importacao, arquivo, competencia, situacao, usuario, removida, mensagem, qt_procedimentos, qt_novos, qt_compatibilidades, qt_registros, FORMAT(dt_inicio, 'dd/MM/yyyy HH:mm:ss') AS inicio, FORMAT(dt_fim, 'dd/MM/yyyy HH:mm:ss') AS fim, DATEDIFF(second, dt_inicio, ISNULL(dt_fim, DATEADD(hour, -3, GETUTCDATE()))) AS duracao_seg FROM tab_sigtap_importacao WHERE situacao = 'PROCESSANDO' ORDER BY id_importacao DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "resumo: sem permissão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Sem acesso SIGTAP"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "resumo: sem login": {
+    "status": 401,
+    "corpo": {
+      "erro": "Não autenticado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "importacoes: listar": {
+    "status": 200,
+    "corpo": {
+      "total": 12,
+      "pagina": 1,
+      "tamanho": 10,
+      "itens": [
+        {
+          "id_importacao": 5,
+          "arquivo": "Tabela.zip",
+          "competencia": "202610",
+          "situacao": "CONCLUIDA",
+          "usuario": "Ana",
+          "removida": false,
+          "mensagem": null,
+          "qt_procedimentos": 4500,
+          "qt_novos": 10,
+          "qt_compatibilidades": 100,
+          "qt_registros": 9000,
+          "inicio": "15/10/2026 10:00:00",
+          "fim": "15/10/2026 10:05:00",
+          "duracao_seg": 300
+        },
+        {
+          "id_importacao": 6,
+          "arquivo": "Tabela.zip",
+          "competencia": "202610",
+          "situacao": "PROCESSANDO",
+          "usuario": "Ana",
+          "removida": false,
+          "mensagem": null,
+          "qt_procedimentos": 4500,
+          "qt_novos": 10,
+          "qt_compatibilidades": 100,
+          "qt_registros": 9000,
+          "inicio": "15/10/2026 10:00:00",
+          "fim": null,
+          "duracao_seg": 300
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_importacao, arquivo, competencia, situacao, usuario, removida, mensagem, qt_procedimentos, qt_novos, qt_compatibilidades, qt_registros, FORMAT(dt_inicio, 'dd/MM/yyyy HH:mm:ss') AS inicio, FORMAT(dt_fim, 'dd/MM/yyyy HH:mm:ss') AS fim, DATEDIFF(second, dt_inicio, ISNULL(dt_fim, DATEADD(hour, -3, GETUTCDATE()))) AS duracao_seg, COUNT(*) OVER() AS total_geral FROM tab_sigtap_importacao WHERE 1 = 1 ORDER BY id_importacao DESC OFFSET @off ROWS FETCH NEXT @tam ROWS ONLY",
+        "entradas": {
+          "off": 0,
+          "tam": 10
+        }
+      }
+    ],
+    "externos": []
+  },
+  "importacoes: filtros e paginação": {
+    "status": 200,
+    "corpo": {
+      "total": 0,
+      "pagina": 3,
+      "tamanho": 7,
+      "itens": []
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_importacao, arquivo, competencia, situacao, usuario, removida, mensagem, qt_procedimentos, qt_novos, qt_compatibilidades, qt_registros, FORMAT(dt_inicio, 'dd/MM/yyyy HH:mm:ss') AS inicio, FORMAT(dt_fim, 'dd/MM/yyyy HH:mm:ss') AS fim, DATEDIFF(second, dt_inicio, ISNULL(dt_fim, DATEADD(hour, -3, GETUTCDATE()))) AS duracao_seg, COUNT(*) OVER() AS total_geral FROM tab_sigtap_importacao WHERE 1 = 1 AND competencia LIKE @c AND situacao = @s ORDER BY id_importacao DESC OFFSET @off ROWS FETCH NEXT @tam ROWS ONLY",
+        "entradas": {
+          "off": 14,
+          "tam": 7,
+          "c": "202610%",
+          "s": "ERRO"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "importacoes: situação desconhecida é ignorada": {
+    "status": 200,
+    "corpo": {
+      "total": 0,
+      "pagina": 1,
+      "tamanho": 5,
+      "itens": []
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_importacao, arquivo, competencia, situacao, usuario, removida, mensagem, qt_procedimentos, qt_novos, qt_compatibilidades, qt_registros, FORMAT(dt_inicio, 'dd/MM/yyyy HH:mm:ss') AS inicio, FORMAT(dt_fim, 'dd/MM/yyyy HH:mm:ss') AS fim, DATEDIFF(second, dt_inicio, ISNULL(dt_fim, DATEADD(hour, -3, GETUTCDATE()))) AS duracao_seg, COUNT(*) OVER() AS total_geral FROM tab_sigtap_importacao WHERE 1 = 1 ORDER BY id_importacao DESC OFFSET @off ROWS FETCH NEXT @tam ROWS ONLY",
+        "entradas": {
+          "off": 0,
+          "tam": 5
+        }
+      }
+    ],
+    "externos": []
+  },
+  "importacoes: sem permissão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "importacoes: detalhe": {
+    "status": 200,
+    "corpo": {
+      "id_importacao": 5,
+      "arquivo": "Tabela.zip",
+      "competencia": "202610",
+      "situacao": "CONCLUIDA",
+      "usuario": "Ana",
+      "removida": false,
+      "mensagem": null,
+      "qt_procedimentos": 4500,
+      "qt_novos": 10,
+      "qt_compatibilidades": 100,
+      "qt_registros": 9000,
+      "inicio": "15/10/2026 10:00:00",
+      "fim": "15/10/2026 10:05:00",
+      "duracao_seg": 300
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_importacao, arquivo, competencia, situacao, usuario, removida, mensagem, qt_procedimentos, qt_novos, qt_compatibilidades, qt_registros, FORMAT(dt_inicio, 'dd/MM/yyyy HH:mm:ss') AS inicio, FORMAT(dt_fim, 'dd/MM/yyyy HH:mm:ss') AS fim, DATEDIFF(second, dt_inicio, ISNULL(dt_fim, DATEADD(hour, -3, GETUTCDATE()))) AS duracao_seg FROM tab_sigtap_importacao WHERE id_importacao = @id",
+        "entradas": {
+          "id": 5
+        }
+      }
+    ],
+    "externos": []
+  },
+  "importacoes: detalhe em andamento": {
+    "status": 200,
+    "corpo": {
+      "id_importacao": 6,
+      "arquivo": "Tabela.zip",
+      "competencia": "202610",
+      "situacao": "PROCESSANDO",
+      "usuario": "Ana",
+      "removida": false,
+      "mensagem": null,
+      "qt_procedimentos": 4500,
+      "qt_novos": 10,
+      "qt_compatibilidades": 100,
+      "qt_registros": 9000,
+      "inicio": "15/10/2026 10:00:00",
+      "fim": null,
+      "duracao_seg": 300
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_importacao, arquivo, competencia, situacao, usuario, removida, mensagem, qt_procedimentos, qt_novos, qt_compatibilidades, qt_registros, FORMAT(dt_inicio, 'dd/MM/yyyy HH:mm:ss') AS inicio, FORMAT(dt_fim, 'dd/MM/yyyy HH:mm:ss') AS fim, DATEDIFF(second, dt_inicio, ISNULL(dt_fim, DATEADD(hour, -3, GETUTCDATE()))) AS duracao_seg FROM tab_sigtap_importacao WHERE id_importacao = @id",
+        "entradas": {
+          "id": 6
+        }
+      }
+    ],
+    "externos": []
+  },
+  "importacoes: detalhe inexistente": {
+    "status": 404,
+    "corpo": {
+      "erro": "Importação não encontrada."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT id_importacao, arquivo, competencia, situacao, usuario, removida, mensagem, qt_procedimentos, qt_novos, qt_compatibilidades, qt_registros, FORMAT(dt_inicio, 'dd/MM/yyyy HH:mm:ss') AS inicio, FORMAT(dt_fim, 'dd/MM/yyyy HH:mm:ss') AS fim, DATEDIFF(second, dt_inicio, ISNULL(dt_fim, DATEADD(hour, -3, GETUTCDATE()))) AS duracao_seg FROM tab_sigtap_importacao WHERE id_importacao = @id",
+        "entradas": {
+          "id": 999
+        }
+      }
+    ],
+    "externos": []
+  },
+  "importar: sem arquivo (multipart)": {
+    "status": 400,
+    "corpo": {
+      "erro": "Selecione o arquivo .zip da Tabela Unificada."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "importar: arquivo enviado como texto": {
+    "status": 400,
+    "corpo": {
+      "erro": "Selecione o arquivo .zip da Tabela Unificada."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "importar: sem arquivo (JSON)": {
+    "status": 400,
+    "corpo": {
+      "erro": "Selecione o arquivo .zip da Tabela Unificada."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "importar: perfil só de leitura": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "importar: sem login": {
+    "status": 401,
+    "corpo": {
+      "erro": "Não autenticado."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "remover competência": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Competência removida."
+    },
+    "consultas": [
+      {
+        "texto": "IF OBJECT_ID('tab_sigtap_importacao', 'U') IS NULL CREATE TABLE tab_sigtap_importacao ( id_importacao INT IDENTITY(1,1) PRIMARY KEY, arquivo VARCHAR(255) NOT NULL, competencia CHAR(6) NULL, situacao VARCHAR(12) NOT NULL, -- PROCESSANDO | CONCLUIDA | ERRO usuario VARCHAR(150) NULL, dt_inicio DATETIME NOT NULL, dt_fim DATETIME NULL, qt_procedimentos INT NULL, qt_novos INT NULL, qt_compatibilidades INT NULL, qt_registros INT NULL, removida BIT NOT NULL CONSTRAINT DF_tab_sigtap_importacao_removida DEFAULT 0, mensagem VARCHAR(2000) NULL ); IF OBJECT_ID('tab_sigtap_tb_grupo', 'U') IS NULL CREATE TABLE tab_sigtap_tb_grupo ( competencia CHAR(6) NOT NULL, co_grupo VARCHAR(2) NOT NULL, no_grupo NVARCHAR(100) NULL, CONSTRAINT PK_tab_sigtap_tb_grupo PRIMARY KEY CLUSTERED (competencia, co_grupo) ); IF OBJECT_ID('tab_sigtap_tb_sub_grupo', 'U') IS NULL CREATE TABLE tab_sigtap_tb_sub_grupo ( competencia CHAR(6) NOT NULL, co_grupo VARCHAR(2) NOT NULL, co_sub_grupo VARCHAR(2) NOT NULL, no_sub_grupo NVARCHAR(100) NULL, CONSTRAINT PK_tab_sigtap_tb_sub_grupo PRIMARY KEY CLUSTERED (competencia, co_grupo, co_sub_grupo) ); IF OBJECT_ID('tab_sigtap_tb_forma_organizacao', 'U') IS NULL CREATE TABLE tab_sigtap_tb_forma_organizacao ( competencia CHAR(6) NOT NULL, co_grupo VARCHAR(2) NOT NULL, co_sub_grupo VARCHAR(2) NOT NULL, co_forma_organizacao VARCHAR(2) NOT NULL, no_forma_organizacao NVARCHAR(100) NULL, CONSTRAINT PK_tab_sigtap_tb_forma_organizacao PRIMARY KEY CLUSTERED (competencia, co_grupo, co_sub_grupo, co_forma_organizacao) ); IF OBJECT_ID('tab_sigtap_tb_financiamento', 'U') IS NULL CREATE TABLE tab_sigtap_tb_financiamento ( competencia CHAR(6) NOT NULL, co_financiamento VARCHAR(2) NOT NULL, no_financiamento NVARCHAR(100) NULL, CONSTRAINT PK_tab_sigtap_tb_financiamento PRIMARY KEY CLUSTERED (competencia, co_financiamento) ); IF OBJECT_ID('tab_sigtap_tb_rubrica', 'U') IS NULL CREATE TABLE tab_sigtap_tb_rubrica ( competencia CHAR(6) NOT NULL, co_rubrica VARCHAR(6) NOT NULL, no_rubrica NVARCHAR(100) NULL, CONSTRAINT PK_tab_sigtap_tb_rubrica PRIMARY KEY CLUSTERED (competencia, co_rubrica) ); IF OBJECT_ID('tab_sigtap_tb_modalidade', 'U') IS NULL CREATE TABLE tab_sigtap_tb_modalidade ( competencia CHAR(6) NOT NULL, co_modalidade VARCHAR(2) NOT NULL, no_modalidade NVARCHAR(100) NULL, CONSTRAINT PK_tab_sigtap_tb_modalidade PRIMARY KEY CLUSTERED (competencia, co_modalidade) ); IF OBJECT_ID('tab_sigtap_tb_registro', 'U') IS NULL CREATE TABLE tab_sigtap_tb_registro ( competencia CHAR(6) NOT NULL, co_registro VARCHAR(2) NOT NULL, no_registro NVARCHAR(50) NULL, CONSTRAINT PK_tab_sigtap_tb_registro PRIMARY KEY CLUSTERED (competencia, co_registro) ); IF OBJECT_ID('tab_sigtap_tb_tipo_leito', 'U') IS NULL CREATE TABLE tab_sigtap_tb_tipo_leito ( competencia CHAR(6) NOT NULL, co_tipo_leito VARCHAR(2) NOT NULL, no_tipo_leito NVARCHAR(60) NULL, CONSTRAINT PK_tab_sigtap_tb_tipo_leito PRIMARY KEY CLUSTERED (competencia, co_tipo_leito) ); IF OBJECT_ID('tab_sigtap_tb_detalhe', 'U') IS NULL CREATE TABLE tab_sigtap_tb_detalhe ( competencia CHAR(6) NOT NULL, co_detalhe VARCHAR(3) NOT NULL, no_detalhe NVARCHAR(100) NULL, CONSTRAINT PK_tab_sigtap_tb_detalhe PRIMARY KEY CLUSTERED (competencia, co_detalhe) ); IF OBJECT_ID('tab_sigtap_tb_descricao_detalhe', 'U') IS NULL CREATE TABLE tab_sigtap_tb_descricao_detalhe ( competencia CHAR(6) NOT NULL, co_detalhe VARCHAR(3) NOT NULL, ds_detalhe NVARCHAR(4000) NULL, CONSTRAINT PK_tab_sigtap_tb_descricao_detalhe PRIMARY KEY CLUSTERED (competencia, co_detalhe) ); IF OBJECT_ID('tab_sigtap_tb_servico', 'U') IS NULL CREATE TABLE tab_sigtap_tb_servico ( competencia CHAR(6) NOT NULL, co_servico VARCHAR(3) NOT NULL, no_servico NVARCHAR(120) NULL, CONSTRAINT PK_tab_sigtap_tb_servico PRIMARY KEY CLUSTERED (competencia, co_servico) ); IF OBJECT_ID('tab_sigtap_tb_servico_classificacao', 'U') IS NULL CREATE TABLE tab_sigtap_tb_servico_classificacao ( competencia CHAR(6) NOT NULL, co_servico VARCHAR(3) NOT NULL, co_classificacao VARCHAR(3) NOT NULL, no_classificacao NVARCHAR(150) NULL, CONSTRAINT PK_tab_sigtap_tb_servico_classificacao PRIMARY KEY CLUSTERED (competencia, co_servico, co_classificacao) ); IF OBJECT_ID('tab_sigtap_tb_habilitacao', 'U') IS NULL CREATE TABLE tab_sigtap_tb_habilitacao ( competencia CHAR(6) NOT NULL, co_habilitacao VARCHAR(4) NOT NULL, no_habilitacao NVARCHAR(150) NULL, CONSTRAINT PK_tab_sigtap_tb_habilitacao PRIMARY KEY CLUSTERED (competencia, co_habilitacao) ); IF OBJECT_ID('tab_sigtap_tb_grupo_habilitacao', 'U') IS NULL CREATE TABLE tab_sigtap_tb_grupo_habilitacao ( competencia CHAR(6) NOT NULL, nu_grupo_habilitacao VARCHAR(4) NOT NULL, no_grupo_habilitacao NVARCHAR(20) NULL, ds_grupo_habilitacao NVARCHAR(250) NULL, CONSTRAINT PK_tab_sigtap_tb_grupo_habilitacao PRIMARY KEY CLUSTERED (competencia, nu_grupo_habilitacao) ); IF OBJECT_ID('tab_sigtap_tb_ocupacao', 'U') IS NULL CREATE TABLE tab_sigtap_tb_ocupacao ( competencia CHAR(6) NOT NULL, co_ocupacao VARCHAR(6) NOT NULL, no_ocupacao NVARCHAR(150) NULL, CONSTRAINT PK_tab_sigtap_tb_ocupacao PRIMARY KEY CLUSTERED (competencia, co_ocupacao) ); IF OBJECT_ID('tab_sigtap_tb_cid', 'U') IS NULL CREATE TABLE tab_sigtap_tb_cid ( competencia CHAR(6) NOT NULL, co_cid VARCHAR(4) NOT NULL, no_cid NVARCHAR(100) NULL, tp_agravo VARCHAR(1) NULL, tp_sexo VARCHAR(1) NULL, tp_estadio VARCHAR(1) NULL, vl_campos_irradiados INT NULL, CONSTRAINT PK_tab_sigtap_tb_cid PRIMARY KEY CLUSTERED (competencia, co_cid) ); IF OBJECT_ID('tab_sigtap_tb_rede_atencao', 'U') IS NULL CREATE TABLE tab_sigtap_tb_rede_atencao ( competencia CHAR(6) NOT NULL, co_rede_atencao VARCHAR(3) NOT NULL, no_rede_atencao NVARCHAR(50) NULL, CONSTRAINT PK_tab_sigtap_tb_rede_atencao PRIMARY KEY CLUSTERED (competencia, co_rede_atencao) ); IF OBJECT_ID('tab_sigtap_tb_componente_rede', 'U') IS NULL CREATE TABLE tab_sigtap_tb_componente_rede ( competencia CHAR(6) NOT NULL, co_componente_rede VARCHAR(10) NOT NULL, no_componente_rede NVARCHAR(150) NULL, co_rede_atencao VARCHAR(3) NULL, CONSTRAINT PK_tab_sigtap_tb_componente_rede PRIMARY KEY CLUSTERED (competencia, co_componente_rede) ); IF OBJECT_ID('tab_sigtap_tb_regra_condicionada', 'U') IS NULL CREATE TABLE tab_sigtap_tb_regra_condicionada ( competencia CHAR(6) NOT NULL, co_regra_condicionada VARCHAR(4) NOT NULL, no_regra_condicionada NVARCHAR(150) NULL, ds_regra_condicionada NVARCHAR(4000) NULL, CONSTRAINT PK_tab_sigtap_tb_regra_condicionada PRIMARY KEY CLUSTERED (competencia, co_regra_condicionada) ); IF OBJECT_ID('tab_sigtap_tb_renases', 'U') IS NULL CREATE TABLE tab_sigtap_tb_renases ( competencia CHAR(6) NOT NULL, co_renases VARCHAR(10) NOT NULL, no_renases NVARCHAR(150) NULL, CONSTRAINT PK_tab_sigtap_tb_renases PRIMARY KEY CLUSTERED (competencia, co_renases) ); IF OBJECT_ID('tab_sigtap_tb_tuss', 'U') IS NULL CREATE TABLE tab_sigtap_tb_tuss ( competencia CHAR(6) NOT NULL, co_tuss VARCHAR(10) NOT NULL, no_tuss NVARCHAR(450) NULL, CONSTRAINT PK_tab_sigtap_tb_tuss PRIMARY KEY CLUSTERED (competencia, co_tuss) ); IF OBJECT_ID('tab_sigtap_tb_sia_sih', 'U') IS NULL CREATE TABLE tab_sigtap_tb_sia_sih ( competencia CHAR(6) NOT NULL, co_procedimento_sia_sih VARCHAR(10) NOT NULL, no_procedimento_sia_sih NVARCHAR(100) NULL, tp_procedimento VARCHAR(1) NOT NULL, CONSTRAINT PK_tab_sigtap_tb_sia_sih PRIMARY KEY CLUSTERED (competencia, co_procedimento_sia_sih, tp_procedimento) ); IF OBJECT_ID('tab_sigtap_tb_procedimento', 'U') IS NULL CREATE TABLE tab_sigtap_tb_procedimento ( competencia CHAR(6) NOT NULL, co_procedimento VARCHAR(10) NOT NULL, no_procedimento NVARCHAR(250) NULL, tp_complexidade VARCHAR(1) NULL, tp_sexo VARCHAR(1) NULL, qt_maxima_execucao INT NULL, qt_dias_permanencia INT NULL, qt_pontos INT NULL, vl_idade_minima INT NULL, vl_idade_maxima INT NULL, vl_sh DECIMAL(14,2) NULL, vl_sa DECIMAL(14,2) NULL, vl_sp DECIMAL(14,2) NULL, co_financiamento VARCHAR(2) NULL, co_rubrica VARCHAR(6) NULL, qt_tempo_permanencia INT NULL, CONSTRAINT PK_tab_sigtap_tb_procedimento PRIMARY KEY CLUSTERED (competencia, co_procedimento) ); IF OBJECT_ID('tab_sigtap_tb_descricao', 'U') IS NULL CREATE TABLE tab_sigtap_tb_descricao ( competencia CHAR(6) NOT NULL, co_procedimento VARCHAR(10) NOT NULL, ds_procedimento NVARCHAR(4000) NULL, CONSTRAINT PK_tab_sigtap_tb_descricao PRIMARY KEY CLUSTERED (competencia, co_procedimento) ); IF OBJECT_ID('tab_sigtap_rl_procedimento_cid', 'U') IS NULL CREATE TABLE tab_sigtap_rl_procedimento_cid ( competencia CHAR(6) NOT NULL, co_procedimento VARCHAR(10) NOT NULL, co_cid VARCHAR(4) NOT NULL, st_principal VARCHAR(1) NULL, CONSTRAINT PK_tab_sigtap_rl_procedimento_cid PRIMARY KEY CLUSTERED (competencia, co_procedimento, co_cid) ); IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_tab_sigtap_rl_procedimento_cid_1') CREATE INDEX IX_tab_sigtap_rl_procedimento_cid_1 ON tab_sigtap_rl_procedimento_cid (competencia, co_cid); IF OBJECT_ID('tab_sigtap_rl_procedimento_ocupacao', 'U') IS NULL CREATE TABLE tab_sigtap_rl_procedimento_ocupacao ( competencia CHAR(6) NOT NULL, co_procedimento VARCHAR(10) NOT NULL, co_ocupacao VARCHAR(6) NOT NULL, CONSTRAINT PK_tab_sigtap_rl_procedimento_ocupacao PRIMARY KEY CLUSTERED (competencia, co_procedimento, co_ocupacao) ); IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_tab_sigtap_rl_procedimento_ocupacao_1') CREATE INDEX IX_tab_sigtap_rl_procedimento_ocupacao_1 ON tab_sigtap_rl_procedimento_ocupacao (competencia, co_ocupacao); IF OBJECT_ID('tab_sigtap_rl_procedimento_registro', 'U') IS NULL CREATE TABLE tab_sigtap_rl_procedimento_registro ( competencia CHAR(6) NOT NULL, co_procedimento VARCHAR(10) NOT NULL, co_registro VARCHAR(2) NOT NULL, CONSTRAINT PK_tab_sigtap_rl_procedimento_registro PRIMARY KEY CLUSTERED (competencia, co_procedimento, co_registro) ); IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_tab_sigtap_rl_procedimento_registro_1') CREATE INDEX IX_tab_sigtap_rl_procedimento_registro_1 ON tab_sigtap_rl_procedimento_registro (competencia, co_registro); IF OBJECT_ID('tab_sigtap_rl_procedimento_modalidade', 'U') IS NULL CREATE TABLE tab_sigtap_rl_procedimento_modalidade ( competencia CHAR(6) NOT NULL, co_procedimento VARCHAR(10) NOT NULL, co_modalidade VARCHAR(2) NOT NULL, CONSTRAINT PK_tab_sigtap_rl_procedimento_modalidade PRIMARY KEY CLUSTERED (competencia, co_procedimento, co_modalidade) ); IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_tab_sigtap_rl_procedimento_modalidade_1') CREATE INDEX IX_tab_sigtap_rl_procedimento_modalidade_1 ON tab_sigtap_rl_procedimento_modalidade (competencia, co_modalidade); IF OBJECT_ID('tab_sigtap_rl_procedimento_detalhe', 'U') IS NULL CREATE TABLE tab_sigtap_rl_procedimento_detalhe ( competencia CHAR(6) NOT NULL, co_procedimento VARCHAR(10) NOT NULL, co_detalhe VARCHAR(3) NOT NULL, CONSTRAINT PK_tab_sigtap_rl_procedimento_detalhe PRIMARY KEY CLUSTERED (competencia, co_procedimento, co_detalhe) ); IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_tab_sigtap_rl_procedimento_detalhe_1') CREATE INDEX IX_tab_sigtap_rl_procedimento_detalhe_1 ON tab_sigtap_rl_procedimento_detalhe (competencia, co_detalhe); IF OBJECT_ID('tab_sigtap_rl_procedimento_leito', 'U') IS NULL CREATE TABLE tab_sigtap_rl_procedimento_leito ( competencia CHAR(6) NOT NULL, co_procedimento VARCHAR(10) NOT NULL, co_tipo_leito VARCHAR(2) NOT NULL, CONSTRAINT PK_tab_sigtap_rl_procedimento_leito PRIMARY KEY CLUSTERED (competencia, co_procedimento, co_tipo_leito) ); IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_tab_sigtap_rl_procedimento_leito_1') CREATE INDEX IX_tab_sigtap_rl_procedimento_leito_1 ON tab_sigtap_rl_procedimento_leito (competencia, co_tipo_leito); IF OBJECT_ID('tab_sigtap_rl_procedimento_servico', 'U') IS NULL CREATE TABLE tab_sigtap_rl_procedimento_servico ( competencia CHAR(6) NOT NULL, co_procedimento VARCHAR(10) NOT NULL, co_servico VARCHAR(3) NOT NULL, co_classificacao VARCHAR(3) NOT NULL, CONSTRAINT PK_tab_sigtap_rl_procedimento_servico PRIMARY KEY CLUSTERED (competencia, co_procedimento, co_servico, co_classificacao) ); IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_tab_sigtap_rl_procedimento_servico_1') CREATE INDEX IX_tab_sigtap_rl_procedimento_servico_1 ON tab_sigtap_rl_procedimento_servico (competencia, co_servico, co_classificacao); IF OBJECT_ID('tab_sigtap_rl_procedimento_habilitacao', 'U') IS NULL CREATE TABLE tab_sigtap_rl_procedimento_habilitacao ( competencia CHAR(6) NOT NULL, co_procedimento VARCHAR(10) NOT NULL, co_habilitacao VARCHAR(4) NOT NULL, nu_grupo_habilitacao VARCHAR(4) NOT NULL, CONSTRAINT PK_tab_sigtap_rl_procedimento_habilitacao PRIMARY KEY CLUSTERED (competencia, co_procedimento, co_habilitacao, nu_grupo_habilitacao) ); IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_tab_sigtap_rl_procedimento_habilitacao_1') CREATE INDEX IX_tab_sigtap_rl_procedimento_habilitacao_1 ON tab_sigtap_rl_procedimento_habilitacao (competencia, co_habilitacao); IF OBJECT_ID('tab_sigtap_rl_procedimento_incremento', 'U') IS NULL CREATE TABLE tab_sigtap_rl_procedimento_incremento ( competencia CHAR(6) NOT NULL, co_procedimento VARCHAR(10) NOT NULL, co_habilitacao VARCHAR(4) NOT NULL, vl_percentual_sh DECIMAL(9,2) NULL, vl_percentual_sa DECIMAL(9,2) NULL, vl_percentual_sp DECIMAL(9,2) NULL, CONSTRAINT PK_tab_sigtap_rl_procedimento_incremento PRIMARY KEY CLUSTERED (competencia, co_procedimento, co_habilitacao) ); IF OBJECT_ID('tab_sigtap_rl_procedimento_origem', 'U') IS NULL CREATE TABLE tab_sigtap_rl_procedimento_origem ( competencia CHAR(6) NOT NULL, co_procedimento VARCHAR(10) NOT NULL, co_procedimento_origem VARCHAR(10) NOT NULL, CONSTRAINT PK_tab_sigtap_rl_procedimento_origem PRIMARY KEY CLUSTERED (competencia, co_procedimento, co_procedimento_origem) ); IF OBJECT_ID('tab_sigtap_rl_procedimento_regra_cond', 'U') IS NULL CREATE TABLE tab_sigtap_rl_procedimento_regra_cond ( competencia CHAR(6) NOT NULL, co_procedimento VARCHAR(10) NOT NULL, co_regra_condicionada VARCHAR(4) NOT NULL, CONSTRAINT PK_tab_sigtap_rl_procedimento_regra_cond PRIMARY KEY CLUSTERED (competencia, co_procedimento, co_regra_condicionada) ); IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_tab_sigtap_rl_procedimento_regra_cond_1') CREATE INDEX IX_tab_sigtap_rl_procedimento_regra_cond_1 ON tab_sigtap_rl_procedimento_regra_cond (competencia, co_regra_condicionada); IF OBJECT_ID('tab_sigtap_rl_procedimento_renases', 'U') IS NULL CREATE TABLE tab_sigtap_rl_procedimento_renases ( competencia CHAR(6) NOT NULL, co_procedimento VARCHAR(10) NOT NULL, co_renases VARCHAR(10) NOT NULL, CONSTRAINT PK_tab_sigtap_rl_procedimento_renases PRIMARY KEY CLUSTERED (competencia, co_procedimento, co_renases) ); IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_tab_sigtap_rl_procedimento_renases_1') CREATE INDEX IX_tab_sigtap_rl_procedimento_renases_1 ON tab_sigtap_rl_procedimento_renases (competencia, co_renases); IF OBJECT_ID('tab_sigtap_rl_procedimento_tuss', 'U') IS NULL CREATE TABLE tab_sigtap_rl_procedimento_tuss ( competencia CHAR(6) NOT NULL, co_procedimento VARCHAR(10) NOT NULL, co_tuss VARCHAR(10) NOT NULL, CONSTRAINT PK_tab_sigtap_rl_procedimento_tuss PRIMARY KEY CLUSTERED (competencia, co_procedimento, co_tuss) ); IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_tab_sigtap_rl_procedimento_tuss_1') CREATE INDEX IX_tab_sigtap_rl_procedimento_tuss_1 ON tab_sigtap_rl_procedimento_tuss (competencia, co_tuss); IF OBJECT_ID('tab_sigtap_rl_procedimento_sia_sih', 'U') IS NULL CREATE TABLE tab_sigtap_rl_procedimento_sia_sih ( competencia CHAR(6) NOT NULL, co_procedimento VARCHAR(10) NOT NULL, co_procedimento_sia_sih VARCHAR(10) NOT NULL, tp_procedimento VARCHAR(1) NOT NULL, CONSTRAINT PK_tab_sigtap_rl_procedimento_sia_sih PRIMARY KEY CLUSTERED (competencia, co_procedimento, co_procedimento_sia_sih, tp_procedimento) ); IF OBJECT_ID('tab_sigtap_rl_procedimento_comp_rede', 'U') IS NULL CREATE TABLE tab_sigtap_rl_procedimento_comp_rede ( competencia CHAR(6) NOT NULL, co_procedimento VARCHAR(10) NOT NULL, co_componente_rede VARCHAR(10) NOT NULL, CONSTRAINT PK_tab_sigtap_rl_procedimento_comp_rede PRIMARY KEY CLUSTERED (competencia, co_procedimento, co_componente_rede) ); IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_tab_sigtap_rl_procedimento_comp_rede_1') CREATE INDEX IX_tab_sigtap_rl_procedimento_comp_rede_1 ON tab_sigtap_rl_procedimento_comp_rede (competencia, co_componente_rede); IF OBJECT_ID('tab_sigtap_rl_procedimento_compativel', 'U') IS NULL CREATE TABLE tab_sigtap_rl_procedimento_compativel ( competencia CHAR(6) NOT NULL, co_procedimento_principal VARCHAR(10) NOT NULL, co_registro_principal VARCHAR(2) NOT NULL, co_procedimento_compativel VARCHAR(10) NOT NULL, co_registro_compativel VARCHAR(2) NOT NULL, tp_compatibilidade VARCHAR(1) NULL, qt_permitida INT NULL, CONSTRAINT PK_tab_sigtap_rl_procedimento_compativel PRIMARY KEY CLUSTERED (competencia, co_procedimento_principal, co_registro_principal, co_procedimento_compativel, co_registro_compativel) ); IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_tab_sigtap_rl_procedimento_compativel_1') CREATE INDEX IX_tab_sigtap_rl_procedimento_compativel_1 ON tab_sigtap_rl_procedimento_compativel (competencia, co_procedimento_compativel); IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_tab_sigtap_rl_procedimento_compativel_2') CREATE INDEX IX_tab_sigtap_rl_procedimento_compativel_2 ON tab_sigtap_rl_procedimento_compativel (competencia, co_registro_principal, co_registro_compativel, tp_compatibilidade); IF OBJECT_ID('tab_sigtap_rl_excecao_compatibilidade', 'U') IS NULL CREATE TABLE tab_sigtap_rl_excecao_compatibilidade ( competencia CHAR(6) NOT NULL, co_procedimento_restricao VARCHAR(10) NOT NULL, co_procedimento_principal VARCHAR(10) NOT NULL, co_registro_principal VARCHAR(2) NOT NULL, co_procedimento_compativel VARCHAR(10) NOT NULL, co_registro_compativel VARCHAR(2) NOT NULL, tp_compatibilidade VARCHAR(1) NULL, CONSTRAINT PK_tab_sigtap_rl_excecao_compatibilidade PRIMARY KEY CLUSTERED (competencia, co_procedimento_restricao, co_procedimento_principal, co_registro_principal, co_procedimento_compativel, co_registro_compativel) ); IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_tab_sigtap_rl_excecao_compatibilidade_1') CREATE INDEX IX_tab_sigtap_rl_excecao_compatibilidade_1 ON tab_sigtap_rl_excecao_compatibilidade (competencia, co_procedimento_principal); IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_tab_sigtap_rl_excecao_compatibilidade_2') CREATE INDEX IX_tab_sigtap_rl_excecao_compatibilidade_2 ON tab_sigtap_rl_excecao_compatibilidade (competencia, co_procedimento_compativel);",
+        "entradas": {}
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_grupo WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_sub_grupo WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_forma_organizacao WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_financiamento WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_rubrica WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_modalidade WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_registro WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_tipo_leito WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_detalhe WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_descricao_detalhe WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_servico WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_servico_classificacao WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_habilitacao WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_grupo_habilitacao WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_ocupacao WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_cid WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_rede_atencao WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_componente_rede WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_regra_condicionada WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_renases WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_tuss WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_sia_sih WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_procedimento WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_descricao WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_cid WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_ocupacao WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_registro WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_modalidade WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_detalhe WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_leito WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_servico WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_habilitacao WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_incremento WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_origem WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_regra_cond WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_renases WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_tuss WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_sia_sih WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_comp_rede WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_compativel WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_excecao_compatibilidade WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "UPDATE tab_sigtap_importacao SET removida = 1 WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": []
+  },
+  "remover competência com pontuação": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Competência removida."
+    },
+    "consultas": [
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_grupo WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_sub_grupo WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_forma_organizacao WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_financiamento WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_rubrica WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_modalidade WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_registro WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_tipo_leito WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_detalhe WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_descricao_detalhe WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_servico WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_servico_classificacao WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_habilitacao WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_grupo_habilitacao WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_ocupacao WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_cid WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_rede_atencao WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_componente_rede WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_regra_condicionada WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_renases WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_tuss WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_sia_sih WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_procedimento WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_tb_descricao WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_cid WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_ocupacao WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_registro WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_modalidade WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_detalhe WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_leito WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_servico WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_habilitacao WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_incremento WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_origem WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_regra_cond WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_renases WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_tuss WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_sia_sih WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_comp_rede WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_procedimento_compativel WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "DELETE TOP (20000) FROM tab_sigtap_rl_excecao_compatibilidade WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "UPDATE tab_sigtap_importacao SET removida = 1 WHERE competencia = @c",
+        "entradas": {
+          "c": "202609"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": []
+  },
+  "remover competência inválida": {
+    "status": 400,
+    "corpo": {
+      "erro": "Competência inválida."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "remover competência: perfil só de leitura": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "remover competência: sem login": {
+    "status": 401,
+    "corpo": {
+      "erro": "Não autenticado."
+    },
+    "consultas": [],
+    "externos": []
+  }
+}

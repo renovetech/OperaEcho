@@ -13,7 +13,7 @@
  */
 require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
 const bcrypt = require('bcrypt');
-const { connectToDb, sql } = require('../config/database');
+const { connectToDb, sql } = require('../src/config/database');
 
 const SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS) || 12;
 const aplicar = process.argv.includes('--aplicar');

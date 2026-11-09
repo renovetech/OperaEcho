@@ -51,8 +51,10 @@ echo "    ${ANTES:0:7} -> ${DEPOIS:0:7}: $(git log -1 --format=%s)"
 echo ">>> [2/4] Instalando dependências do backend..."
 (cd backend && npm install --omit=dev --no-audit --no-fund --loglevel=error)
 
-echo ">>> [3/4] Gerando o build do frontend..."
+echo ">>> [3/4] Verificando e gerando o build do frontend..."
+(cd backend && npm test --silent)
 (cd frontend && npm install --no-audit --no-fund --loglevel=error \
+    && npm run typecheck --silent && npm run lint --silent \
     && npx vite build --outDir build.novo --emptyOutDir --logLevel warn)
 
 # O npm da VPS reescreve detalhes do package-lock; a versão do GitHub manda.

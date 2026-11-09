@@ -1,0 +1,2917 @@
+{
+  "opcoes: administrador": {
+    "status": 200,
+    "corpo": {
+      "projetos": [
+        {
+          "id_projeto": 2,
+          "nome_projeto": "Projeto Alfa",
+          "ativo": true
+        }
+      ],
+      "unidades": [
+        {
+          "id_unidade": 5,
+          "nome_unidade": "UBS Central",
+          "cnes": "1234567",
+          "id_projeto": 2,
+          "ativo": true,
+          "produtos": [
+            3,
+            4
+          ]
+        },
+        {
+          "id_unidade": 6,
+          "nome_unidade": "UBS Norte",
+          "cnes": "7654321",
+          "id_projeto": 2,
+          "ativo": true,
+          "produtos": []
+        }
+      ],
+      "produtos": [
+        {
+          "id_produto": 3,
+          "nome_produto": "Prime Saúde",
+          "tipos": [
+            "BPA",
+            "APAC"
+          ],
+          "estrutura": "aps"
+        },
+        {
+          "id_produto": 5,
+          "nome_produto": "KlinikosNet",
+          "tipos": [
+            "BPA",
+            "APAC",
+            "AIH"
+          ],
+          "estrutura": "hosp"
+        }
+      ],
+      "sigtap": [
+        "202610",
+        "202509"
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "IF OBJECT_ID('tab_faturamento_lancamento', 'U') IS NULL CREATE TABLE tab_faturamento_lancamento ( id_lancamento INT IDENTITY(1,1) PRIMARY KEY, id_projeto INT NOT NULL, id_unidade INT NOT NULL, id_produto INT NOT NULL, competencia CHAR(6) NOT NULL, tipo VARCHAR(4) NOT NULL, -- BPA | APAC | AIH arquivo NVARCHAR(255) NULL, competencia_arquivo CHAR(6) NULL, cnes_arquivo VARCHAR(7) NULL, sigtap_competencia CHAR(6) NULL, -- tabela usada para valorizar qt_registros INT NOT NULL DEFAULT 0, qt_pacientes INT NOT NULL DEFAULT 0, qt_procedimentos INT NOT NULL DEFAULT 0, qt_total INT NOT NULL DEFAULT 0, qt_sem_valor INT NOT NULL DEFAULT 0, -- procedimentos não encontrados na SIGTAP vl_total DECIMAL(16,2) NOT NULL DEFAULT 0, id_usuario INT NULL, usuario NVARCHAR(150) NULL, dt_lancamento DATETIME NOT NULL, CONSTRAINT UQ_tab_faturamento_lancamento UNIQUE (id_projeto, id_unidade, id_produto, competencia, tipo) ); IF OBJECT_ID('tab_faturamento_item', 'U') IS NULL CREATE TABLE tab_faturamento_item ( id_item BIGINT IDENTITY(1,1) PRIMARY KEY, id_lancamento INT NOT NULL REFERENCES tab_faturamento_lancamento(id_lancamento) ON DELETE CASCADE, origem VARCHAR(6) NOT NULL, -- BPA-C | BPA-I | APAC | AIH-P (principal) | AIH-S (secundário/especial) co_procedimento VARCHAR(10) NOT NULL, no_procedimento NVARCHAR(250) NULL, co_cbo VARCHAR(6) NOT NULL DEFAULT '', quantidade INT NOT NULL, vl_unitario DECIMAL(14,2) NOT NULL DEFAULT 0, vl_total DECIMAL(16,2) NOT NULL DEFAULT 0 ); IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_tab_faturamento_item_lanc') CREATE INDEX IX_tab_faturamento_item_lanc ON tab_faturamento_item (id_lancamento) INCLUDE (co_procedimento, co_cbo, quantidade, vl_total); IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = 'IX_tab_faturamento_lancamento_comp') CREATE INDEX IX_tab_faturamento_lancamento_comp ON tab_faturamento_lancamento (competencia, id_projeto, id_unidade);",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT id_projeto, nome_projeto, ativo FROM tab_projetos WHERE 1=1 ORDER BY ativo DESC, nome_projeto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, u.ativo, (SELECT STRING_AGG(CAST(up.id_produto AS VARCHAR(10)), ',') FROM tab_unidade_produtos up WHERE up.id_unidade = u.id_unidade) AS produtos FROM tab_unidades u WHERE 1=1 ORDER BY u.nome_unidade",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT id_produto, nome_produto FROM tab_produtos WHERE ativo = 1 ORDER BY nome_produto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "opcoes: perfil com lançamento isola pela lotação": {
+    "status": 200,
+    "corpo": {
+      "projetos": [
+        {
+          "id_projeto": 2,
+          "nome_projeto": "Projeto Alfa",
+          "ativo": true
+        }
+      ],
+      "unidades": [
+        {
+          "id_unidade": 5,
+          "nome_unidade": "UBS",
+          "cnes": "1",
+          "id_projeto": 2,
+          "ativo": true,
+          "produtos": [
+            3
+          ]
+        }
+      ],
+      "produtos": [
+        {
+          "id_produto": 3,
+          "nome_produto": "TRS",
+          "tipos": [
+            "BPA",
+            "APAC"
+          ],
+          "estrutura": "esp"
+        }
+      ],
+      "sigtap": [
+        "202610",
+        "202509"
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Operador Total"
+        }
+      },
+      {
+        "texto": "SELECT id_projeto, nome_projeto, ativo FROM tab_projetos WHERE 1=1 AND id_projeto IN (@__lot_id_projeto_0) ORDER BY ativo DESC, nome_projeto",
+        "entradas": {
+          "__lot_id_projeto_0": 2
+        }
+      },
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, u.ativo, (SELECT STRING_AGG(CAST(up.id_produto AS VARCHAR(10)), ',') FROM tab_unidade_produtos up WHERE up.id_unidade = u.id_unidade) AS produtos FROM tab_unidades u WHERE 1=1 AND u.id_projeto IN (@__lot_u_id_projeto_0) ORDER BY u.nome_unidade",
+        "entradas": {
+          "__lot_u_id_projeto_0": 2
+        }
+      },
+      {
+        "texto": "SELECT id_produto, nome_produto FROM tab_produtos WHERE ativo = 1 ORDER BY nome_produto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "opcoes: perfil só com painel": {
+    "status": 200,
+    "corpo": {
+      "projetos": [],
+      "unidades": [],
+      "produtos": [],
+      "sigtap": []
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Operador Painel"
+        }
+      },
+      {
+        "texto": "SELECT id_projeto, nome_projeto, ativo FROM tab_projetos WHERE 1=1 AND id_projeto IN (@__lot_id_projeto_0) ORDER BY ativo DESC, nome_projeto",
+        "entradas": {
+          "__lot_id_projeto_0": 2
+        }
+      },
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, u.ativo, (SELECT STRING_AGG(CAST(up.id_produto AS VARCHAR(10)), ',') FROM tab_unidade_produtos up WHERE up.id_unidade = u.id_unidade) AS produtos FROM tab_unidades u WHERE 1=1 AND u.id_projeto IN (@__lot_u_id_projeto_0) ORDER BY u.nome_unidade",
+        "entradas": {
+          "__lot_u_id_projeto_0": 2
+        }
+      },
+      {
+        "texto": "SELECT id_produto, nome_produto FROM tab_produtos WHERE ativo = 1 ORDER BY nome_produto",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "opcoes: sem acesso": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Sem Acesso"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "analisar: BPA como administrador": {
+    "status": 200,
+    "corpo": {
+      "resumo": {
+        "tipo": "BPA",
+        "arquivo": "bpa.txt",
+        "competencia": "202610",
+        "competencia_arquivo": "202610",
+        "cnes_arquivo": "1234567",
+        "origem": "SISTEMA TESTE",
+        "sigtap_competencia": "202610",
+        "unidade": "UBS Central",
+        "cnes_unidade": "1234567",
+        "projeto": "Projeto Alfa",
+        "produto": "Prime Saúde",
+        "qt_registros": 2,
+        "qt_pacientes": 2,
+        "qt_procedimentos": 2,
+        "qt_total": 14,
+        "vl_total": 110,
+        "qt_sem_valor": 0,
+        "por_origem": [
+          {
+            "origem": "BPA-I",
+            "quantidade": 14,
+            "vl_total": 110
+          }
+        ]
+      },
+      "avisos": [],
+      "existente": null,
+      "procedimentos": [
+        {
+          "co_procedimento": "0301010072",
+          "no_procedimento": "CONSULTA",
+          "quantidade": 10,
+          "vl_unitario": 10,
+          "vl_total": 100,
+          "encontrado": true
+        },
+        {
+          "co_procedimento": "0301010080",
+          "no_procedimento": "VISITA",
+          "quantidade": 4,
+          "vl_unitario": 2.5,
+          "vl_total": 10,
+          "encontrado": true
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT p.co_procedimento, p.no_procedimento, p.vl_sa, p.vl_sh, p.vl_sp, CASE WHEN EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_registro g WHERE g.competencia = p.competencia AND g.co_procedimento = p.co_procedimento AND g.co_registro IN ('04', '05')) THEN 1 ELSE 0 END AS aih_secundario FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento IN (@p0,@p1)",
+        "entradas": {
+          "c": "202610",
+          "p0": "0301010072",
+          "p1": "0301010080"
+        }
+      },
+      {
+        "texto": "SELECT id_lancamento, vl_total, usuario, FORMAT(dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento FROM tab_faturamento_lancamento WHERE id_projeto = @p AND id_unidade = @u AND id_produto = @d AND competencia = @c AND tipo = @t",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "BPA"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "analisar: perfil com permissão de novo": {
+    "status": 200,
+    "corpo": {
+      "resumo": {
+        "tipo": "BPA",
+        "arquivo": "bpa.txt",
+        "competencia": "202610",
+        "competencia_arquivo": "202610",
+        "cnes_arquivo": "1234567",
+        "origem": "SISTEMA TESTE",
+        "sigtap_competencia": "202610",
+        "unidade": "UBS Central",
+        "cnes_unidade": "1234567",
+        "projeto": "Projeto Alfa",
+        "produto": "Prime Saúde",
+        "qt_registros": 2,
+        "qt_pacientes": 2,
+        "qt_procedimentos": 2,
+        "qt_total": 14,
+        "vl_total": 110,
+        "qt_sem_valor": 0,
+        "por_origem": [
+          {
+            "origem": "BPA-I",
+            "quantidade": 14,
+            "vl_total": 110
+          }
+        ]
+      },
+      "avisos": [],
+      "existente": null,
+      "procedimentos": [
+        {
+          "co_procedimento": "0301010072",
+          "no_procedimento": "CONSULTA",
+          "quantidade": 10,
+          "vl_unitario": 10,
+          "vl_total": 100,
+          "encontrado": true
+        },
+        {
+          "co_procedimento": "0301010080",
+          "no_procedimento": "VISITA",
+          "quantidade": 4,
+          "vl_unitario": 2.5,
+          "vl_total": 10,
+          "encontrado": true
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p AND u.id_projeto IN (@__lot_u_id_projeto_0)",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3,
+          "__lot_u_id_projeto_0": 2
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT p.co_procedimento, p.no_procedimento, p.vl_sa, p.vl_sh, p.vl_sp, CASE WHEN EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_registro g WHERE g.competencia = p.competencia AND g.co_procedimento = p.co_procedimento AND g.co_registro IN ('04', '05')) THEN 1 ELSE 0 END AS aih_secundario FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento IN (@p0,@p1)",
+        "entradas": {
+          "c": "202610",
+          "p0": "0301010072",
+          "p1": "0301010080"
+        }
+      },
+      {
+        "texto": "SELECT id_lancamento, vl_total, usuario, FORMAT(dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento FROM tab_faturamento_lancamento WHERE id_projeto = @p AND id_unidade = @u AND id_produto = @d AND competencia = @c AND tipo = @t",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "BPA"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "analisar: perfil só leitura não analisa": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT nome_modulo, pode_acessar, pode_novo, pode_editar FROM tab_regras_acesso WHERE nome_perfil = @p",
+        "entradas": {
+          "p": "Operador Leitura"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "analisar: sem acesso": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "analisar: APAC": {
+    "status": 200,
+    "corpo": {
+      "resumo": {
+        "tipo": "APAC",
+        "arquivo": "apac.txt",
+        "competencia": "202610",
+        "competencia_arquivo": "202610",
+        "cnes_arquivo": "1234567",
+        "origem": "SISTEMA TESTE",
+        "sigtap_competencia": "202610",
+        "unidade": "UBS Central",
+        "cnes_unidade": "1234567",
+        "projeto": "Projeto Alfa",
+        "produto": "Prime Saúde",
+        "qt_registros": 1,
+        "qt_pacientes": 0,
+        "qt_procedimentos": 1,
+        "qt_total": 3,
+        "vl_total": 30,
+        "qt_sem_valor": 0,
+        "por_origem": [
+          {
+            "origem": "APAC",
+            "quantidade": 3,
+            "vl_total": 30
+          }
+        ]
+      },
+      "avisos": [],
+      "existente": null,
+      "procedimentos": [
+        {
+          "co_procedimento": "0301010072",
+          "no_procedimento": "CONSULTA",
+          "quantidade": 3,
+          "vl_unitario": 10,
+          "vl_total": 30,
+          "encontrado": true
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT p.co_procedimento, p.no_procedimento, p.vl_sa, p.vl_sh, p.vl_sp, CASE WHEN EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_registro g WHERE g.competencia = p.competencia AND g.co_procedimento = p.co_procedimento AND g.co_registro IN ('04', '05')) THEN 1 ELSE 0 END AS aih_secundario FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento IN (@p0)",
+        "entradas": {
+          "c": "202610",
+          "p0": "0301010072"
+        }
+      },
+      {
+        "texto": "SELECT id_lancamento, vl_total, usuario, FORMAT(dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento FROM tab_faturamento_lancamento WHERE id_projeto = @p AND id_unidade = @u AND id_produto = @d AND competencia = @c AND tipo = @t",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "APAC"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "analisar: AIH": {
+    "status": 200,
+    "corpo": {
+      "resumo": {
+        "tipo": "AIH",
+        "arquivo": "aih.txt",
+        "competencia": "202610",
+        "competencia_arquivo": "202610",
+        "cnes_arquivo": "1234567",
+        "origem": "",
+        "sigtap_competencia": "202610",
+        "unidade": "UBS Central",
+        "cnes_unidade": "1234567",
+        "projeto": "Projeto Alfa",
+        "produto": "KlinikosNet",
+        "qt_registros": 1,
+        "qt_pacientes": 0,
+        "qt_procedimentos": 2,
+        "qt_total": 3,
+        "vl_total": 210,
+        "qt_sem_valor": 0,
+        "por_origem": [
+          {
+            "origem": "AIH-P",
+            "quantidade": 1,
+            "vl_total": 150
+          },
+          {
+            "origem": "AIH-S",
+            "quantidade": 2,
+            "vl_total": 60
+          }
+        ]
+      },
+      "avisos": [],
+      "existente": null,
+      "procedimentos": [
+        {
+          "co_procedimento": "0303010010",
+          "no_procedimento": "INTERNACAO",
+          "quantidade": 1,
+          "vl_unitario": 150,
+          "vl_total": 150,
+          "encontrado": true
+        },
+        {
+          "co_procedimento": "0303010028",
+          "no_procedimento": "DIARIA",
+          "quantidade": 2,
+          "vl_unitario": 30,
+          "vl_total": 60,
+          "encontrado": true
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT p.co_procedimento, p.no_procedimento, p.vl_sa, p.vl_sh, p.vl_sp, CASE WHEN EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_registro g WHERE g.competencia = p.competencia AND g.co_procedimento = p.co_procedimento AND g.co_registro IN ('04', '05')) THEN 1 ELSE 0 END AS aih_secundario FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento IN (@p0,@p1)",
+        "entradas": {
+          "c": "202610",
+          "p0": "0303010010",
+          "p1": "0303010028"
+        }
+      },
+      {
+        "texto": "SELECT id_lancamento, vl_total, usuario, FORMAT(dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento FROM tab_faturamento_lancamento WHERE id_projeto = @p AND id_unidade = @u AND id_produto = @d AND competencia = @c AND tipo = @t",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "AIH"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "analisar: sem projeto": {
+    "status": 400,
+    "corpo": {
+      "erro": "Selecione projeto, unidade e produto."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "analisar: sem produto": {
+    "status": 400,
+    "corpo": {
+      "erro": "Selecione projeto, unidade e produto."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "analisar: tipo inválido": {
+    "status": 400,
+    "corpo": {
+      "erro": "Tipo de arquivo inválido (BPA, APAC ou AIH)."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "analisar: competência inválida": {
+    "status": 400,
+    "corpo": {
+      "erro": "Competência inválida."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "analisar: unidade fora da lotação": {
+    "status": 403,
+    "corpo": {
+      "erro": "Unidade não pertence ao projeto ou está fora da sua lotação."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      }
+    ],
+    "externos": []
+  },
+  "analisar: produto inexistente": {
+    "status": 400,
+    "corpo": {
+      "erro": "Produto inválido."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      }
+    ],
+    "externos": []
+  },
+  "analisar: produto que não gera faturamento": {
+    "status": 400,
+    "corpo": {
+      "erro": "O produto Outro Produto não gera faturamento SUS."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      }
+    ],
+    "externos": []
+  },
+  "analisar: tipo não aceito pelo produto": {
+    "status": 400,
+    "corpo": {
+      "erro": "AIH não é lançado no produto Prime Saúde. Tipos aceitos: BPA, APAC."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      }
+    ],
+    "externos": []
+  },
+  "analisar: sem arquivo": {
+    "status": 400,
+    "corpo": {
+      "erro": "Selecione o arquivo de produção."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      }
+    ],
+    "externos": []
+  },
+  "analisar: arquivo de outro tipo": {
+    "status": 400,
+    "corpo": {
+      "erro": "O arquivo enviado é de BPA, mas o tipo selecionado é APAC."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      }
+    ],
+    "externos": []
+  },
+  "analisar: arquivo vazio": {
+    "status": 400,
+    "corpo": {
+      "erro": "Arquivo vazio."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      }
+    ],
+    "externos": []
+  },
+  "analisar: arquivo sem procedimentos": {
+    "status": 400,
+    "corpo": {
+      "erro": "Não foi possível reconhecer o arquivo. Envie o arquivo exportado do BPA, APAC ou SISAIH01."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      }
+    ],
+    "externos": []
+  },
+  "analisar: competência vem do arquivo": {
+    "status": 200,
+    "corpo": {
+      "resumo": {
+        "tipo": "BPA",
+        "arquivo": "bpa.txt",
+        "competencia": "202610",
+        "competencia_arquivo": "202610",
+        "cnes_arquivo": "1234567",
+        "origem": "SISTEMA TESTE",
+        "sigtap_competencia": "202610",
+        "unidade": "UBS Central",
+        "cnes_unidade": "1234567",
+        "projeto": "Projeto Alfa",
+        "produto": "Prime Saúde",
+        "qt_registros": 2,
+        "qt_pacientes": 2,
+        "qt_procedimentos": 2,
+        "qt_total": 14,
+        "vl_total": 110,
+        "qt_sem_valor": 0,
+        "por_origem": [
+          {
+            "origem": "BPA-I",
+            "quantidade": 14,
+            "vl_total": 110
+          }
+        ]
+      },
+      "avisos": [],
+      "existente": null,
+      "procedimentos": [
+        {
+          "co_procedimento": "0301010072",
+          "no_procedimento": "CONSULTA",
+          "quantidade": 10,
+          "vl_unitario": 10,
+          "vl_total": 100,
+          "encontrado": true
+        },
+        {
+          "co_procedimento": "0301010080",
+          "no_procedimento": "VISITA",
+          "quantidade": 4,
+          "vl_unitario": 2.5,
+          "vl_total": 10,
+          "encontrado": true
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT p.co_procedimento, p.no_procedimento, p.vl_sa, p.vl_sh, p.vl_sp, CASE WHEN EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_registro g WHERE g.competencia = p.competencia AND g.co_procedimento = p.co_procedimento AND g.co_registro IN ('04', '05')) THEN 1 ELSE 0 END AS aih_secundario FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento IN (@p0,@p1)",
+        "entradas": {
+          "c": "202610",
+          "p0": "0301010072",
+          "p1": "0301010080"
+        }
+      },
+      {
+        "texto": "SELECT id_lancamento, vl_total, usuario, FORMAT(dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento FROM tab_faturamento_lancamento WHERE id_projeto = @p AND id_unidade = @u AND id_produto = @d AND competencia = @c AND tipo = @t",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "BPA"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "analisar: avisa competência e CNES diferentes": {
+    "status": 200,
+    "corpo": {
+      "resumo": {
+        "tipo": "BPA",
+        "arquivo": "bpa.txt",
+        "competencia": "202609",
+        "competencia_arquivo": "202610",
+        "cnes_arquivo": "1234567",
+        "origem": "SISTEMA TESTE",
+        "sigtap_competencia": "202509",
+        "unidade": "UBS Central",
+        "cnes_unidade": "7654321",
+        "projeto": "Projeto Alfa",
+        "produto": "Prime Saúde",
+        "qt_registros": 2,
+        "qt_pacientes": 2,
+        "qt_procedimentos": 2,
+        "qt_total": 14,
+        "vl_total": 110,
+        "qt_sem_valor": 0,
+        "por_origem": [
+          {
+            "origem": "BPA-I",
+            "quantidade": 14,
+            "vl_total": 110
+          }
+        ]
+      },
+      "avisos": [
+        {
+          "nivel": "alerta",
+          "texto": "O arquivo é da competência 10/2026, mas foi selecionada 09/2026."
+        },
+        {
+          "nivel": "alerta",
+          "texto": "O CNES do arquivo (1234567) é diferente do CNES da unidade UBS Central (7654321)."
+        },
+        {
+          "nivel": "info",
+          "texto": "A SIGTAP 09/2026 não está importada; valores calculados pela tabela 09/2025."
+        }
+      ],
+      "existente": null,
+      "procedimentos": [
+        {
+          "co_procedimento": "0301010072",
+          "no_procedimento": "CONSULTA",
+          "quantidade": 10,
+          "vl_unitario": 10,
+          "vl_total": 100,
+          "encontrado": true
+        },
+        {
+          "co_procedimento": "0301010080",
+          "no_procedimento": "VISITA",
+          "quantidade": 4,
+          "vl_unitario": 2.5,
+          "vl_total": 10,
+          "encontrado": true
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT p.co_procedimento, p.no_procedimento, p.vl_sa, p.vl_sh, p.vl_sp, CASE WHEN EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_registro g WHERE g.competencia = p.competencia AND g.co_procedimento = p.co_procedimento AND g.co_registro IN ('04', '05')) THEN 1 ELSE 0 END AS aih_secundario FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento IN (@p0,@p1)",
+        "entradas": {
+          "c": "202509",
+          "p0": "0301010072",
+          "p1": "0301010080"
+        }
+      },
+      {
+        "texto": "SELECT id_lancamento, vl_total, usuario, FORMAT(dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento FROM tab_faturamento_lancamento WHERE id_projeto = @p AND id_unidade = @u AND id_produto = @d AND competencia = @c AND tipo = @t",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202609",
+          "t": "BPA"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "analisar: sem SIGTAP importada": {
+    "status": 200,
+    "corpo": {
+      "resumo": {
+        "tipo": "BPA",
+        "arquivo": "bpa.txt",
+        "competencia": "202610",
+        "competencia_arquivo": "202610",
+        "cnes_arquivo": "1234567",
+        "origem": "SISTEMA TESTE",
+        "sigtap_competencia": null,
+        "unidade": "UBS Central",
+        "cnes_unidade": "1234567",
+        "projeto": "Projeto Alfa",
+        "produto": "Prime Saúde",
+        "qt_registros": 2,
+        "qt_pacientes": 2,
+        "qt_procedimentos": 2,
+        "qt_total": 14,
+        "vl_total": 0,
+        "qt_sem_valor": 2,
+        "por_origem": [
+          {
+            "origem": "BPA-I",
+            "quantidade": 14,
+            "vl_total": 0
+          }
+        ]
+      },
+      "avisos": [
+        {
+          "nivel": "erro",
+          "texto": "Nenhuma Tabela SIGTAP importada. Importe em Parâmetros > SIGTAP para valorizar a produção."
+        },
+        {
+          "nivel": "info",
+          "texto": "2 código(s) de procedimento não encontrados na SIGTAP - (entram com valor zero)."
+        }
+      ],
+      "existente": null,
+      "procedimentos": [
+        {
+          "co_procedimento": "0301010072",
+          "no_procedimento": null,
+          "quantidade": 10,
+          "vl_unitario": 0,
+          "vl_total": 0,
+          "encontrado": false
+        },
+        {
+          "co_procedimento": "0301010080",
+          "no_procedimento": null,
+          "quantidade": 4,
+          "vl_unitario": 0,
+          "vl_total": 0,
+          "encontrado": false
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT id_lancamento, vl_total, usuario, FORMAT(dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento FROM tab_faturamento_lancamento WHERE id_projeto = @p AND id_unidade = @u AND id_produto = @d AND competencia = @c AND tipo = @t",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "BPA"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "analisar: layout não reconhecido": {
+    "status": 400,
+    "corpo": {
+      "erro": "Layout do arquivo não reconhecido: só 1 de 3 códigos existem na SIGTAP. Confira se o arquivo é o exportado do BPA."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT p.co_procedimento, p.no_procedimento, p.vl_sa, p.vl_sh, p.vl_sp, CASE WHEN EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_registro g WHERE g.competencia = p.competencia AND g.co_procedimento = p.co_procedimento AND g.co_registro IN ('04', '05')) THEN 1 ELSE 0 END AS aih_secundario FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento IN (@p0,@p1,@p2)",
+        "entradas": {
+          "c": "202610",
+          "p0": "0301010072",
+          "p1": "0301010080",
+          "p2": "0301010099"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "analisar: avisa lançamento existente": {
+    "status": 200,
+    "corpo": {
+      "resumo": {
+        "tipo": "BPA",
+        "arquivo": "bpa.txt",
+        "competencia": "202610",
+        "competencia_arquivo": "202610",
+        "cnes_arquivo": "1234567",
+        "origem": "SISTEMA TESTE",
+        "sigtap_competencia": "202610",
+        "unidade": "UBS Central",
+        "cnes_unidade": "1234567",
+        "projeto": "Projeto Alfa",
+        "produto": "Prime Saúde",
+        "qt_registros": 2,
+        "qt_pacientes": 2,
+        "qt_procedimentos": 2,
+        "qt_total": 14,
+        "vl_total": 110,
+        "qt_sem_valor": 0,
+        "por_origem": [
+          {
+            "origem": "BPA-I",
+            "quantidade": 14,
+            "vl_total": 110
+          }
+        ]
+      },
+      "avisos": [],
+      "existente": {
+        "id_lancamento": 40,
+        "vl_total": 99.9,
+        "usuario": "Ana",
+        "dt_lancamento": "01/10/2026 10:00"
+      },
+      "procedimentos": [
+        {
+          "co_procedimento": "0301010072",
+          "no_procedimento": "CONSULTA",
+          "quantidade": 10,
+          "vl_unitario": 10,
+          "vl_total": 100,
+          "encontrado": true
+        },
+        {
+          "co_procedimento": "0301010080",
+          "no_procedimento": "VISITA",
+          "quantidade": 4,
+          "vl_unitario": 2.5,
+          "vl_total": 10,
+          "encontrado": true
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT p.co_procedimento, p.no_procedimento, p.vl_sa, p.vl_sh, p.vl_sp, CASE WHEN EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_registro g WHERE g.competencia = p.competencia AND g.co_procedimento = p.co_procedimento AND g.co_registro IN ('04', '05')) THEN 1 ELSE 0 END AS aih_secundario FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento IN (@p0,@p1)",
+        "entradas": {
+          "c": "202610",
+          "p0": "0301010072",
+          "p1": "0301010080"
+        }
+      },
+      {
+        "texto": "SELECT id_lancamento, vl_total, usuario, FORMAT(dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento FROM tab_faturamento_lancamento WHERE id_projeto = @p AND id_unidade = @u AND id_produto = @d AND competencia = @c AND tipo = @t",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "BPA"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/gravar: novo lançamento": {
+    "status": 201,
+    "corpo": {
+      "id_lancamento": 77,
+      "mensagem": "Faturamento lançado.",
+      "resumo": {
+        "tipo": "BPA",
+        "arquivo": "bpa.txt",
+        "competencia": "202610",
+        "competencia_arquivo": "202610",
+        "cnes_arquivo": "1234567",
+        "origem": "SISTEMA TESTE",
+        "sigtap_competencia": "202610",
+        "unidade": "UBS Central",
+        "cnes_unidade": "1234567",
+        "projeto": "Projeto Alfa",
+        "produto": "Prime Saúde",
+        "qt_registros": 2,
+        "qt_pacientes": 2,
+        "qt_procedimentos": 2,
+        "qt_total": 14,
+        "vl_total": 110,
+        "qt_sem_valor": 0,
+        "por_origem": [
+          {
+            "origem": "BPA-I",
+            "quantidade": 14,
+            "vl_total": 110
+          }
+        ]
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT p.co_procedimento, p.no_procedimento, p.vl_sa, p.vl_sh, p.vl_sp, CASE WHEN EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_registro g WHERE g.competencia = p.competencia AND g.co_procedimento = p.co_procedimento AND g.co_registro IN ('04', '05')) THEN 1 ELSE 0 END AS aih_secundario FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento IN (@p0,@p1)",
+        "entradas": {
+          "c": "202610",
+          "p0": "0301010072",
+          "p1": "0301010080"
+        }
+      },
+      {
+        "texto": "SELECT id_lancamento, vl_total, usuario, FORMAT(dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento FROM tab_faturamento_lancamento WHERE id_projeto = @p AND id_unidade = @u AND id_produto = @d AND competencia = @c AND tipo = @t",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "BPA"
+        }
+      },
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "INSERT INTO tab_faturamento_lancamento (id_projeto, id_unidade, id_produto, competencia, tipo, arquivo, competencia_arquivo, cnes_arquivo, sigtap_competencia, qt_registros, qt_pacientes, qt_procedimentos, qt_total, qt_sem_valor, vl_total, id_usuario, usuario, dt_lancamento) OUTPUT INSERTED.id_lancamento VALUES (@p, @u, @d, @c, @t, @arq, @ca, @cn, @sg, @qr, @qp, @qd, @qt, @qs, @vl, @iu, @us, DATEADD(hour, -3, GETUTCDATE()))",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "BPA",
+          "arq": "bpa.txt",
+          "ca": "202610",
+          "cn": "1234567",
+          "sg": "202610",
+          "qr": 2,
+          "qp": 2,
+          "qd": 2,
+          "qt": 14,
+          "qs": 0,
+          "vl": 110,
+          "iu": 1,
+          "us": "Fulano de Tal"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/gravar: perfil com permissão de novo": {
+    "status": 201,
+    "corpo": {
+      "id_lancamento": 77,
+      "mensagem": "Faturamento lançado.",
+      "resumo": {
+        "tipo": "BPA",
+        "arquivo": "bpa.txt",
+        "competencia": "202610",
+        "competencia_arquivo": "202610",
+        "cnes_arquivo": "1234567",
+        "origem": "SISTEMA TESTE",
+        "sigtap_competencia": "202610",
+        "unidade": "UBS Central",
+        "cnes_unidade": "1234567",
+        "projeto": "Projeto Alfa",
+        "produto": "Prime Saúde",
+        "qt_registros": 2,
+        "qt_pacientes": 2,
+        "qt_procedimentos": 2,
+        "qt_total": 14,
+        "vl_total": 110,
+        "qt_sem_valor": 0,
+        "por_origem": [
+          {
+            "origem": "BPA-I",
+            "quantidade": 14,
+            "vl_total": 110
+          }
+        ]
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p AND u.id_projeto IN (@__lot_u_id_projeto_0)",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3,
+          "__lot_u_id_projeto_0": 2
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT p.co_procedimento, p.no_procedimento, p.vl_sa, p.vl_sh, p.vl_sp, CASE WHEN EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_registro g WHERE g.competencia = p.competencia AND g.co_procedimento = p.co_procedimento AND g.co_registro IN ('04', '05')) THEN 1 ELSE 0 END AS aih_secundario FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento IN (@p0,@p1)",
+        "entradas": {
+          "c": "202610",
+          "p0": "0301010072",
+          "p1": "0301010080"
+        }
+      },
+      {
+        "texto": "SELECT id_lancamento, vl_total, usuario, FORMAT(dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento FROM tab_faturamento_lancamento WHERE id_projeto = @p AND id_unidade = @u AND id_produto = @d AND competencia = @c AND tipo = @t",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "BPA"
+        }
+      },
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 7
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "INSERT INTO tab_faturamento_lancamento (id_projeto, id_unidade, id_produto, competencia, tipo, arquivo, competencia_arquivo, cnes_arquivo, sigtap_competencia, qt_registros, qt_pacientes, qt_procedimentos, qt_total, qt_sem_valor, vl_total, id_usuario, usuario, dt_lancamento) OUTPUT INSERTED.id_lancamento VALUES (@p, @u, @d, @c, @t, @arq, @ca, @cn, @sg, @qr, @qp, @qd, @qt, @qs, @vl, @iu, @us, DATEADD(hour, -3, GETUTCDATE()))",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "BPA",
+          "arq": "bpa.txt",
+          "ca": "202610",
+          "cn": "1234567",
+          "sg": "202610",
+          "qr": 2,
+          "qp": 2,
+          "qd": 2,
+          "qt": 14,
+          "qs": 0,
+          "vl": 110,
+          "iu": 7,
+          "us": "Fulano de Tal"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/gravar: usuário sem nome cadastrado": {
+    "status": 201,
+    "corpo": {
+      "id_lancamento": 77,
+      "mensagem": "Faturamento lançado.",
+      "resumo": {
+        "tipo": "BPA",
+        "arquivo": "bpa.txt",
+        "competencia": "202610",
+        "competencia_arquivo": "202610",
+        "cnes_arquivo": "1234567",
+        "origem": "SISTEMA TESTE",
+        "sigtap_competencia": "202610",
+        "unidade": "UBS Central",
+        "cnes_unidade": "1234567",
+        "projeto": "Projeto Alfa",
+        "produto": "Prime Saúde",
+        "qt_registros": 2,
+        "qt_pacientes": 2,
+        "qt_procedimentos": 2,
+        "qt_total": 14,
+        "vl_total": 110,
+        "qt_sem_valor": 0,
+        "por_origem": [
+          {
+            "origem": "BPA-I",
+            "quantidade": 14,
+            "vl_total": 110
+          }
+        ]
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT p.co_procedimento, p.no_procedimento, p.vl_sa, p.vl_sh, p.vl_sp, CASE WHEN EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_registro g WHERE g.competencia = p.competencia AND g.co_procedimento = p.co_procedimento AND g.co_registro IN ('04', '05')) THEN 1 ELSE 0 END AS aih_secundario FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento IN (@p0,@p1)",
+        "entradas": {
+          "c": "202610",
+          "p0": "0301010072",
+          "p1": "0301010080"
+        }
+      },
+      {
+        "texto": "SELECT id_lancamento, vl_total, usuario, FORMAT(dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento FROM tab_faturamento_lancamento WHERE id_projeto = @p AND id_unidade = @u AND id_produto = @d AND competencia = @c AND tipo = @t",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "BPA"
+        }
+      },
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "INSERT INTO tab_faturamento_lancamento (id_projeto, id_unidade, id_produto, competencia, tipo, arquivo, competencia_arquivo, cnes_arquivo, sigtap_competencia, qt_registros, qt_pacientes, qt_procedimentos, qt_total, qt_sem_valor, vl_total, id_usuario, usuario, dt_lancamento) OUTPUT INSERTED.id_lancamento VALUES (@p, @u, @d, @c, @t, @arq, @ca, @cn, @sg, @qr, @qp, @qd, @qt, @qs, @vl, @iu, @us, DATEADD(hour, -3, GETUTCDATE()))",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "BPA",
+          "arq": "bpa.txt",
+          "ca": "202610",
+          "cn": "1234567",
+          "sg": "202610",
+          "qr": 2,
+          "qp": 2,
+          "qd": 2,
+          "qt": 14,
+          "qs": 0,
+          "vl": 110,
+          "iu": 1,
+          "us": "teste"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/gravar: perfil só leitura": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "lancamentos/gravar: AIH": {
+    "status": 201,
+    "corpo": {
+      "id_lancamento": 77,
+      "mensagem": "Faturamento lançado.",
+      "resumo": {
+        "tipo": "AIH",
+        "arquivo": "aih.txt",
+        "competencia": "202610",
+        "competencia_arquivo": "202610",
+        "cnes_arquivo": "1234567",
+        "origem": "",
+        "sigtap_competencia": "202610",
+        "unidade": "UBS Central",
+        "cnes_unidade": "1234567",
+        "projeto": "Projeto Alfa",
+        "produto": "KlinikosNet",
+        "qt_registros": 1,
+        "qt_pacientes": 0,
+        "qt_procedimentos": 2,
+        "qt_total": 3,
+        "vl_total": 210,
+        "qt_sem_valor": 0,
+        "por_origem": [
+          {
+            "origem": "AIH-P",
+            "quantidade": 1,
+            "vl_total": 150
+          },
+          {
+            "origem": "AIH-S",
+            "quantidade": 2,
+            "vl_total": 60
+          }
+        ]
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT p.co_procedimento, p.no_procedimento, p.vl_sa, p.vl_sh, p.vl_sp, CASE WHEN EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_registro g WHERE g.competencia = p.competencia AND g.co_procedimento = p.co_procedimento AND g.co_registro IN ('04', '05')) THEN 1 ELSE 0 END AS aih_secundario FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento IN (@p0,@p1)",
+        "entradas": {
+          "c": "202610",
+          "p0": "0303010010",
+          "p1": "0303010028"
+        }
+      },
+      {
+        "texto": "SELECT id_lancamento, vl_total, usuario, FORMAT(dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento FROM tab_faturamento_lancamento WHERE id_projeto = @p AND id_unidade = @u AND id_produto = @d AND competencia = @c AND tipo = @t",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "AIH"
+        }
+      },
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "INSERT INTO tab_faturamento_lancamento (id_projeto, id_unidade, id_produto, competencia, tipo, arquivo, competencia_arquivo, cnes_arquivo, sigtap_competencia, qt_registros, qt_pacientes, qt_procedimentos, qt_total, qt_sem_valor, vl_total, id_usuario, usuario, dt_lancamento) OUTPUT INSERTED.id_lancamento VALUES (@p, @u, @d, @c, @t, @arq, @ca, @cn, @sg, @qr, @qp, @qd, @qt, @qs, @vl, @iu, @us, DATEADD(hour, -3, GETUTCDATE()))",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "AIH",
+          "arq": "aih.txt",
+          "ca": "202610",
+          "cn": "1234567",
+          "sg": "202610",
+          "qr": 1,
+          "qp": 0,
+          "qd": 2,
+          "qt": 3,
+          "qs": 0,
+          "vl": 210,
+          "iu": 1,
+          "us": "Fulano de Tal"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/gravar: já existe sem substituir": {
+    "status": 409,
+    "corpo": {
+      "erro": "Já existe lançamento para esta unidade, produto, competência e tipo.",
+      "existente": {
+        "id_lancamento": 40,
+        "vl_total": 99.9,
+        "usuario": "Ana",
+        "dt_lancamento": "01/10/2026 10:00"
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT p.co_procedimento, p.no_procedimento, p.vl_sa, p.vl_sh, p.vl_sp, CASE WHEN EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_registro g WHERE g.competencia = p.competencia AND g.co_procedimento = p.co_procedimento AND g.co_registro IN ('04', '05')) THEN 1 ELSE 0 END AS aih_secundario FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento IN (@p0,@p1)",
+        "entradas": {
+          "c": "202610",
+          "p0": "0301010072",
+          "p1": "0301010080"
+        }
+      },
+      {
+        "texto": "SELECT id_lancamento, vl_total, usuario, FORMAT(dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento FROM tab_faturamento_lancamento WHERE id_projeto = @p AND id_unidade = @u AND id_produto = @d AND competencia = @c AND tipo = @t",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "BPA"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/gravar: já existe com substituir": {
+    "status": 201,
+    "corpo": {
+      "id_lancamento": 77,
+      "mensagem": "Lançamento substituído.",
+      "resumo": {
+        "tipo": "BPA",
+        "arquivo": "bpa.txt",
+        "competencia": "202610",
+        "competencia_arquivo": "202610",
+        "cnes_arquivo": "1234567",
+        "origem": "SISTEMA TESTE",
+        "sigtap_competencia": "202610",
+        "unidade": "UBS Central",
+        "cnes_unidade": "1234567",
+        "projeto": "Projeto Alfa",
+        "produto": "Prime Saúde",
+        "qt_registros": 2,
+        "qt_pacientes": 2,
+        "qt_procedimentos": 2,
+        "qt_total": 14,
+        "vl_total": 110,
+        "qt_sem_valor": 0,
+        "por_origem": [
+          {
+            "origem": "BPA-I",
+            "quantidade": 14,
+            "vl_total": 110
+          }
+        ]
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT p.co_procedimento, p.no_procedimento, p.vl_sa, p.vl_sh, p.vl_sp, CASE WHEN EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_registro g WHERE g.competencia = p.competencia AND g.co_procedimento = p.co_procedimento AND g.co_registro IN ('04', '05')) THEN 1 ELSE 0 END AS aih_secundario FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento IN (@p0,@p1)",
+        "entradas": {
+          "c": "202610",
+          "p0": "0301010072",
+          "p1": "0301010080"
+        }
+      },
+      {
+        "texto": "SELECT id_lancamento, vl_total, usuario, FORMAT(dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento FROM tab_faturamento_lancamento WHERE id_projeto = @p AND id_unidade = @u AND id_produto = @d AND competencia = @c AND tipo = @t",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "BPA"
+        }
+      },
+      {
+        "texto": "SELECT nome_completo FROM tab_usuarios WHERE id_usuario = @id",
+        "entradas": {
+          "id": 1
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "DELETE FROM tab_faturamento_lancamento WHERE id_lancamento = @id",
+        "entradas": {
+          "id": 40
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_faturamento_lancamento (id_projeto, id_unidade, id_produto, competencia, tipo, arquivo, competencia_arquivo, cnes_arquivo, sigtap_competencia, qt_registros, qt_pacientes, qt_procedimentos, qt_total, qt_sem_valor, vl_total, id_usuario, usuario, dt_lancamento) OUTPUT INSERTED.id_lancamento VALUES (@p, @u, @d, @c, @t, @arq, @ca, @cn, @sg, @qr, @qp, @qd, @qt, @qs, @vl, @iu, @us, DATEADD(hour, -3, GETUTCDATE()))",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "BPA",
+          "arq": "bpa.txt",
+          "ca": "202610",
+          "cn": "1234567",
+          "sg": "202610",
+          "qr": 2,
+          "qp": 2,
+          "qd": 2,
+          "qt": 14,
+          "qs": 0,
+          "vl": 110,
+          "iu": 1,
+          "us": "Fulano de Tal"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/gravar: já existe com substituir 0": {
+    "status": 409,
+    "corpo": {
+      "erro": "Já existe lançamento para esta unidade, produto, competência e tipo.",
+      "existente": {
+        "id_lancamento": 40,
+        "vl_total": 99.9,
+        "usuario": "Ana",
+        "dt_lancamento": "01/10/2026 10:00"
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT p.co_procedimento, p.no_procedimento, p.vl_sa, p.vl_sh, p.vl_sp, CASE WHEN EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_registro g WHERE g.competencia = p.competencia AND g.co_procedimento = p.co_procedimento AND g.co_registro IN ('04', '05')) THEN 1 ELSE 0 END AS aih_secundario FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento IN (@p0,@p1)",
+        "entradas": {
+          "c": "202610",
+          "p0": "0301010072",
+          "p1": "0301010080"
+        }
+      },
+      {
+        "texto": "SELECT id_lancamento, vl_total, usuario, FORMAT(dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento FROM tab_faturamento_lancamento WHERE id_projeto = @p AND id_unidade = @u AND id_produto = @d AND competencia = @c AND tipo = @t",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "BPA"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/gravar: sem SIGTAP": {
+    "status": 400,
+    "corpo": {
+      "erro": "Importe a Tabela SIGTAP (Parâmetros > SIGTAP) antes de lançar o faturamento."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT id_lancamento, vl_total, usuario, FORMAT(dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento FROM tab_faturamento_lancamento WHERE id_projeto = @p AND id_unidade = @u AND id_produto = @d AND competencia = @c AND tipo = @t",
+        "entradas": {
+          "p": 2,
+          "u": 5,
+          "d": 3,
+          "c": "202610",
+          "t": "BPA"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/gravar: sem arquivo": {
+    "status": 400,
+    "corpo": {
+      "erro": "Selecione o arquivo de produção."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT u.id_unidade, u.nome_unidade, u.cnes, u.id_projeto, pj.nome_projeto, (SELECT nome_produto FROM tab_produtos WHERE id_produto = @d) AS nome_produto FROM tab_unidades u JOIN tab_projetos pj ON pj.id_projeto = u.id_projeto WHERE u.id_unidade = @u AND u.id_projeto = @p",
+        "entradas": {
+          "u": 5,
+          "p": 2,
+          "d": 3
+        }
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/gravar: destino incompleto": {
+    "status": 400,
+    "corpo": {
+      "erro": "Selecione projeto, unidade e produto."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "lancamentos/listar: administrador sem filtros": {
+    "status": 200,
+    "corpo": {
+      "itens": [
+        {
+          "id_lancamento": 9,
+          "competencia": "202610",
+          "tipo": "BPA",
+          "total": 1
+        }
+      ],
+      "total": 1,
+      "pagina": 1,
+      "tamanho": 15
+    },
+    "consultas": [
+      {
+        "texto": "SELECT l.id_lancamento, l.id_projeto, l.id_unidade, l.id_produto, l.competencia, l.tipo, l.arquivo, l.competencia_arquivo, l.cnes_arquivo, l.sigtap_competencia, l.qt_registros, l.qt_pacientes, l.qt_procedimentos, l.qt_total, l.qt_sem_valor, l.vl_total, l.usuario, FORMAT(l.dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento, pj.nome_projeto, u.nome_unidade, u.cnes, pd.nome_produto, COUNT(*) OVER () AS total FROM tab_faturamento_lancamento l JOIN tab_projetos pj ON pj.id_projeto = l.id_projeto JOIN tab_unidades u ON u.id_unidade = l.id_unidade JOIN tab_produtos pd ON pd.id_produto = l.id_produto WHERE 1=1 ORDER BY l.competencia DESC, u.nome_unidade, l.tipo OFFSET @off ROWS FETCH NEXT @tam ROWS ONLY",
+        "entradas": {
+          "off": 0,
+          "tam": 15
+        }
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/listar: com todos os filtros": {
+    "status": 200,
+    "corpo": {
+      "itens": [
+        {
+          "id_lancamento": 9,
+          "total": 51
+        }
+      ],
+      "total": 51,
+      "pagina": 2,
+      "tamanho": 50
+    },
+    "consultas": [
+      {
+        "texto": "SELECT l.id_lancamento, l.id_projeto, l.id_unidade, l.id_produto, l.competencia, l.tipo, l.arquivo, l.competencia_arquivo, l.cnes_arquivo, l.sigtap_competencia, l.qt_registros, l.qt_pacientes, l.qt_procedimentos, l.qt_total, l.qt_sem_valor, l.vl_total, l.usuario, FORMAT(l.dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento, pj.nome_projeto, u.nome_unidade, u.cnes, pd.nome_produto, COUNT(*) OVER () AS total FROM tab_faturamento_lancamento l JOIN tab_projetos pj ON pj.id_projeto = l.id_projeto JOIN tab_unidades u ON u.id_unidade = l.id_unidade JOIN tab_produtos pd ON pd.id_produto = l.id_produto WHERE 1=1 AND l.id_projeto = @pj AND l.id_unidade = @un AND l.id_produto = @pd AND l.tipo = @tp AND l.competencia = @cp ORDER BY l.competencia DESC, u.nome_unidade, l.tipo OFFSET @off ROWS FETCH NEXT @tam ROWS ONLY",
+        "entradas": {
+          "pj": 2,
+          "un": 5,
+          "pd": 3,
+          "tp": "BPA",
+          "cp": "202610",
+          "off": 50,
+          "tam": 50
+        }
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/listar: filtros inválidos e página limitada": {
+    "status": 200,
+    "corpo": {
+      "itens": [],
+      "total": 0,
+      "pagina": 1,
+      "tamanho": 100
+    },
+    "consultas": [
+      {
+        "texto": "SELECT l.id_lancamento, l.id_projeto, l.id_unidade, l.id_produto, l.competencia, l.tipo, l.arquivo, l.competencia_arquivo, l.cnes_arquivo, l.sigtap_competencia, l.qt_registros, l.qt_pacientes, l.qt_procedimentos, l.qt_total, l.qt_sem_valor, l.vl_total, l.usuario, FORMAT(l.dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento, pj.nome_projeto, u.nome_unidade, u.cnes, pd.nome_produto, COUNT(*) OVER () AS total FROM tab_faturamento_lancamento l JOIN tab_projetos pj ON pj.id_projeto = l.id_projeto JOIN tab_unidades u ON u.id_unidade = l.id_unidade JOIN tab_produtos pd ON pd.id_produto = l.id_produto WHERE 1=1 ORDER BY l.competencia DESC, u.nome_unidade, l.tipo OFFSET @off ROWS FETCH NEXT @tam ROWS ONLY",
+        "entradas": {
+          "off": 0,
+          "tam": 100
+        }
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/listar: perfil só leitura isola pela lotação": {
+    "status": 200,
+    "corpo": {
+      "itens": [],
+      "total": 0,
+      "pagina": 1,
+      "tamanho": 15
+    },
+    "consultas": [
+      {
+        "texto": "SELECT l.id_lancamento, l.id_projeto, l.id_unidade, l.id_produto, l.competencia, l.tipo, l.arquivo, l.competencia_arquivo, l.cnes_arquivo, l.sigtap_competencia, l.qt_registros, l.qt_pacientes, l.qt_procedimentos, l.qt_total, l.qt_sem_valor, l.vl_total, l.usuario, FORMAT(l.dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento, pj.nome_projeto, u.nome_unidade, u.cnes, pd.nome_produto, COUNT(*) OVER () AS total FROM tab_faturamento_lancamento l JOIN tab_projetos pj ON pj.id_projeto = l.id_projeto JOIN tab_unidades u ON u.id_unidade = l.id_unidade JOIN tab_produtos pd ON pd.id_produto = l.id_produto WHERE 1=1 AND l.id_projeto IN (@__lot_l_id_projeto_0) ORDER BY l.competencia DESC, u.nome_unidade, l.tipo OFFSET @off ROWS FETCH NEXT @tam ROWS ONLY",
+        "entradas": {
+          "__lot_l_id_projeto_0": 2,
+          "off": 0,
+          "tam": 15
+        }
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/listar: perfil só painel": {
+    "status": 200,
+    "corpo": {
+      "itens": [],
+      "total": 0,
+      "pagina": 1,
+      "tamanho": 15
+    },
+    "consultas": [
+      {
+        "texto": "SELECT l.id_lancamento, l.id_projeto, l.id_unidade, l.id_produto, l.competencia, l.tipo, l.arquivo, l.competencia_arquivo, l.cnes_arquivo, l.sigtap_competencia, l.qt_registros, l.qt_pacientes, l.qt_procedimentos, l.qt_total, l.qt_sem_valor, l.vl_total, l.usuario, FORMAT(l.dt_lancamento, 'dd/MM/yyyy HH:mm') AS dt_lancamento, pj.nome_projeto, u.nome_unidade, u.cnes, pd.nome_produto, COUNT(*) OVER () AS total FROM tab_faturamento_lancamento l JOIN tab_projetos pj ON pj.id_projeto = l.id_projeto JOIN tab_unidades u ON u.id_unidade = l.id_unidade JOIN tab_produtos pd ON pd.id_produto = l.id_produto WHERE 1=1 AND l.id_projeto IN (@__lot_l_id_projeto_0) ORDER BY l.competencia DESC, u.nome_unidade, l.tipo OFFSET @off ROWS FETCH NEXT @tam ROWS ONLY",
+        "entradas": {
+          "__lot_l_id_projeto_0": 2,
+          "off": 0,
+          "tam": 15
+        }
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/listar: sem acesso": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "lancamentos/detalhe: encontrado": {
+    "status": 200,
+    "corpo": {
+      "id_lancamento": 9,
+      "id_projeto": 2,
+      "competencia": "202610",
+      "tipo": "BPA",
+      "vl_total": "100.50",
+      "procedimentos": [
+        {
+          "co_procedimento": "0301010072",
+          "no_procedimento": "CONSULTA",
+          "quantidade": 10,
+          "vl_unitario": 10,
+          "vl_total": 100
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT l.* FROM tab_faturamento_lancamento l WHERE l.id_lancamento = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "SELECT co_procedimento, MAX(no_procedimento) AS no_procedimento, SUM(quantidade) AS quantidade, MAX(vl_unitario) AS vl_unitario, SUM(vl_total) AS vl_total FROM tab_faturamento_item WHERE id_lancamento = @id GROUP BY co_procedimento ORDER BY SUM(vl_total) DESC, SUM(quantidade) DESC",
+        "entradas": {
+          "id": 9
+        }
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/detalhe: identificador inválido": {
+    "status": 400,
+    "corpo": {
+      "erro": "Lançamento inválido."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "lancamentos/detalhe: não encontrado": {
+    "status": 404,
+    "corpo": {
+      "erro": "Lançamento não encontrado."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT l.* FROM tab_faturamento_lancamento l WHERE l.id_lancamento = @id AND l.id_projeto IN (@__lot_l_id_projeto_0)",
+        "entradas": {
+          "id": 9,
+          "__lot_l_id_projeto_0": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/excluir: administrador": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Lançamento excluído."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT l.* FROM tab_faturamento_lancamento l WHERE l.id_lancamento = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_faturamento_lancamento WHERE id_lancamento = @id",
+        "entradas": {
+          "id": 9
+        }
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/excluir: perfil com edição": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Lançamento excluído."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT l.* FROM tab_faturamento_lancamento l WHERE l.id_lancamento = @id AND l.id_projeto IN (@__lot_l_id_projeto_0)",
+        "entradas": {
+          "id": 9,
+          "__lot_l_id_projeto_0": 2
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_faturamento_lancamento WHERE id_lancamento = @id",
+        "entradas": {
+          "id": 9
+        }
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/excluir: perfil sem edição": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "lancamentos/excluir: não encontrado": {
+    "status": 404,
+    "corpo": {
+      "erro": "Lançamento não encontrado."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT l.* FROM tab_faturamento_lancamento l WHERE l.id_lancamento = @id",
+        "entradas": {
+          "id": 9
+        }
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/excluir: identificador inválido": {
+    "status": 400,
+    "corpo": {
+      "erro": "Lançamento inválido."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "lancamentos/revalorizar: administrador": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Valores recalculados pela SIGTAP 10/2026.",
+      "vl_anterior": 100.5,
+      "vl_total": 160,
+      "sigtap_competencia": "202610"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT l.* FROM tab_faturamento_lancamento l WHERE l.id_lancamento = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT origem, co_procedimento, no_procedimento, co_cbo, quantidade FROM tab_faturamento_item WHERE id_lancamento = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "SELECT p.co_procedimento, p.no_procedimento, p.vl_sa, p.vl_sh, p.vl_sp, CASE WHEN EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_registro g WHERE g.competencia = p.competencia AND g.co_procedimento = p.co_procedimento AND g.co_registro IN ('04', '05')) THEN 1 ELSE 0 END AS aih_secundario FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento IN (@p0,@p1)",
+        "entradas": {
+          "c": "202610",
+          "p0": "0301010072",
+          "p1": "0303010028"
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "DELETE FROM tab_faturamento_item WHERE id_lancamento = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "UPDATE tab_faturamento_lancamento SET sigtap_competencia = @sg, vl_total = @vl, qt_sem_valor = @qs WHERE id_lancamento = @id",
+        "entradas": {
+          "id": 9,
+          "sg": "202610",
+          "vl": 160,
+          "qs": 0
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/revalorizar: perfil com edição": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Valores recalculados pela SIGTAP 09/2025.",
+      "vl_anterior": 100.5,
+      "vl_total": 160,
+      "sigtap_competencia": "202509"
+    },
+    "consultas": [
+      {
+        "texto": "SELECT l.* FROM tab_faturamento_lancamento l WHERE l.id_lancamento = @id AND l.id_projeto IN (@__lot_l_id_projeto_0)",
+        "entradas": {
+          "id": 9,
+          "__lot_l_id_projeto_0": 2
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT origem, co_procedimento, no_procedimento, co_cbo, quantidade FROM tab_faturamento_item WHERE id_lancamento = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "SELECT p.co_procedimento, p.no_procedimento, p.vl_sa, p.vl_sh, p.vl_sp, CASE WHEN EXISTS (SELECT 1 FROM tab_sigtap_rl_procedimento_registro g WHERE g.competencia = p.competencia AND g.co_procedimento = p.co_procedimento AND g.co_registro IN ('04', '05')) THEN 1 ELSE 0 END AS aih_secundario FROM tab_sigtap_tb_procedimento p WHERE p.competencia = @c AND p.co_procedimento IN (@p0,@p1)",
+        "entradas": {
+          "c": "202509",
+          "p0": "0301010072",
+          "p1": "0303010028"
+        }
+      },
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "DELETE FROM tab_faturamento_item WHERE id_lancamento = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "UPDATE tab_faturamento_lancamento SET sigtap_competencia = @sg, vl_total = @vl, qt_sem_valor = @qs WHERE id_lancamento = @id",
+        "entradas": {
+          "id": 9,
+          "sg": "202509",
+          "vl": 160,
+          "qs": 0
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/revalorizar: perfil sem edição": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "lancamentos/revalorizar: sem SIGTAP": {
+    "status": 400,
+    "corpo": {
+      "erro": "Nenhuma Tabela SIGTAP importada."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT l.* FROM tab_faturamento_lancamento l WHERE l.id_lancamento = @id",
+        "entradas": {
+          "id": 9
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "lancamentos/revalorizar: não encontrado": {
+    "status": 404,
+    "corpo": {
+      "erro": "Lançamento não encontrado."
+    },
+    "consultas": [
+      {
+        "texto": "SELECT l.* FROM tab_faturamento_lancamento l WHERE l.id_lancamento = @id",
+        "entradas": {
+          "id": 9
+        }
+      }
+    ],
+    "externos": []
+  },
+  "painel: administrador sem filtros": {
+    "status": 200,
+    "corpo": {
+      "competencias_disponiveis": [
+        "202609",
+        "202610"
+      ],
+      "mensal": [
+        {
+          "competencia": "202610",
+          "vl_total": 150.5,
+          "qt_total": 14,
+          "qt_pacientes": 2,
+          "qt_aih": 0,
+          "qt_lancamentos": 1,
+          "qt_unidades": 1
+        }
+      ],
+      "procedimentos": [
+        {
+          "co_procedimento": "0301010072",
+          "competencia": "202610",
+          "qt": 10,
+          "vl": 100,
+          "no_procedimento": "CONSULTA"
+        }
+      ],
+      "unidades": [
+        {
+          "id_unidade": 5,
+          "nome_unidade": "UBS Central",
+          "nome_projeto": "Projeto Alfa",
+          "competencia": "202610",
+          "vl": 150.5,
+          "qt": 14
+        }
+      ],
+      "cbos": [
+        {
+          "co_cbo": "225125",
+          "competencia": "202610",
+          "qt": 14,
+          "vl": 150.5
+        }
+      ],
+      "subgrupos": {
+        "0301": "CONSULTAS"
+      },
+      "ocupacoes": {
+        "225125": "MEDICO"
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT DISTINCT l.competencia FROM tab_faturamento_lancamento l WHERE 1=1 ORDER BY l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT l.competencia, SUM(l.vl_total) AS vl_total, SUM(l.qt_total) AS qt_total, SUM(l.qt_pacientes) AS qt_pacientes, SUM(CASE WHEN l.tipo = 'AIH' THEN l.qt_registros ELSE 0 END) AS qt_aih, COUNT(*) AS qt_lancamentos, COUNT(DISTINCT l.id_unidade) AS qt_unidades FROM tab_faturamento_lancamento l WHERE 1=1 GROUP BY l.competencia ORDER BY l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT i.co_procedimento, l.competencia, SUM(i.quantidade) AS qt, SUM(i.vl_total) AS vl, MAX(i.no_procedimento) AS no_procedimento FROM tab_faturamento_item i JOIN tab_faturamento_lancamento l ON l.id_lancamento = i.id_lancamento WHERE 1=1 GROUP BY i.co_procedimento, l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT l.id_unidade, u.nome_unidade, pj.nome_projeto, l.competencia, SUM(l.vl_total) AS vl, SUM(l.qt_total) AS qt FROM tab_faturamento_lancamento l JOIN tab_unidades u ON u.id_unidade = l.id_unidade JOIN tab_projetos pj ON pj.id_projeto = l.id_projeto WHERE 1=1 GROUP BY l.id_unidade, u.nome_unidade, pj.nome_projeto, l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT i.co_cbo, l.competencia, SUM(i.quantidade) AS qt, SUM(i.vl_total) AS vl FROM tab_faturamento_item i JOIN tab_faturamento_lancamento l ON l.id_lancamento = i.id_lancamento WHERE i.co_cbo <> '' GROUP BY i.co_cbo, l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT co_grupo + co_sub_grupo AS cod, no_sub_grupo FROM tab_sigtap_tb_sub_grupo WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "SELECT co_ocupacao, no_ocupacao FROM tab_sigtap_tb_ocupacao WHERE competencia = @c AND co_ocupacao IN (@o0)",
+        "entradas": {
+          "c": "202610",
+          "o0": "225125"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "painel: todos os filtros": {
+    "status": 200,
+    "corpo": {
+      "competencias_disponiveis": [
+        "202609",
+        "202610"
+      ],
+      "mensal": [
+        {
+          "competencia": "202610",
+          "vl_total": 150.5,
+          "qt_total": 14,
+          "qt_pacientes": 2,
+          "qt_aih": 0,
+          "qt_lancamentos": 1,
+          "qt_unidades": 1
+        }
+      ],
+      "procedimentos": [
+        {
+          "co_procedimento": "0301010072",
+          "competencia": "202610",
+          "qt": 10,
+          "vl": 100,
+          "no_procedimento": "CONSULTA"
+        }
+      ],
+      "unidades": [
+        {
+          "id_unidade": 5,
+          "nome_unidade": "UBS Central",
+          "nome_projeto": "Projeto Alfa",
+          "competencia": "202610",
+          "vl": 150.5,
+          "qt": 14
+        }
+      ],
+      "cbos": [
+        {
+          "co_cbo": "225125",
+          "competencia": "202610",
+          "qt": 14,
+          "vl": 150.5
+        }
+      ],
+      "subgrupos": {
+        "0301": "CONSULTAS"
+      },
+      "ocupacoes": {
+        "225125": "MEDICO"
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT DISTINCT l.competencia FROM tab_faturamento_lancamento l WHERE 1=1 AND l.id_projeto = @pj AND l.id_unidade = @un ORDER BY l.competencia",
+        "entradas": {
+          "pj": 2,
+          "un": 5
+        }
+      },
+      {
+        "texto": "SELECT l.competencia, SUM(l.vl_total) AS vl_total, SUM(l.qt_total) AS qt_total, SUM(l.qt_pacientes) AS qt_pacientes, SUM(CASE WHEN l.tipo = 'AIH' THEN l.qt_registros ELSE 0 END) AS qt_aih, COUNT(*) AS qt_lancamentos, COUNT(DISTINCT l.id_unidade) AS qt_unidades FROM tab_faturamento_lancamento l WHERE 1=1 AND l.id_projeto = @pj AND l.id_unidade = @un AND l.id_produto = @pd AND l.tipo = @tp AND l.competencia >= @de AND l.competencia <= @ate GROUP BY l.competencia ORDER BY l.competencia",
+        "entradas": {
+          "pj": 2,
+          "un": 5,
+          "pd": 3,
+          "tp": "BPA",
+          "de": "202601",
+          "ate": "202612"
+        }
+      },
+      {
+        "texto": "SELECT i.co_procedimento, l.competencia, SUM(i.quantidade) AS qt, SUM(i.vl_total) AS vl, MAX(i.no_procedimento) AS no_procedimento FROM tab_faturamento_item i JOIN tab_faturamento_lancamento l ON l.id_lancamento = i.id_lancamento WHERE 1=1 AND l.id_projeto = @pj AND l.id_unidade = @un AND l.id_produto = @pd AND l.tipo = @tp AND l.competencia >= @de AND l.competencia <= @ate GROUP BY i.co_procedimento, l.competencia",
+        "entradas": {
+          "pj": 2,
+          "un": 5,
+          "pd": 3,
+          "tp": "BPA",
+          "de": "202601",
+          "ate": "202612"
+        }
+      },
+      {
+        "texto": "SELECT l.id_unidade, u.nome_unidade, pj.nome_projeto, l.competencia, SUM(l.vl_total) AS vl, SUM(l.qt_total) AS qt FROM tab_faturamento_lancamento l JOIN tab_unidades u ON u.id_unidade = l.id_unidade JOIN tab_projetos pj ON pj.id_projeto = l.id_projeto WHERE 1=1 AND l.id_projeto = @pj AND l.id_unidade = @un AND l.id_produto = @pd AND l.tipo = @tp AND l.competencia >= @de AND l.competencia <= @ate GROUP BY l.id_unidade, u.nome_unidade, pj.nome_projeto, l.competencia",
+        "entradas": {
+          "pj": 2,
+          "un": 5,
+          "pd": 3,
+          "tp": "BPA",
+          "de": "202601",
+          "ate": "202612"
+        }
+      },
+      {
+        "texto": "SELECT i.co_cbo, l.competencia, SUM(i.quantidade) AS qt, SUM(i.vl_total) AS vl FROM tab_faturamento_item i JOIN tab_faturamento_lancamento l ON l.id_lancamento = i.id_lancamento WHERE i.co_cbo <> '' AND l.id_projeto = @pj AND l.id_unidade = @un AND l.id_produto = @pd AND l.tipo = @tp AND l.competencia >= @de AND l.competencia <= @ate GROUP BY i.co_cbo, l.competencia",
+        "entradas": {
+          "pj": 2,
+          "un": 5,
+          "pd": 3,
+          "tp": "BPA",
+          "de": "202601",
+          "ate": "202612"
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT co_grupo + co_sub_grupo AS cod, no_sub_grupo FROM tab_sigtap_tb_sub_grupo WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "SELECT co_ocupacao, no_ocupacao FROM tab_sigtap_tb_ocupacao WHERE competencia = @c AND co_ocupacao IN (@o0)",
+        "entradas": {
+          "c": "202610",
+          "o0": "225125"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "painel: filtros de período e lista de produtos": {
+    "status": 200,
+    "corpo": {
+      "competencias_disponiveis": [
+        "202609",
+        "202610"
+      ],
+      "mensal": [
+        {
+          "competencia": "202610",
+          "vl_total": 150.5,
+          "qt_total": 14,
+          "qt_pacientes": 2,
+          "qt_aih": 0,
+          "qt_lancamentos": 1,
+          "qt_unidades": 1
+        }
+      ],
+      "procedimentos": [
+        {
+          "co_procedimento": "0301010072",
+          "competencia": "202610",
+          "qt": 10,
+          "vl": 100,
+          "no_procedimento": "CONSULTA"
+        }
+      ],
+      "unidades": [
+        {
+          "id_unidade": 5,
+          "nome_unidade": "UBS Central",
+          "nome_projeto": "Projeto Alfa",
+          "competencia": "202610",
+          "vl": 150.5,
+          "qt": 14
+        }
+      ],
+      "cbos": [
+        {
+          "co_cbo": "225125",
+          "competencia": "202610",
+          "qt": 14,
+          "vl": 150.5
+        }
+      ],
+      "subgrupos": {
+        "0301": "CONSULTAS"
+      },
+      "ocupacoes": {
+        "225125": "MEDICO"
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT DISTINCT l.competencia FROM tab_faturamento_lancamento l WHERE 1=1 ORDER BY l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT l.competencia, SUM(l.vl_total) AS vl_total, SUM(l.qt_total) AS qt_total, SUM(l.qt_pacientes) AS qt_pacientes, SUM(CASE WHEN l.tipo = 'AIH' THEN l.qt_registros ELSE 0 END) AS qt_aih, COUNT(*) AS qt_lancamentos, COUNT(DISTINCT l.id_unidade) AS qt_unidades FROM tab_faturamento_lancamento l WHERE 1=1 AND l.id_produto IN (@pl0,@pl1) AND l.competencia >= @de AND l.competencia <= @ate GROUP BY l.competencia ORDER BY l.competencia",
+        "entradas": {
+          "pl0": 3,
+          "pl1": 4,
+          "de": "202601",
+          "ate": "202612"
+        }
+      },
+      {
+        "texto": "SELECT i.co_procedimento, l.competencia, SUM(i.quantidade) AS qt, SUM(i.vl_total) AS vl, MAX(i.no_procedimento) AS no_procedimento FROM tab_faturamento_item i JOIN tab_faturamento_lancamento l ON l.id_lancamento = i.id_lancamento WHERE 1=1 AND l.id_produto IN (@pl0,@pl1) AND l.competencia >= @de AND l.competencia <= @ate GROUP BY i.co_procedimento, l.competencia",
+        "entradas": {
+          "pl0": 3,
+          "pl1": 4,
+          "de": "202601",
+          "ate": "202612"
+        }
+      },
+      {
+        "texto": "SELECT l.id_unidade, u.nome_unidade, pj.nome_projeto, l.competencia, SUM(l.vl_total) AS vl, SUM(l.qt_total) AS qt FROM tab_faturamento_lancamento l JOIN tab_unidades u ON u.id_unidade = l.id_unidade JOIN tab_projetos pj ON pj.id_projeto = l.id_projeto WHERE 1=1 AND l.id_produto IN (@pl0,@pl1) AND l.competencia >= @de AND l.competencia <= @ate GROUP BY l.id_unidade, u.nome_unidade, pj.nome_projeto, l.competencia",
+        "entradas": {
+          "pl0": 3,
+          "pl1": 4,
+          "de": "202601",
+          "ate": "202612"
+        }
+      },
+      {
+        "texto": "SELECT i.co_cbo, l.competencia, SUM(i.quantidade) AS qt, SUM(i.vl_total) AS vl FROM tab_faturamento_item i JOIN tab_faturamento_lancamento l ON l.id_lancamento = i.id_lancamento WHERE i.co_cbo <> '' AND l.id_produto IN (@pl0,@pl1) AND l.competencia >= @de AND l.competencia <= @ate GROUP BY i.co_cbo, l.competencia",
+        "entradas": {
+          "pl0": 3,
+          "pl1": 4,
+          "de": "202601",
+          "ate": "202612"
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT co_grupo + co_sub_grupo AS cod, no_sub_grupo FROM tab_sigtap_tb_sub_grupo WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "SELECT co_ocupacao, no_ocupacao FROM tab_sigtap_tb_ocupacao WHERE competencia = @c AND co_ocupacao IN (@o0)",
+        "entradas": {
+          "c": "202610",
+          "o0": "225125"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "painel: lista de produtos sem ids válidos": {
+    "status": 200,
+    "corpo": {
+      "competencias_disponiveis": [
+        "202609",
+        "202610"
+      ],
+      "mensal": [
+        {
+          "competencia": "202610",
+          "vl_total": 150.5,
+          "qt_total": 14,
+          "qt_pacientes": 2,
+          "qt_aih": 0,
+          "qt_lancamentos": 1,
+          "qt_unidades": 1
+        }
+      ],
+      "procedimentos": [
+        {
+          "co_procedimento": "0301010072",
+          "competencia": "202610",
+          "qt": 10,
+          "vl": 100,
+          "no_procedimento": "CONSULTA"
+        }
+      ],
+      "unidades": [
+        {
+          "id_unidade": 5,
+          "nome_unidade": "UBS Central",
+          "nome_projeto": "Projeto Alfa",
+          "competencia": "202610",
+          "vl": 150.5,
+          "qt": 14
+        }
+      ],
+      "cbos": [
+        {
+          "co_cbo": "225125",
+          "competencia": "202610",
+          "qt": 14,
+          "vl": 150.5
+        }
+      ],
+      "subgrupos": {
+        "0301": "CONSULTAS"
+      },
+      "ocupacoes": {
+        "225125": "MEDICO"
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT DISTINCT l.competencia FROM tab_faturamento_lancamento l WHERE 1=1 ORDER BY l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT l.competencia, SUM(l.vl_total) AS vl_total, SUM(l.qt_total) AS qt_total, SUM(l.qt_pacientes) AS qt_pacientes, SUM(CASE WHEN l.tipo = 'AIH' THEN l.qt_registros ELSE 0 END) AS qt_aih, COUNT(*) AS qt_lancamentos, COUNT(DISTINCT l.id_unidade) AS qt_unidades FROM tab_faturamento_lancamento l WHERE 1=1 AND 1=0 GROUP BY l.competencia ORDER BY l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT i.co_procedimento, l.competencia, SUM(i.quantidade) AS qt, SUM(i.vl_total) AS vl, MAX(i.no_procedimento) AS no_procedimento FROM tab_faturamento_item i JOIN tab_faturamento_lancamento l ON l.id_lancamento = i.id_lancamento WHERE 1=1 AND 1=0 GROUP BY i.co_procedimento, l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT l.id_unidade, u.nome_unidade, pj.nome_projeto, l.competencia, SUM(l.vl_total) AS vl, SUM(l.qt_total) AS qt FROM tab_faturamento_lancamento l JOIN tab_unidades u ON u.id_unidade = l.id_unidade JOIN tab_projetos pj ON pj.id_projeto = l.id_projeto WHERE 1=1 AND 1=0 GROUP BY l.id_unidade, u.nome_unidade, pj.nome_projeto, l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT i.co_cbo, l.competencia, SUM(i.quantidade) AS qt, SUM(i.vl_total) AS vl FROM tab_faturamento_item i JOIN tab_faturamento_lancamento l ON l.id_lancamento = i.id_lancamento WHERE i.co_cbo <> '' AND 1=0 GROUP BY i.co_cbo, l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT co_grupo + co_sub_grupo AS cod, no_sub_grupo FROM tab_sigtap_tb_sub_grupo WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "SELECT co_ocupacao, no_ocupacao FROM tab_sigtap_tb_ocupacao WHERE competencia = @c AND co_ocupacao IN (@o0)",
+        "entradas": {
+          "c": "202610",
+          "o0": "225125"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "painel: produto tem precedência sobre a lista": {
+    "status": 200,
+    "corpo": {
+      "competencias_disponiveis": [
+        "202609",
+        "202610"
+      ],
+      "mensal": [
+        {
+          "competencia": "202610",
+          "vl_total": 150.5,
+          "qt_total": 14,
+          "qt_pacientes": 2,
+          "qt_aih": 0,
+          "qt_lancamentos": 1,
+          "qt_unidades": 1
+        }
+      ],
+      "procedimentos": [
+        {
+          "co_procedimento": "0301010072",
+          "competencia": "202610",
+          "qt": 10,
+          "vl": 100,
+          "no_procedimento": "CONSULTA"
+        }
+      ],
+      "unidades": [
+        {
+          "id_unidade": 5,
+          "nome_unidade": "UBS Central",
+          "nome_projeto": "Projeto Alfa",
+          "competencia": "202610",
+          "vl": 150.5,
+          "qt": 14
+        }
+      ],
+      "cbos": [
+        {
+          "co_cbo": "225125",
+          "competencia": "202610",
+          "qt": 14,
+          "vl": 150.5
+        }
+      ],
+      "subgrupos": {
+        "0301": "CONSULTAS"
+      },
+      "ocupacoes": {
+        "225125": "MEDICO"
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT DISTINCT l.competencia FROM tab_faturamento_lancamento l WHERE 1=1 ORDER BY l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT l.competencia, SUM(l.vl_total) AS vl_total, SUM(l.qt_total) AS qt_total, SUM(l.qt_pacientes) AS qt_pacientes, SUM(CASE WHEN l.tipo = 'AIH' THEN l.qt_registros ELSE 0 END) AS qt_aih, COUNT(*) AS qt_lancamentos, COUNT(DISTINCT l.id_unidade) AS qt_unidades FROM tab_faturamento_lancamento l WHERE 1=1 AND l.id_produto = @pd GROUP BY l.competencia ORDER BY l.competencia",
+        "entradas": {
+          "pd": 3
+        }
+      },
+      {
+        "texto": "SELECT i.co_procedimento, l.competencia, SUM(i.quantidade) AS qt, SUM(i.vl_total) AS vl, MAX(i.no_procedimento) AS no_procedimento FROM tab_faturamento_item i JOIN tab_faturamento_lancamento l ON l.id_lancamento = i.id_lancamento WHERE 1=1 AND l.id_produto = @pd GROUP BY i.co_procedimento, l.competencia",
+        "entradas": {
+          "pd": 3
+        }
+      },
+      {
+        "texto": "SELECT l.id_unidade, u.nome_unidade, pj.nome_projeto, l.competencia, SUM(l.vl_total) AS vl, SUM(l.qt_total) AS qt FROM tab_faturamento_lancamento l JOIN tab_unidades u ON u.id_unidade = l.id_unidade JOIN tab_projetos pj ON pj.id_projeto = l.id_projeto WHERE 1=1 AND l.id_produto = @pd GROUP BY l.id_unidade, u.nome_unidade, pj.nome_projeto, l.competencia",
+        "entradas": {
+          "pd": 3
+        }
+      },
+      {
+        "texto": "SELECT i.co_cbo, l.competencia, SUM(i.quantidade) AS qt, SUM(i.vl_total) AS vl FROM tab_faturamento_item i JOIN tab_faturamento_lancamento l ON l.id_lancamento = i.id_lancamento WHERE i.co_cbo <> '' AND l.id_produto = @pd GROUP BY i.co_cbo, l.competencia",
+        "entradas": {
+          "pd": 3
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT co_grupo + co_sub_grupo AS cod, no_sub_grupo FROM tab_sigtap_tb_sub_grupo WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "SELECT co_ocupacao, no_ocupacao FROM tab_sigtap_tb_ocupacao WHERE competencia = @c AND co_ocupacao IN (@o0)",
+        "entradas": {
+          "c": "202610",
+          "o0": "225125"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "painel: sem SIGTAP importada": {
+    "status": 200,
+    "corpo": {
+      "competencias_disponiveis": [],
+      "mensal": [],
+      "procedimentos": [],
+      "unidades": [],
+      "cbos": [],
+      "subgrupos": {},
+      "ocupacoes": {}
+    },
+    "consultas": [
+      {
+        "texto": "SELECT DISTINCT l.competencia FROM tab_faturamento_lancamento l WHERE 1=1 ORDER BY l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT l.competencia, SUM(l.vl_total) AS vl_total, SUM(l.qt_total) AS qt_total, SUM(l.qt_pacientes) AS qt_pacientes, SUM(CASE WHEN l.tipo = 'AIH' THEN l.qt_registros ELSE 0 END) AS qt_aih, COUNT(*) AS qt_lancamentos, COUNT(DISTINCT l.id_unidade) AS qt_unidades FROM tab_faturamento_lancamento l WHERE 1=1 GROUP BY l.competencia ORDER BY l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT i.co_procedimento, l.competencia, SUM(i.quantidade) AS qt, SUM(i.vl_total) AS vl, MAX(i.no_procedimento) AS no_procedimento FROM tab_faturamento_item i JOIN tab_faturamento_lancamento l ON l.id_lancamento = i.id_lancamento WHERE 1=1 GROUP BY i.co_procedimento, l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT l.id_unidade, u.nome_unidade, pj.nome_projeto, l.competencia, SUM(l.vl_total) AS vl, SUM(l.qt_total) AS qt FROM tab_faturamento_lancamento l JOIN tab_unidades u ON u.id_unidade = l.id_unidade JOIN tab_projetos pj ON pj.id_projeto = l.id_projeto WHERE 1=1 GROUP BY l.id_unidade, u.nome_unidade, pj.nome_projeto, l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT i.co_cbo, l.competencia, SUM(i.quantidade) AS qt, SUM(i.vl_total) AS vl FROM tab_faturamento_item i JOIN tab_faturamento_lancamento l ON l.id_lancamento = i.id_lancamento WHERE i.co_cbo <> '' GROUP BY i.co_cbo, l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      }
+    ],
+    "externos": []
+  },
+  "painel: sem CBO nos itens": {
+    "status": 200,
+    "corpo": {
+      "competencias_disponiveis": [],
+      "mensal": [],
+      "procedimentos": [],
+      "unidades": [],
+      "cbos": [],
+      "subgrupos": {},
+      "ocupacoes": {}
+    },
+    "consultas": [
+      {
+        "texto": "SELECT DISTINCT l.competencia FROM tab_faturamento_lancamento l WHERE 1=1 ORDER BY l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT l.competencia, SUM(l.vl_total) AS vl_total, SUM(l.qt_total) AS qt_total, SUM(l.qt_pacientes) AS qt_pacientes, SUM(CASE WHEN l.tipo = 'AIH' THEN l.qt_registros ELSE 0 END) AS qt_aih, COUNT(*) AS qt_lancamentos, COUNT(DISTINCT l.id_unidade) AS qt_unidades FROM tab_faturamento_lancamento l WHERE 1=1 GROUP BY l.competencia ORDER BY l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT i.co_procedimento, l.competencia, SUM(i.quantidade) AS qt, SUM(i.vl_total) AS vl, MAX(i.no_procedimento) AS no_procedimento FROM tab_faturamento_item i JOIN tab_faturamento_lancamento l ON l.id_lancamento = i.id_lancamento WHERE 1=1 GROUP BY i.co_procedimento, l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT l.id_unidade, u.nome_unidade, pj.nome_projeto, l.competencia, SUM(l.vl_total) AS vl, SUM(l.qt_total) AS qt FROM tab_faturamento_lancamento l JOIN tab_unidades u ON u.id_unidade = l.id_unidade JOIN tab_projetos pj ON pj.id_projeto = l.id_projeto WHERE 1=1 GROUP BY l.id_unidade, u.nome_unidade, pj.nome_projeto, l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT i.co_cbo, l.competencia, SUM(i.quantidade) AS qt, SUM(i.vl_total) AS vl FROM tab_faturamento_item i JOIN tab_faturamento_lancamento l ON l.id_lancamento = i.id_lancamento WHERE i.co_cbo <> '' GROUP BY i.co_cbo, l.competencia",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT co_grupo + co_sub_grupo AS cod, no_sub_grupo FROM tab_sigtap_tb_sub_grupo WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "painel: perfil do painel isola pela lotação": {
+    "status": 200,
+    "corpo": {
+      "competencias_disponiveis": [
+        "202609",
+        "202610"
+      ],
+      "mensal": [
+        {
+          "competencia": "202610",
+          "vl_total": 150.5,
+          "qt_total": 14,
+          "qt_pacientes": 2,
+          "qt_aih": 0,
+          "qt_lancamentos": 1,
+          "qt_unidades": 1
+        }
+      ],
+      "procedimentos": [
+        {
+          "co_procedimento": "0301010072",
+          "competencia": "202610",
+          "qt": 10,
+          "vl": 100,
+          "no_procedimento": "CONSULTA"
+        }
+      ],
+      "unidades": [
+        {
+          "id_unidade": 5,
+          "nome_unidade": "UBS Central",
+          "nome_projeto": "Projeto Alfa",
+          "competencia": "202610",
+          "vl": 150.5,
+          "qt": 14
+        }
+      ],
+      "cbos": [
+        {
+          "co_cbo": "225125",
+          "competencia": "202610",
+          "qt": 14,
+          "vl": 150.5
+        }
+      ],
+      "subgrupos": {
+        "0301": "CONSULTAS"
+      },
+      "ocupacoes": {
+        "225125": "MEDICO"
+      }
+    },
+    "consultas": [
+      {
+        "texto": "SELECT DISTINCT l.competencia FROM tab_faturamento_lancamento l WHERE 1=1 AND l.id_projeto IN (@__lot_l_id_projeto_0) ORDER BY l.competencia",
+        "entradas": {
+          "__lot_l_id_projeto_0": 2
+        }
+      },
+      {
+        "texto": "SELECT l.competencia, SUM(l.vl_total) AS vl_total, SUM(l.qt_total) AS qt_total, SUM(l.qt_pacientes) AS qt_pacientes, SUM(CASE WHEN l.tipo = 'AIH' THEN l.qt_registros ELSE 0 END) AS qt_aih, COUNT(*) AS qt_lancamentos, COUNT(DISTINCT l.id_unidade) AS qt_unidades FROM tab_faturamento_lancamento l WHERE 1=1 AND l.id_projeto IN (@__lot_l_id_projeto_0) GROUP BY l.competencia ORDER BY l.competencia",
+        "entradas": {
+          "__lot_l_id_projeto_0": 2
+        }
+      },
+      {
+        "texto": "SELECT i.co_procedimento, l.competencia, SUM(i.quantidade) AS qt, SUM(i.vl_total) AS vl, MAX(i.no_procedimento) AS no_procedimento FROM tab_faturamento_item i JOIN tab_faturamento_lancamento l ON l.id_lancamento = i.id_lancamento WHERE 1=1 AND l.id_projeto IN (@__lot_l_id_projeto_0) GROUP BY i.co_procedimento, l.competencia",
+        "entradas": {
+          "__lot_l_id_projeto_0": 2
+        }
+      },
+      {
+        "texto": "SELECT l.id_unidade, u.nome_unidade, pj.nome_projeto, l.competencia, SUM(l.vl_total) AS vl, SUM(l.qt_total) AS qt FROM tab_faturamento_lancamento l JOIN tab_unidades u ON u.id_unidade = l.id_unidade JOIN tab_projetos pj ON pj.id_projeto = l.id_projeto WHERE 1=1 AND l.id_projeto IN (@__lot_l_id_projeto_0) GROUP BY l.id_unidade, u.nome_unidade, pj.nome_projeto, l.competencia",
+        "entradas": {
+          "__lot_l_id_projeto_0": 2
+        }
+      },
+      {
+        "texto": "SELECT i.co_cbo, l.competencia, SUM(i.quantidade) AS qt, SUM(i.vl_total) AS vl FROM tab_faturamento_item i JOIN tab_faturamento_lancamento l ON l.id_lancamento = i.id_lancamento WHERE i.co_cbo <> '' AND l.id_projeto IN (@__lot_l_id_projeto_0) GROUP BY i.co_cbo, l.competencia",
+        "entradas": {
+          "__lot_l_id_projeto_0": 2
+        }
+      },
+      {
+        "texto": "SELECT DISTINCT competencia FROM tab_sigtap_importacao WHERE situacao = 'CONCLUIDA' AND removida = 0 ORDER BY competencia DESC",
+        "entradas": {}
+      },
+      {
+        "texto": "SELECT co_grupo + co_sub_grupo AS cod, no_sub_grupo FROM tab_sigtap_tb_sub_grupo WHERE competencia = @c",
+        "entradas": {
+          "c": "202610"
+        }
+      },
+      {
+        "texto": "SELECT co_ocupacao, no_ocupacao FROM tab_sigtap_tb_ocupacao WHERE competencia = @c AND co_ocupacao IN (@o0)",
+        "entradas": {
+          "c": "202610",
+          "o0": "225125"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "painel: perfil só com lançamento": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "painel: sem acesso": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para esta ação."
+    },
+    "consultas": [],
+    "externos": []
+  }
+}

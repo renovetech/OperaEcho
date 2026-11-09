@@ -1,0 +1,397 @@
+{
+  "implantacao: listar como gestão": {
+    "status": 200,
+    "corpo": [
+      {
+        "linha": "padrao"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT h.id_lancamento, h.mes_referencia, h.data_lancamento, h.status, h.id_usuario, h.id_projeto, h.id_unidade, u.nome_completo as colaborador, ISNULL(p.nome_projeto, 'N/A') as nome_projeto, ISNULL(un.nome_unidade, 'N/A') as nome_unidade, (SELECT COUNT(DISTINCT d.id_unidade) FROM tab_hora_extra_detalhes d WHERE d.id_lancamento = h.id_lancamento AND d.id_unidade IS NOT NULL) as qtd_unidades, (SELECT COUNT(DISTINCT d.id_projeto) FROM tab_hora_extra_detalhes d WHERE d.id_lancamento = h.id_lancamento AND d.id_projeto IS NOT NULL) as qtd_projetos FROM tab_hora_extra_cabecalho h LEFT JOIN tab_usuarios u ON h.id_usuario = u.id_usuario LEFT JOIN tab_projetos p ON h.id_projeto = p.id_projeto LEFT JOIN tab_unidades un ON h.id_unidade = un.id_unidade WHERE 1=1 AND h.mes_referencia = @mes AND h.id_projeto = @id_p ORDER BY h.data_lancamento DESC",
+        "entradas": {
+          "mes": "2026-10",
+          "id_p": "2"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "implantacao: listar como implantador vê só os seus": {
+    "status": 200,
+    "corpo": [
+      {
+        "linha": "padrao"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT h.id_lancamento, h.mes_referencia, h.data_lancamento, h.status, h.id_usuario, h.id_projeto, h.id_unidade, u.nome_completo as colaborador, ISNULL(p.nome_projeto, 'N/A') as nome_projeto, ISNULL(un.nome_unidade, 'N/A') as nome_unidade, (SELECT COUNT(DISTINCT d.id_unidade) FROM tab_hora_extra_detalhes d WHERE d.id_lancamento = h.id_lancamento AND d.id_unidade IS NOT NULL) as qtd_unidades, (SELECT COUNT(DISTINCT d.id_projeto) FROM tab_hora_extra_detalhes d WHERE d.id_lancamento = h.id_lancamento AND d.id_projeto IS NOT NULL) as qtd_projetos FROM tab_hora_extra_cabecalho h LEFT JOIN tab_usuarios u ON h.id_usuario = u.id_usuario LEFT JOIN tab_projetos p ON h.id_projeto = p.id_projeto LEFT JOIN tab_unidades un ON h.id_unidade = un.id_unidade WHERE 1=1 AND h.id_usuario = @id_u ORDER BY h.data_lancamento DESC",
+        "entradas": {
+          "id_u": 7
+        }
+      }
+    ],
+    "externos": []
+  },
+  "implantacao: detalhes": {
+    "status": 200,
+    "corpo": {
+      "detalhes": [
+        {
+          "linha": "padrao"
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_hora_extra_detalhes WHERE id_lancamento = @id ORDER BY dia_numero",
+        "entradas": {
+          "id": "3"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "implantacao: criar": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso",
+      "id_lancamento": 1
+    },
+    "consultas": [
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "INSERT INTO tab_hora_extra_cabecalho (id_usuario, id_projeto, id_unidade, mes_referencia, total_he_50, total_he_100, total_ad_noturno, status, data_lancamento) OUTPUT INSERTED.id_lancamento VALUES (@id_u, @id_p, @id_uni, @mes, @he50, @he100, @ad_not, 'PENDENTE', GETDATE())",
+        "entradas": {
+          "id_p": 2,
+          "id_uni": 5,
+          "mes": "2026-10",
+          "he50": 120,
+          "he100": 0,
+          "ad_not": 0,
+          "id_u": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_hora_extra_detalhes (id_lancamento, dia_numero, data_completa, entrada, saida, intervalo, is_feriado, is_fds, is_folga, minutos_he_50, minutos_he_100, minutos_ad_noturno, id_unidade, id_projeto) VALUES (@id_l, @dia_n, @dt_comp, @ent, @sai, @intv, @fer, @fds, @folga, @he50, @he100, @adn, @id_uni_dia, @id_proj_dia)",
+        "entradas": {
+          "id_l": 1,
+          "dia_n": 1,
+          "dt_comp": "<data>",
+          "ent": "08:00",
+          "sai": "19:00",
+          "intv": "01:00",
+          "fer": 0,
+          "fds": 0,
+          "folga": 0,
+          "he50": 120,
+          "he100": 0,
+          "adn": 0,
+          "id_uni_dia": 5,
+          "id_proj_dia": 2
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": []
+  },
+  "implantacao: editar": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso",
+      "id_lancamento": 3
+    },
+    "consultas": [
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "UPDATE tab_hora_extra_cabecalho SET id_projeto=@id_p, id_unidade=@id_uni, mes_referencia=@mes, total_he_50=@he50, total_he_100=@he100, total_ad_noturno=@ad_not WHERE id_lancamento=@id",
+        "entradas": {
+          "id_p": 2,
+          "id_uni": 5,
+          "mes": "2026-10",
+          "he50": 120,
+          "he100": 0,
+          "ad_not": 0,
+          "id": 3
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_hora_extra_detalhes WHERE id_lancamento=@id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_hora_extra_detalhes (id_lancamento, dia_numero, data_completa, entrada, saida, intervalo, is_feriado, is_fds, is_folga, minutos_he_50, minutos_he_100, minutos_ad_noturno, id_unidade, id_projeto) VALUES (@id_l, @dia_n, @dt_comp, @ent, @sai, @intv, @fer, @fds, @folga, @he50, @he100, @adn, @id_uni_dia, @id_proj_dia)",
+        "entradas": {
+          "id_l": 3,
+          "dia_n": 1,
+          "dt_comp": "<data>",
+          "ent": "08:00",
+          "sai": "19:00",
+          "intv": "01:00",
+          "fer": 0,
+          "fds": 0,
+          "folga": 0,
+          "he50": 120,
+          "he100": 0,
+          "adn": 0,
+          "id_uni_dia": 5,
+          "id_proj_dia": 2
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": []
+  },
+  "implantacao: lançar para outro sem ser gestão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para lançar/editar hora extra de outro colaborador."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "implantacao: corpo inválido": {
+    "status": 400,
+    "corpo": {
+      "erro": "Campo inválido: mes_referencia. Use o formato AAAA-MM."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "implantacao: excluir": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Excluído"
+    },
+    "consultas": [
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "DELETE FROM tab_hora_extra_detalhes WHERE id_lancamento=@id",
+        "entradas": {
+          "id": "3"
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_hora_extra_cabecalho WHERE id_lancamento=@id",
+        "entradas": {
+          "id": "3"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": []
+  },
+  "projetos: listar como gestão": {
+    "status": 200,
+    "corpo": [
+      {
+        "linha": "padrao"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT h.id_lancamento, h.mes_referencia, h.data_lancamento, h.status, h.id_usuario, h.id_projeto, h.id_unidade, u.nome_completo as colaborador, ISNULL(p.nome_projeto, 'N/A') as nome_projeto, ISNULL(un.nome_unidade, 'N/A') as nome_unidade, (SELECT COUNT(DISTINCT d.id_unidade) FROM tab_proj_hora_extra_detalhes d WHERE d.id_lancamento = h.id_lancamento AND d.id_unidade IS NOT NULL) as qtd_unidades, (SELECT COUNT(DISTINCT d.id_projeto) FROM tab_proj_hora_extra_detalhes d WHERE d.id_lancamento = h.id_lancamento AND d.id_projeto IS NOT NULL) as qtd_projetos FROM tab_proj_hora_extra_cabecalho h LEFT JOIN tab_usuarios u ON h.id_usuario = u.id_usuario LEFT JOIN tab_projetos p ON h.id_projeto = p.id_projeto LEFT JOIN tab_unidades un ON h.id_unidade = un.id_unidade WHERE 1=1 AND h.mes_referencia = @mes AND h.id_projeto = @id_p ORDER BY h.data_lancamento DESC",
+        "entradas": {
+          "mes": "2026-10",
+          "id_p": "2"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "projetos: listar como implantador vê só os seus": {
+    "status": 200,
+    "corpo": [
+      {
+        "linha": "padrao"
+      }
+    ],
+    "consultas": [
+      {
+        "texto": "SELECT h.id_lancamento, h.mes_referencia, h.data_lancamento, h.status, h.id_usuario, h.id_projeto, h.id_unidade, u.nome_completo as colaborador, ISNULL(p.nome_projeto, 'N/A') as nome_projeto, ISNULL(un.nome_unidade, 'N/A') as nome_unidade, (SELECT COUNT(DISTINCT d.id_unidade) FROM tab_proj_hora_extra_detalhes d WHERE d.id_lancamento = h.id_lancamento AND d.id_unidade IS NOT NULL) as qtd_unidades, (SELECT COUNT(DISTINCT d.id_projeto) FROM tab_proj_hora_extra_detalhes d WHERE d.id_lancamento = h.id_lancamento AND d.id_projeto IS NOT NULL) as qtd_projetos FROM tab_proj_hora_extra_cabecalho h LEFT JOIN tab_usuarios u ON h.id_usuario = u.id_usuario LEFT JOIN tab_projetos p ON h.id_projeto = p.id_projeto LEFT JOIN tab_unidades un ON h.id_unidade = un.id_unidade WHERE 1=1 AND h.id_usuario = @id_u AND h.id_projeto IN (@__lot_h_id_projeto_0) ORDER BY h.data_lancamento DESC",
+        "entradas": {
+          "id_u": 7,
+          "__lot_h_id_projeto_0": 2
+        }
+      }
+    ],
+    "externos": []
+  },
+  "projetos: detalhes": {
+    "status": 200,
+    "corpo": {
+      "detalhes": [
+        {
+          "linha": "padrao"
+        }
+      ]
+    },
+    "consultas": [
+      {
+        "texto": "SELECT * FROM tab_proj_hora_extra_detalhes WHERE id_lancamento = @id ORDER BY dia_numero",
+        "entradas": {
+          "id": "3"
+        }
+      }
+    ],
+    "externos": []
+  },
+  "projetos: criar": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso",
+      "id_lancamento": 1
+    },
+    "consultas": [
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "INSERT INTO tab_proj_hora_extra_cabecalho (id_usuario, id_projeto, id_unidade, mes_referencia, total_he_50, total_he_100, total_ad_noturno, status, data_lancamento) OUTPUT INSERTED.id_lancamento VALUES (@id_u, @id_p, @id_uni, @mes, @he50, @he100, @ad_not, 'PENDENTE', GETDATE())",
+        "entradas": {
+          "id_p": 2,
+          "id_uni": 5,
+          "mes": "2026-10",
+          "he50": 120,
+          "he100": 0,
+          "ad_not": 0,
+          "id_u": 1
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_proj_hora_extra_detalhes (id_lancamento, dia_numero, data_completa, entrada, saida, intervalo, is_feriado, is_fds, is_folga, minutos_he_50, minutos_he_100, minutos_ad_noturno, id_unidade, id_projeto) VALUES (@id_l, @dia_n, @dt_comp, @ent, @sai, @intv, @fer, @fds, @folga, @he50, @he100, @adn, @id_uni_dia, @id_proj_dia)",
+        "entradas": {
+          "id_l": 1,
+          "dia_n": 1,
+          "dt_comp": "<data>",
+          "ent": "08:00",
+          "sai": "19:00",
+          "intv": "01:00",
+          "fer": 0,
+          "fds": 0,
+          "folga": 0,
+          "he50": 120,
+          "he100": 0,
+          "adn": 0,
+          "id_uni_dia": 5,
+          "id_proj_dia": 2
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": []
+  },
+  "projetos: editar": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Salvo com sucesso",
+      "id_lancamento": 3
+    },
+    "consultas": [
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "UPDATE tab_proj_hora_extra_cabecalho SET id_projeto=@id_p, id_unidade=@id_uni, mes_referencia=@mes, total_he_50=@he50, total_he_100=@he100, total_ad_noturno=@ad_not WHERE id_lancamento=@id",
+        "entradas": {
+          "id_p": 2,
+          "id_uni": 5,
+          "mes": "2026-10",
+          "he50": 120,
+          "he100": 0,
+          "ad_not": 0,
+          "id": 3
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_proj_hora_extra_detalhes WHERE id_lancamento=@id",
+        "entradas": {
+          "id": 3
+        }
+      },
+      {
+        "texto": "INSERT INTO tab_proj_hora_extra_detalhes (id_lancamento, dia_numero, data_completa, entrada, saida, intervalo, is_feriado, is_fds, is_folga, minutos_he_50, minutos_he_100, minutos_ad_noturno, id_unidade, id_projeto) VALUES (@id_l, @dia_n, @dt_comp, @ent, @sai, @intv, @fer, @fds, @folga, @he50, @he100, @adn, @id_uni_dia, @id_proj_dia)",
+        "entradas": {
+          "id_l": 3,
+          "dia_n": 1,
+          "dt_comp": "<data>",
+          "ent": "08:00",
+          "sai": "19:00",
+          "intv": "01:00",
+          "fer": 0,
+          "fds": 0,
+          "folga": 0,
+          "he50": 120,
+          "he100": 0,
+          "adn": 0,
+          "id_uni_dia": 5,
+          "id_proj_dia": 2
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": []
+  },
+  "projetos: lançar para outro sem ser gestão": {
+    "status": 403,
+    "corpo": {
+      "erro": "Sem permissão para lançar/editar hora extra de outro colaborador."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "projetos: corpo inválido": {
+    "status": 400,
+    "corpo": {
+      "erro": "Campo inválido: mes_referencia. Use o formato AAAA-MM."
+    },
+    "consultas": [],
+    "externos": []
+  },
+  "projetos: excluir": {
+    "status": 200,
+    "corpo": {
+      "mensagem": "Excluído"
+    },
+    "consultas": [
+      {
+        "texto": "BEGIN"
+      },
+      {
+        "texto": "DELETE FROM tab_proj_hora_extra_detalhes WHERE id_lancamento=@id",
+        "entradas": {
+          "id": "3"
+        }
+      },
+      {
+        "texto": "DELETE FROM tab_proj_hora_extra_cabecalho WHERE id_lancamento=@id",
+        "entradas": {
+          "id": "3"
+        }
+      },
+      {
+        "texto": "COMMIT"
+      }
+    ],
+    "externos": []
+  }
+}
